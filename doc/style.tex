@@ -1,0 +1,183 @@
+\usepackage[most]{tcolorbox}
+
+\colorlet{coldef}{red!75!black}
+\colorlet{colexa}{blue!65!white}
+\colorlet{colrem}{green!65!black}
+\colorlet{colthe}{magenta!85!black}
+\colorlet{colnot}{orange!85!black}
+\colorlet{colgra}{blue!25!black}
+
+% Definizione del contatore
+\newcounter{boxcounter}[section]
+
+% Impostazione della numerazione progressiva
+\numberwithin{boxcounter}{section}
+
+% \newtcbtheorem[init options]{display name}{title}{options}{prefix}
+\newtcbtheorem[use counter = boxcounter,number within=section]{Definition}{Definition}{
+  lower separated=false,
+  colback = white,
+  colframe = coldef, 
+  fonttitle=\bfseries,
+  colbacktitle = coldef,
+  coltitle=white,
+  enhanced,
+  %attach boxed title to top left={yshift=0in,xshift=0in},
+  %boxed title style={boxrule=0pt,colframe=white,},
+  }{def}
+
+\newenvironment{definition}[1]{
+  \begin{Definition}{#1}{#1}
+}{
+  \end{Definition}
+}
+
+\newtcbtheorem[use counter = boxcounter,number within=section]{Example}{Example}{
+  lower separated=false,
+  colback = white,
+  colframe = colexa, 
+  fonttitle=\bfseries,
+  colbacktitle = colexa,
+  coltitle=white,
+  enhanced,
+  %attach boxed title to top left={yshift=0in,xshift=0in},
+  %boxed title style={boxrule=0pt,colframe=white,},
+  }{exa}
+
+\newenvironment{example}[1]{
+  \begin{Example}{#1}{#1}
+}{
+  \end{Example}
+}
+
+\newtcbtheorem[use counter = boxcounter,number within=section]{Notation}{Notation}{
+  lower separated=false,
+  colback = white,
+  colframe = colnot, 
+  fonttitle=\bfseries,
+  colbacktitle = colnot,
+  coltitle=white,
+  enhanced,
+  %attach boxed title to top left={yshift=0in,xshift=0in},
+  %boxed title style={boxrule=0pt,colframe=white,},
+  }{not}
+ 
+\newenvironment{notation}[1]{
+  \begin{Notation}{#1}{#1}
+}{
+  \end{Notation}
+}
+
+\newtcbtheorem[use counter = boxcounter,number within=section]{Remark}{Remark}{
+  lower separated=false,
+  colback = white,
+  colframe = colrem, 
+  fonttitle=\bfseries,
+  colbacktitle = colrem,
+  coltitle=white,
+  enhanced,
+  %attach boxed title to top left={yshift=0in,xshift=0in},
+  %boxed title style={boxrule=0pt,colframe=white,},
+  }{rem}
+
+\newenvironment{remark}[1]{
+  \begin{Remark}{#1}{#1}
+}{
+  \end{Remark}
+}
+
+\newtcbtheorem[use counter = boxcounter,number within=section]{Theorem}{Theorem}{
+  lower separated=false,
+  colback = white,
+  colframe = colthe, 
+  fonttitle=\bfseries,
+  colbacktitle = colthe,
+  coltitle=white,
+  enhanced,
+  %attach boxed title to top left={yshift=0in,xshift=0in},
+  %boxed title style={boxrule=0pt,colframe=white,},
+  }{the}
+
+\newenvironment{theorem}[1]{
+  \begin{Theorem}{#1}{#1}
+}{
+  \end{Theorem}
+}
+
+\newtcbtheorem[no counter,number within=section]{Proof}{Proof\!\!}{
+  lower separated=false,
+  colback = white,
+  colframe = colthe, 
+  fonttitle=\bfseries,
+  colbacktitle = colthe,
+  coltitle=white,
+  enhanced,
+  separator sign={}
+  %attach boxed title to top left={yshift=0in,xshift=0in},
+  %boxed title style={boxrule=0pt,colframe=white,},
+  }{}
+
+\newenvironment{prooff}[1]{
+  \begin{Proof}{\ref{the:#1}: #1}{}
+}{
+  \hfill$\qed$
+  \end{Proof}
+}
+
+%continued proof environment
+\newenvironment{cprooff}[1]{
+  \begin{Proof}{\ref{the:#1}: #1}{}
+}{
+  \hfill$\longrightarrow$
+  \end{Proof}
+}
+
+\newtcbtheorem[use counter = boxcounter,number within=section]{Graphic}{Graphic}{
+  lower separated=false,
+  colback = white,
+  colframe = colgra, 
+  fonttitle=\bfseries,
+  colbacktitle = colgra,
+  coltitle=white,
+  enhanced,
+  %attach boxed title to top left={yshift=0in,xshift=0in},
+  %boxed title style={boxrule=0pt,colframe=white,},
+  }{gra}
+
+\newenvironment{graphic}[1]{
+  \begin{Graphic}{#1}{#1}
+}{
+  \end{Graphic}
+}
+
+\newtcbtheorem[use counter = boxcounter,number within=section]{Table}{Table}{
+  lower separated=false,
+  colback = white,
+  colframe = colgra, 
+  fonttitle=\bfseries,
+  colbacktitle = colgra,
+  coltitle=white,
+  enhanced,
+  %attach boxed title to top left={yshift=0in,xshift=0in},
+  %boxed title style={boxrule=0pt,colframe=white,},
+  }{tab}
+
+\newenvironment{tablee}[1]{
+  \begin{Table}{#1}{#1}
+}{
+  \end{Table}
+}
+
+\newtheoremstyle{defstyle}% Nome dello stile
+  {\topsep}% Spazio sopra
+  {\topsep}% Spazio sotto
+  {}% Font del corpo del teorema
+  {}% Indentazione del corpo del teorema
+  {\bfseries}% Font dell'intestazione
+  {}% Punteggiatura dopo l'intestazione
+  {\newline}% Spazio dopo l'intestazione (\newline equivale a un a capo)
+  {\thmname{#1}\thmnumber{ #2} \thmnote{(#3)}:}% Formato dell'intestazione
+
+
+% cambio il simbolo di itemize dentro itemize
+\renewcommand{\labelitemii}{\textopenbullet}

@@ -1,0 +1,41 @@
+\documentclass[12pt,a4paper]{report}
+
+\textwidth=450pt\oddsidemargin=0pt
+\setlength{\parskip}{3pt}
+
+\input{packages.tex}
+
+\graphicspath{ {./images/} }
+
+\title{Automated Reasoning}
+\author{Luca Panariello}
+
+\input{style.tex}
+
+\input{mathcmd.tex}
+
+\input{arcmd.tex}
+
+%imposta il counter del Capitolo a Uno
+\setcounter{chapter}{0}
+
+\begin{document}
+
+    \include{library}
+
+    \newcounter{module}
+    \setcounter{module}{1}
+
+    \maketitle
+
+    \include{abstract}
+    
+    \tableofcontents
+
+    \newcounter{chapterCounter}    
+
+    \forloop{chapterCounter}{1}{\value{chapterCounter} < 10}{
+        \include{chapters/chapter\arabic{chapterCounter}.tex}
+    }
+    
+\end{document}
