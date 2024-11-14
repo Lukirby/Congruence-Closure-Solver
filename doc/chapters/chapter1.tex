@@ -13,8 +13,8 @@ the notion of \textit{validity} of a logical statement.
 Automated Reasoning is achieved by using symbol reasoning, which is the manipulation of symbols
 according to the rules of logic.
 
-\section{Signatures and Terms in First-Order Logic}
-\label{sec:Signatures and Terms in First-Order Logic}
+\section{Syntax in First-Order Logic}
+\label{sec:Syntax in First-Order Logic}
 
 \begin{definition}{Signature}
     A \textbf{signature} is a tuple $\sig = (\consSet,\funcSet,\predSet)$ where:
@@ -123,7 +123,8 @@ while the bound variables are.
 
 [IMMAGINE VALIDITY PROBLEM IN FOL ][NOTE IN SIGNATURE 3 OTTOBRE]
 
-\section{Interpretation in First-Order Logic}
+\section{Semantics in First-Order Logic}
+\label{sec:Semantics in First-Order Logic}
 
 \begin{definition}{Interpretation}
     Let $\sig$ be a signature.
@@ -200,6 +201,8 @@ noted as $\I \nvDash F$.
 \begin{definition}{Valid Formula}
     A formula $F$ is \textbf{valid} if $\forall \I$ 
     interpretation such that $\I \vDash F$.
+
+    A valid formula $F$ is indicated as $\vDash F$.
 \end{definition}
 
 \begin{remark}{Unsatisfiable and Invalid Formulas}
@@ -248,4 +251,87 @@ with the assignment function $\assignFunc$ that assigns the value $d$ to the var
     \forall y \in \varSet
 \end{equation*}
 
-[CONJECTURE AND ASSUMPTIONS]
+\section{Theories in First-Order Logic}
+\label{sec:Theories in First-Order Logic}
+
+A \textbf{theory} formalize structures in a specific domain of interest, 
+and help us reason about the properties of these structures.
+It really useful in verification.
+
+Will be introduced some definitions that concerns theories in FOL.
+
+\begin{definition}{Theory}
+    A \textbf{theory} $\theory$ is definted as a tuple $\theory = (\sig,\axioms)$ where:
+    \begin{itemize}
+        \item $\sig$ is a signature.
+        \item $\axioms$ is a set of formulas called \textit{axioms},
+        with only elements of the signature.
+    \end{itemize}
+\end{definition}
+
+\begin{definition}{Sigma-Forumla}
+    A formula $F$ is a \textbf{$\sig$-formula} if it contains symbols in
+    the signature $\sig$,
+    as well as the logical connectives, quantifiers and variables.
+\end{definition}
+
+\begin{definition}{Theory-Interpretation}
+    If $\I$ is an interpretation of $\sig$, then $\I$ is a \textbf{$\theory$-interpretation}
+    of a theory $\theory = (\sig,\axioms)$ if $\I \vDash \axioms$.
+\end{definition}
+
+\begin{definition}{Theory-Satisfiable Formula}
+    Let $\theory = (\sig,\axioms)$ be a theory. And $F$ be a $\sig$-formula.
+    If $\exists \I$ interpretation of $\sig$:
+    \begin{equation*}
+        \I \vDash \axioms \land \I \vDash F
+    \end{equation*}
+    Which means that $F$ is satisfied in $\I$ and $\I$ is a $\theory$-interpretation.
+
+    So $F$ is \textbf{$\theory$-satisfiable} in the theory $\theory$.
+\end{definition}
+
+\begin{definition}{Theory-Vaild Formula}
+    Let $\theory = (\sig,\axioms)$ be a theory. And $F$ be a $\sig$-formula.
+    If $\forall \I$ interpretation of $\sig$:
+    \begin{equation*}
+        \I \vDash \axioms \implies \I \vDash F
+    \end{equation*}
+
+    Which means $F$ is valid ($\vDash F$) in the theory $\theory$ if 
+    every $\theory$-interpretation satisfies $F$.
+
+    Then $F$ is a \textbf{$\theory$-valid formula}, also 
+    noted as $\theory \vDash F$. 
+\end{definition}
+
+\subsection{Theory of Equality}
+\label{subsec:Theory of Equality}
+
+[NEW SECTION]
+
+\subsection{Logical Consequence}
+\label{subsec:Logical Consequence}
+
+\textbf{Logical Consequence}is the relation between a set of formulas (assumptions) and 
+a formula (conjecture), where the conjecture is true if the assumptions are true.
+
+Let $H$ be a set of formulas, called ``\textit{assumption}'',
+and $\varphi$ be a formula, called ``\textit{conjecture}'':
+
+We have that $H \vDash \varphi$ or equivalently $\vDash H \implies \varphi$,
+which means that $\varphi$ is \textbf{logica consequence} of $H$, then:
+\begin{equation*}
+    \forall \I \text{ interpretation }: \I \vDash H 
+    \iff \I \vDash \varphi \iff H \cup \{\neg \varphi\} \text{ is unsatisfiable}
+\end{equation*}
+
+The last coimplication derives from the fact that $\neg \varphi$ is the negation of 
+the conjecture, so if we find an interpretation that satisfies all the formulas in $H$ 
+then it must satisfy the conjecture, making the satisfaction of 
+$\neg \varphi$ impossible.
+
+We need a way to determine if a formula is a logical consequence of a set of formulas:
+we can build a decision procedure that checks if the set of formulas is unsatisfiable,
+in particular the procedure checks if $H \cup \{\neg \varphi\} \vDash \bot$.
+
