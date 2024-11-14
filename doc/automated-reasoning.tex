@@ -3,25 +3,24 @@
 \textwidth=450pt\oddsidemargin=0pt
 \setlength{\parskip}{3pt}
 
-\input{packages.tex}
+\input{auxfiles/packages.tex}
 
 \graphicspath{ {./images/} }
 
 \title{Automated Reasoning}
 \author{Luca Panariello}
 
-\input{style.tex}
+\input{auxfiles/style.tex}
 
-\input{mathcmd.tex}
-
-\input{arcmd.tex}
+\input{commands/mathcmd.tex}
+\input{commands/arcmd.tex}
 
 %imposta il counter del Capitolo a Uno
 \setcounter{chapter}{0}
 
 \begin{document}
 
-    \include{library}
+    \include{auxfiles/library}
 
     \newcounter{module}
     \setcounter{module}{1}

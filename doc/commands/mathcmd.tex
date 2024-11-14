@@ -21,3 +21,40 @@
 \newcommand{\boldcouple}[2]{(\boldsymbol{#1},\boldsymbol{#2})}
 %modello di mercato
 \newcommand{\mm}[2]{\boldcouple{#1}{#2}}
+
+%Max with Multple Condition - Formatted
+\newcommand{\maxC}[1]{\max_{\substack{#1}}}
+
+%Min with Multple Condition - Formatted
+\newcommand{\minC}[1]{\min_{\substack{#1}}}
+
+%Arg Min - Formatted
+\newcommand{\argmin}[1]{\underset{#1}{\arg \min \;}}
+
+%Arg Max - Formatted
+\newcommand{\argmax}[1]{\underset{#1}{\arg \max \;}}
+
+% Vectors
+\newcommand{\vect}[1]{%
+  \ifcat\noexpand#1\relax
+    \boldsymbol{#1}%
+  \else
+    \mathbf{#1}%
+  \fi
+}
+
+%Matrix
+\newcommand{\matr}[1]{%
+    \ifcat\noexpand#1\relax
+      \boldsymbol{#1}%
+    \else
+      \mathbf{#1}%
+    \fi
+}
+
+% Inverse Matrix
+\newcommand{\invM}[1]{\matr{#1}^{-1}}
+
+% p-norm
+\newcommand{\pNorm}[2]{\left\lVert #2 \right\rVert_{#1}}
+
