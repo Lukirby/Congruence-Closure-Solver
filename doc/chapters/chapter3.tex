@@ -1,0 +1,161 @@
+\chapter{QF-Fragment of the Theory of Equality}
+\label{cha:QF-Fragment of the Theory of Equality}
+
+Non all the Logic formulas can be decided by a decision procedure:
+\begin{itemize}
+    \item \textbf{PL} (Propositional Logic) is decidable problem.
+    \item \textbf{Fragment of FOL} is decidable problem.
+    \item \textbf{FOL} (First-Order Logic) formula is valid is a semi-decidable problem.
+    \item \textbf{FOL} formula is invalid is a non-semi-decidable problem.
+    \item \textbf{HOL} (Higher-Order Logic) is undecidable problem.
+\end{itemize}
+
+In this paper we will focus on the \textbf{PL} and \textbf{FOL} formulas.
+
+In particular we will focus on the \textbf{QF-Fragment of the Theory of Equality}
+(QF-$\eqTheory$).
+
+\section{Formulas in QF-Fragment of the TOE}
+\label{sec:Formulas in QF-Fragment of the TOE}
+
+The QF-$\eqTheory$ is the fragment of the first-order logic that contains only
+quantifier-free formulas and the equality predicate.
+
+The idea is to restrict the formulas to a certain form 
+in order to make the problem decidable by the same decision procedure.
+
+This ``\textit{prepocessing}'' can be done with the following steps:
+\begin{enumerate}
+    \item Remove all the quantifiers.
+    \item Tranform the formula in NNF (\ref{def:Negation Normal Form}).
+    \item Tranform the formula in DNF (\ref{def:Disjunctive Normal Form}).
+    \item Removing all other predicate symbols except the equality predicate
+    (\ref{rem:Functions of Predicate})
+\end{enumerate}
+
+In this way the formula is in the QF-$\eqTheory$, and it can be 
+expressed as a conjunction of equalities and disequalities.
+
+In this way if a block of the formula is false, the whole formula is unsatisfiable.
+
+The QF-$\eqTheory$-Formula $F$ can also be expressed as a set of equations and disequations:
+\begin{equation*}
+    F = \{ s_i \eql t_i \}_{i=1}^{n} \cup \{ s_j \deql t_j \}_{j=1}^{m}
+\end{equation*}
+Where $s_i, t_i, s_j, t_j$ are terms.
+
+\section{Congruence Closure of a Binary Relation}
+\label{sec:Congruence Closure of a Binary Relation}
+
+\begin{definition}{Binary Relation}
+    A \textbf{binary relation} $R$ is a subset of the cartesian product 
+    of a set $S$ and itself.
+    \begin{equation*}
+        R \subseteq S \times S
+    \end{equation*}
+\end{definition}
+
+\begin{definition}{Equivalence Relation}
+    A binary relation $R$ is an \textbf{equivalence relation} if it satisfies the 
+    \textit{equivalence axioms} \ref{def:Equivalence Axioms} for the predicate.
+    
+\end{definition}
+
+\begin{definition}{Congruence Relation}
+    A equivalence relation $R$ is a \textbf{congruence relation} if it satisfies the 
+    the \textit{congruence axioms} \ref{def:Congruence Axioms} for the predicate.
+\end{definition}
+
+\begin{definition}{Equivalence Class}
+    Given a set $S$ and an equivalence relation $R$ on $S$, 
+    the \textbf{equivalence class} of an element $s \in S$ is the set:
+    \begin{equation*}
+        [s]_R = \{ t \in S \; | \; sRt \}
+    \end{equation*}
+\end{definition}
+
+\begin{example}{Modulo 2 Equivalence Class}
+    Given the set $S = \mathbb{Z}$ and the equivalence relation $R$ defined as:
+    \begin{equation*}
+        sRt \iff s \equiv t \mod 2 \iff s \equiv_2 t
+    \end{equation*}
+    The equivalence class of $0$ is:
+    \begin{equation*}
+        [0]_{\equiv_2} = \{ \dots, -4, -2, 0, 2, 4, \dots \}
+    \end{equation*}
+\end{example}
+
+\begin{definition}{Refinement}
+    Let $R$ and $R'$ be two equivalence relations on a set $S$.
+    The relation $R$ is a \textbf{refinement} of $R'$ if:
+    \begin{equation*}
+        \forall s,t \in S \; sRt \implies sR't
+    \end{equation*}
+    Which means $R \subsetneq R'$, and it is denoted as $R \refine R'$.  
+\end{definition}
+
+\begin{remark}{Refinement}
+    We can say that the relation $R$ is a refinement of the relation $R'$.
+    But $R'$ is not a refinement of $R$, in fact:
+    \begin{equation*}
+        \forall s,t \in S \; sR't \nRightarrow  sRt
+    \end{equation*}
+\end{remark}
+
+\begin{example}{Refinement of Modulo 2 Class}
+    We can say that the relation $\equiv_4$ is a refinement of the relation $\equiv_2$.
+    \begin{equation*}
+        \forall s,t \in \mathbb{Z} \; s \equiv_4 t \implies s \equiv_2 t
+    \end{equation*}
+\end{example}
+
+[IMAGE OG CLASS EQUIVALENCE IN 8 OTTOBRE]
+
+\begin{definition}{Partition}
+    A \textbf{partition} of a set $S$ is a set of non-empty subsets of $S$:
+    \begin{equation*}
+        \{ S_1, S_2, \dots, S_n \}
+    \end{equation*} 
+    such that every element of $S$ is in exactly one of these subsets:
+    \begin{itemize}
+        \item $S_i \neq \emptyset$
+        \item $S_i \cap S_j = \emptyset \quad \forall i \neq j$
+        \item $\bigcup_{i=1}^{n} S_i = S$
+    \end{itemize}
+\end{definition}
+
+\begin{definition}{Equilvance Closure}
+    Let $R$ be a binary relation on a set $S$.
+    The \textbf{equivalence closure} $R^E$ of $R$ such that:   
+    \begin{itemize}
+        \item $R^E$ is an equivalence relation
+        \item $R^E$ covers $R$, $R \refine R^E$
+        \item $R^E$ is the $\refine$-smallest equivalence relation 
+        s.t. $R \subseteq R^E$, in other words
+        if $\exists R': R \subseteq R'$ and $R'$ is an equivalence relation, 
+        then $R^E \refine R'$.    
+    \end{itemize}
+\end{definition}
+
+\begin{definition}{Congruence Closure}
+    Let $R$ be a binary relation on a set $S$.
+    The \textbf{congruence closure} $R^C$ of $R$ such that:   
+    \begin{itemize}
+        \item $R^C$ is a congruence relation
+        \item $R^C$ covers $R$, $R \refine R^C$
+        \item $R^C$ is the $\refine$-smallest congruence relation 
+        s.t. $R \subseteq R^C$, in other words
+        if $\exists R': R \subseteq R'$ and $R'$ is a congruence relation, 
+        then $R^C \refine R'$.    
+    \end{itemize}
+\end{definition}
+
+The idea is to use the congruence closure to check if a set of equalities and disequalities
+are satisfiable ($R = \eql$).
+
+If the congruence closure of the set is the equality relation put 
+an equivality relation and a disequality relation in the same 
+equivalence class, then the formula is unsatisfiable.
+
+\section{Congruence Closure Algorithm}
+\label{sec:Congruence Closure Algorithm}
