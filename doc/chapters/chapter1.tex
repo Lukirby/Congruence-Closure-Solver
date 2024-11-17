@@ -1,197 +1,54 @@
-\chapter{Syntax and Semantics of First-Order Logic}
-\label{ch:Syntax and Semantics of First-Order Logic}
+\chapter{Propositional Logic}
+\label{cha:Propositional Logic}
 
-Automated Reasoning is the study of algorithms and systems that allow computers to reason about 
-logical statements. 
+Propositional logic is a formal system that deals with propositions,
+which are statements that are either true or false.
 
-In this chapter, we will introduce the syntax and semantics of First-Order Logic (FOL), 
-which is the most widely used logic in the field of Automated Reasoning. 
+\section{Syntax of Propositional Logic}
+\label{sec:Syntax of Propositional Logic}
 
-We will also introduce the concept of a \textit{model} and 
-the notion of \textit{validity} of a logical statement.
+It is composed of a set $\propSet$ of symbols called \textit{propositional variables}
+which are denoted by $P,Q,R,\dots$ , $x,y,z,\dots$ , $1,2,3,\dots$ or $true , false$.
 
-Automated Reasoning is achieved by using symbol reasoning, which is the manipulation of symbols
-according to the rules of logic.
+An atomic variable are:
+\begin{itemize}
+    \item $\top$ which is always true.
+    \item $\bot$ which is always false.
+    \item $P$ which is a propositional variable.
+\end{itemize}
 
-\section{Syntax in First-Order Logic}
-\label{sec:Syntax in First-Order Logic}
+The logical connectives are $\neg$ (negation), $\land$ (conjunction), $\lor$ (disjunction),
+$\implies$ (implication) and $\iff$ (equivalence).
 
-\begin{definition}{Signature}
-    A \textbf{signature} is a tuple $\sig = (\consSet,\funcSet,\predSet)$ where:
+\begin{definition}{Propositional Formula}
+    A \textbf{propositional formula} is defined as follows:
     \begin{itemize}
-        \item $\consSet$ is a set of constant symbols.
-        \item $\funcSet$ is a set of function symbols.
-        \item $\predSet$ is a set of predicate symbols.
-    \end{itemize}
-\end{definition}
-
-The \textbf{constant} symbols denote individual elements (e.g. $0$, $1$, $a$, $b$, \dots).
-
-The \textbf{function} symbols denote functions that take a number of arguments 
-and return a value (e.g. $+$, $\times$, $f$, $g$, \dots).
-
-The \textbf{predicate} symbols denote relations that take a number of arguments
-and return a truth value (e.g. $=$, $<$, $P$, $Q$, \dots).
-
-The elements of $\consSet$, $\funcSet$ and $\predSet$ are called \textit{symbols}.
-
-The arity of a function or predicate symbol is the number of arguments it takes.
-
-The difference between a function and a predicate lies in their 
-connection, infact a function returns a value while a predicate returns a truth value.
-
-\begin{example}{Predicate vs Function}
-    $f(x) = f(y)$ these functions are connected by the equality predicate $=$, 
-    while these predicates $P(x) \iff P(y)$ are connected by logical equivalence $\iff$
-\end{example}
-
-\begin{remark}{Functions of Predicate}
-    A predicate $P$ can be seen as a function $f_P$ that returns a truth value.
-    So introducing a constant symbol
-    $\circ$ witch denotes ``truth'' than we can define $f_P$ as:
-    \begin{equation*}
-        f_P(x_1,\dots,x_n) = \circ \quad \text{if } P(x_1,\dots,x_n) \text{ is true}
-    \end{equation*} 
-    where $\circ$ is added to the signature. 
-    $\sig' = \sig \cup \{\circ\}$  
-\end{remark}
-
-In FOL, there are logical connectives that 
-are used to combine logical statements:
-$\neg$ (negation), $\land$ (conjunction), $\lor$ (disjunction), 
-$\implies$ (implication), $\iff$ (equivalence).
-
-Using a signature $\sig$ and 
-a set of variables $\varSet$, we can define the syntax of FOL.
-
-\begin{definition}{Term}
-    Let $\sig$ be a signature and $\varSet$ a set of variables.
-    A \textbf{term} is defined as follows:
-    \begin{itemize}
-        \item Every constant symbol $c \in \consSet$ is a term.
-        \item Every variable $x \in \varSet$ is a term.
-        \item Every $n$-ary function symbol $f \in \funcSet$ with $t_1,\dots,t_n$ are terms, 
-        then $f(t_1,\dots,t_n)$ is a term.
-    \end{itemize}
-\end{definition}
-
-\begin{definition}{Atom}
-    Let $\sig$ be a signature and $\varSet$ a set of variables.
-    An \textbf{atom} is defined as follows:
-    \begin{itemize}
-        \item Every $n$-ary predicate symbol $P \in \predSet$ with $t_1,\dots,t_n$ are terms, 
-        then $P(t_1,\dots,t_n)$ is an atom.
+        \item Every atomic variable is a formula.
+        \item If $F$ and $G$ are formulas, then $\neg F$, $F \land G$, $F \lor G$, 
+        $F \implies G$, $F \iff G$ are formulas.
     \end{itemize}    
 \end{definition}
 
-\begin{definition}{Literal}
-    A \textbf{literal} is an atom or the negation of an atom.
+\begin{definition}{Propositional Interpretation}
+    A \textbf{propositional interpretation} of a formula is a function that assigns 
+    a truth value to each atomic variable, and it is defined as follows: 
+    $\I : \propSet \to \{true,false\}$.    
 \end{definition}
 
-\begin{definition}{Formula}
-    Let $\sig$ be a signature and $\varSet$ a set of variables.
-    A \textbf{formula} is defined as follows:
-    \begin{itemize}
-        \item Every atom is a formula.
-        \item If $F$ and $G$ are formulas, then 
-        $\neg F$, $F \land G$, $F \lor G$, $F \implies G$, $F \iff G$ are formulas.
-        \item If $F$ is a formula and $x \in \varSet$ is a variable, 
-        then $\forall x.F$ and $\exists x.F$ are formulas.
-    \end{itemize}
-\end{definition}
+\section{Semantic in Propositional Logic}
+\label{sec:Satisfiability in Propositional Logic}
 
-From a formula we can destinguish the \textit{free variables} and the \textit{bound variables}.
-The free variables are the variables that are not bounded by a quantifier,
-while the bound variables are.
-
-\begin{example}{Free and Bound Variables}
-    Give the formula $H$:
-    \begin{equation*}
-        f(x) = b \land \forall y. f(y) = b
-        \implies f(f(y)) = b
-    \end{equation*}
-    We can define the free variables as $FV(H) = \{x\}$ and the bound variables as 
-    $BV(H) = \{y\}$. While $b$ is a constant symbol.
-\end{example}
-
-\begin{remark}{Renaming Variables}
-    Remark that a variable cannot be both free and bound at the same time.
-    There is a issue with the renaming of variables:
-    free variables cannot be renamed, while bound variables can, 
-    but the it cannot be renamed to a variable that is already in the formula.
-\end{remark}
-
-[IMMAGINE VALIDITY PROBLEM IN FOL ][NOTE IN SIGNATURE 3 OTTOBRE]
-
-\section{Semantics in First-Order Logic}
-\label{sec:Semantics in First-Order Logic}
-
-\begin{definition}{Interpretation}
-    Let $\sig$ be a signature.
-    An \textbf{interpretation} $\I$ of $\sig$ is a tuple $\I = (\dom,\inteFunc)$ where:
-    \begin{itemize}
-        \item $\dom$ is a non-empty set called the \textit{domain} of $\I$.
-        \item $\inteFunc$ is a function that assigns to each symbol in $\sig$ 
-        an element of $\dom$.
-    \end{itemize}
-    The function $\inteFunc$ is defined as follows:
-    \begin{itemize}
-        \item $\forall c \in \consSet$, $\inteFunc(c) \in \dom$.
-        \item $\forall f \in \funcSet$, 
-        $\inteFunc(f) : \dom^n \to \dom$.
-        \item $\forall P \in \predSet$, 
-        $\inteFunc(P) : \dom^n$.
-    \end{itemize}
-    Where $n$ is the arity of the function or predicate symbol.
-\end{definition}
-
-So an interpretation assigns a meaning to the symbols in the signature, 
-there can be multiple interpretations for the same signature.
-
-\begin{example}{Interpretation of Integers}
-    Let $\sig = (\{a,b\},\{f\},\{R\})$ be a signature.
-    An interpretation $\I$ of $\sig$ can be defined as follows:
-    \begin{itemize}
-        \item $\dom = \mathbb{Z}$.
-        \item $\inteFunc(a) = -3$.
-        \item $\inteFunc(b) = 3$.
-        \item $\inteFunc(f) = + : \mathbb{Z}^2 \to \mathbb{Z}$ is the addition function.
-        \item $\inteFunc(R) = \geq : \mathbb{Z}^2$ is the greater than or equal to predicate.
-    \end{itemize}
-\end{example}
-
-\begin{example}{Interpretation of Color}
-    Let $\sig = (\{a,b,c\},\emptyset,\{R\})$ be a signature.
-    An interpretation $\I$ of $\sig$ can be defined as follows:
-    \begin{itemize}
-        \item $\dom = \{red,green,blue\}$.
-        \item $\inteFunc(a) = red$.
-        \item $\inteFunc(b) = blue$.
-        \item $\inteFunc(c) = green$.
-        \item $\inteFunc(R) = \{(red,blue),(red,red)\}$.
-    \end{itemize}
-\end{example}
-
-A term $t$ is evaluated in an interpretation $\I$ as follows:
-\begin{equation*}
-    [t]_\I = 
-    \begin{cases*}
-        \inteFunc(c) & if $t = c \in \consSet$ is a constant symbol \\
-        \inteFunc(f)([t_1]_\I,\dots,[t_n]_\I) & if $t = f(t_1,\dots,t_n) \in \funcSet$ 
-        is a function symbol \\
-        \assignFunc(x) & if $t = x \in \varSet$ is a variable
-    \end{cases*}
-\end{equation*}
-Where $n$ is the arity of the function symbol $f$ and 
-$\assignFunc$ is an assignment function that assigns a value to a variable.
-
-\section{Satifaction and Validity in First-Order Logic}
-\label{sec:Satifaction and Validity in First-Order Logic}
-
-A formula $F$ is evaluated in an interpretation $\I$ and 
-it is said to be \textit{satisfied} in $\I$ if it evaluates to true,
-noted as $\I \vDash  F$, otherwise it is said to be \textit{unsatisfied} in $\I$,
-noted as $\I \nvDash F$.
+An interpretation $\I$ is said to \textit{satisfy} a formula $F$, 
+written as $\I \vDash F$:
+\begin{itemize}
+    \item if $F$ is an atomic variable $P$, then $\I(P) = true$.
+    \item if $F = \neg G$, then $\I \vDash F$ if $\I \nvDash G$.
+    \item if $F = G \land H$, then $\I \vDash F$ if $\I \vDash G$ and $\I \vDash H$.
+    \item if $F = G \lor H$, then $\I \vDash F$ if $\I \vDash G$ or $\I \vDash H$.
+    \item if $F = G \implies H$, then $\I \vDash F$ if $\I \nvDash G$ or $\I \vDash H$.
+    \item if $F = G \iff H$, then $\I \vDash F$ if $\I \vDash G$ and $\I \vDash H$ or
+    $\I \nvDash G$ and $\I \nvDash H$.
+\end{itemize}
 
 \begin{definition}{Satisfiable Formula}
     A formula $F$ is \textbf{satisfiable} if $\exists \I$ 
@@ -201,8 +58,6 @@ noted as $\I \nvDash F$.
 \begin{definition}{Valid Formula}
     A formula $F$ is \textbf{valid} if $\forall \I$ 
     interpretation such that $\I \vDash F$.
-
-    A valid formula $F$ is indicated as $\vDash F$.
 \end{definition}
 
 \begin{remark}{Unsatisfiable and Invalid Formulas}
@@ -226,112 +81,90 @@ noted as $\I \nvDash F$.
     }{}{|c|c|c|}
 \end{remark}
 
-Also the satisfiable relation can be defined as follows:
-Let $F,G,H$ be formulas and $\I$ be an interpretation, than:
+[IDEA OF THE PROBLEM OF SATISFIABILITY IN PROPOSITIONAL LOGIC]
+[NOTE IN INTRODUZIONE 2 OTTOBRE]
+
+Given a formula $F$, than $F$ is finite, hence the number of propositional
+variables is finite, therefore the number of interpretations is finite.
+
+In particular the number of interpretations is $2^{n}$, where $n$
+is the number of propositional variables.
+
+[SCHEMA AD ALBERO] [INTRODUZIONE 2 OTTOBRE]
+
+testing every interpretation is costly and inefficient,
+we need to design a decision procedure that is able to determine the satisfiability
+of a formula in a more efficient way, using normal forms.
+
+[DECISION PROCEDURE] [INTRODUZIONE 2 OTTOBRE]
+
+\section{Normal Forms}
+\label{subsec:Normal Forms}
+
+\subsection{Negation Normal Form}
+\label{subsec:Negation Normal Form}
+
+\begin{definition}{Negation Normal Form}
+    A formula $F$ is in \textbf{negation normal form} if
+    the only connective that appears is $\neg, \land, \lor$ and 
+    $\neg$ is only applied to atomic variables. 
+\end{definition}
+
+The procedure to convert a formula $F$ into negation normal form is as follows:
 \begin{itemize}
-    \item $\I \vDash \neg F$ if $\I \nvDash F$.
-    \item $\I \vDash F \land G$ if $\I \vDash F \land \I \vDash G$.
-    \item $\I \vDash F \lor G$ if $\I \vDash F \lor \I \vDash G$.
-    \item $\I \vDash F \implies G$ if $\I \nvDash F \implies \I \vDash G$.
-    \item $\I \vDash F \iff G$ if $\I \vDash F \iff \I \vDash G$.
-    \item $\I \vDash \forall x.F$ if 
-    $\forall d \in \dom : \I \vDash_{\assignFunc[x\rightarrow d]} G$  
-    \item $\I \vDash \exists x.F$ if
-    $\exists d \in \dom : \I \vDash_{\assignFunc[x\rightarrow d]} G$
+    \item $\neg \neg G \equiv G$.
+    \item $\neg (G \land H) \equiv \neg G \lor \neg H$.
+    \item $\neg (G \lor H) \equiv \neg G \land \neg H$.
+    \item $(G \implies H) \equiv \neg G \lor H$.
+    \item $(G \iff H) \equiv (\neg G \lor H) \land (G \lor \neg H)$
 \end{itemize}
 
-Where $\I \vDash_{\assignFunc[x\rightarrow d]} G$ means that the formula $G$ is satisfied in $\I$
-with the assignment function $\assignFunc$ that assigns the value $d$ to the variable $x$.
-\begin{equation*}
-    \assignFunc[x\rightarrow d](y) = 
-    \begin{cases*}
-        d & if $y = x$ \\
-        \assignFunc(y) & otherwise
-    \end{cases*}
-    \forall y \in \varSet
-\end{equation*}
+\subsection{Disjunctive Normal Form}
+\label{subsec:Disjunctive Normal Form}
 
-\section{Theories in First-Order Logic}
-\label{sec:Theories in First-Order Logic}
+\begin{definition}{Disjunctive Normal Form}
+    A formula $F$ is in \textbf{disjunctive normal form} if
+    it is a disjunction of conjunctions of atomic variables.
 
-A \textbf{theory} formalize structures in a specific domain of interest, 
-and help us reason about the properties of these structures.
-It really useful in verification.
+    \begin{equation}
+        F = D_{1} \lor D_{2} \lor \dots \lor D_{n}
+    \end{equation}
 
-Will be introduced some definitions that concerns theories in FOL.
-
-\begin{definition}{Theory}
-    A \textbf{theory} $\theory$ is definted as a tuple $\theory = (\sig,\axioms)$ where:
-    \begin{itemize}
-        \item $\sig$ is a signature.
-        \item $\axioms$ is a set of formulas called \textit{axioms},
-        with only elements of the signature.
-    \end{itemize}
+    where $D_{i} = (L_{1}^i \land L_{2}^i \land \dots \land L_{n}^i)$ is a 
+    conjunction of atomic variables called \textit{cube}.
 \end{definition}
 
-\begin{definition}{Sigma-Forumla}
-    A formula $F$ is a \textbf{$\sig$-formula} if it contains symbols in
-    the signature $\sig$,
-    as well as the logical connectives, quantifiers and variables.
+The procedure to convert a formula $F$ into disjunctive normal form is
+to convert it into negation normal form and then apply the distributive law:
+\begin{itemize}
+    \item $G \land (H \lor K) = (G \land H) \lor (G \land K)$.
+    \item $(G \lor H) \land K = (G \land K) \lor (H \land K)$.
+\end{itemize}
+
+\subsection{Conjunctive Normal Form}
+\label{subsec:Conjunctive Normal Form}
+
+\begin{definition}{Conjunctive Normal Form}
+    A formula $F$ is in \textbf{conjunctive normal form} if
+    it is a conjunction of disjunctions of atomic variables.
+
+    \begin{equation}
+        F = C_{1} \land C_{2} \land \dots \land C_{n}
+    \end{equation}
+
+    where $C_{i} = (L_1^i \lor \dots \lor L_n^i)$ is a disjunction of atomic variables
+    called \textit{clause}.
 \end{definition}
 
-\begin{definition}{Theory-Interpretation}
-    If $\I$ is an interpretation of $\sig$, then $\I$ is a \textbf{$\theory$-interpretation}
-    of a theory $\theory = (\sig,\axioms)$ if $\I \vDash \axioms$.
-\end{definition}
+The procedure to convert a formula $F$ into conjunctive normal form is 
+to convert it into negation normal form and then apply the distributive law:
+\begin{itemize}
+    \item $G \lor (H \land K) = (G \lor H) \land (G \lor K)$.
+    \item $(G \land H) \lor K = (G \lor K) \land (H \lor K)$.
+\end{itemize}
 
-\begin{definition}{Theory-Satisfiable Formula}
-    Let $\theory = (\sig,\axioms)$ be a theory. And $F$ be a $\sig$-formula.
-    If $\exists \I$ interpretation of $\sig$:
-    \begin{equation*}
-        \I \vDash \axioms \land \I \vDash F
-    \end{equation*}
-    Which means that $F$ is satisfied in $\I$ and $\I$ is a $\theory$-interpretation.
+For the SAT problem, the conjunctive normal form is the most used normal form,
+because it is the most efficient to determine the satisfiability of a formula.
 
-    So $F$ is \textbf{$\theory$-satisfiable} in the theory $\theory$.
-\end{definition}
-
-\begin{definition}{Theory-Vaild Formula}
-    Let $\theory = (\sig,\axioms)$ be a theory. And $F$ be a $\sig$-formula.
-    If $\forall \I$ interpretation of $\sig$:
-    \begin{equation*}
-        \I \vDash \axioms \implies \I \vDash F
-    \end{equation*}
-
-    Which means $F$ is valid ($\vDash F$) in the theory $\theory$ if 
-    every $\theory$-interpretation satisfies $F$.
-
-    Then $F$ is a \textbf{$\theory$-valid formula}, also 
-    noted as $\theory \vDash F$. 
-\end{definition}
-
-\subsection{Theory of Equality}
-\label{subsec:Theory of Equality}
-
-[NEW SECTION]
-
-\subsection{Logical Consequence}
-\label{subsec:Logical Consequence}
-
-\textbf{Logical Consequence}is the relation between a set of formulas (assumptions) and 
-a formula (conjecture), where the conjecture is true if the assumptions are true.
-
-Let $H$ be a set of formulas, called ``\textit{assumption}'',
-and $\varphi$ be a formula, called ``\textit{conjecture}'':
-
-We have that $H \vDash \varphi$ or equivalently $\vDash H \implies \varphi$,
-which means that $\varphi$ is \textbf{logica consequence} of $H$, then:
-\begin{equation*}
-    \forall \I \text{ interpretation }: \I \vDash H 
-    \iff \I \vDash \varphi \iff H \cup \{\neg \varphi\} \text{ is unsatisfiable}
-\end{equation*}
-
-The last coimplication derives from the fact that $\neg \varphi$ is the negation of 
-the conjecture, so if we find an interpretation that satisfies all the formulas in $H$ 
-then it must satisfy the conjecture, making the satisfaction of 
-$\neg \varphi$ impossible.
-
-We need a way to determine if a formula is a logical consequence of a set of formulas:
-we can build a decision procedure that checks if the set of formulas is unsatisfiable,
-in particular the procedure checks if $H \cup \{\neg \varphi\} \vDash \bot$.
-
+The distributive law cause the formula to grow exponentially,
+hence adding cost to the decision procedure.
