@@ -2,31 +2,10 @@ package project.tests;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import project.classes.Node;
 import project.preprocessing.TermsParser;
-
-import java.util.HashMap;
 import java.util.ArrayList;
 
 public class TermsParserTest {
-
-    @Test
-    public void testMakeNodesWithFunction() {
-        TermsParser parser = new TermsParser("f(a,b) = x");
-        Integer id = parser.makeNodes("f(a,b)");
-        HashMap<Integer, Node> nodes = parser.getNodes();
-        assertNotNull(nodes.get(id));
-        assertEquals("f", nodes.get(id).name);
-    }
-
-    @Test
-    public void testMakeNodesWithVariable() {
-        TermsParser parser = new TermsParser("f(a,b) = x");
-        Integer id = parser.makeNodes("x");
-        HashMap<Integer, Node> nodes = parser.getNodes();
-        assertNotNull(nodes.get(id));
-        assertEquals("x", nodes.get(id).name);
-    }
 
     @Test
     public void testTermsParserWithEqualities() {

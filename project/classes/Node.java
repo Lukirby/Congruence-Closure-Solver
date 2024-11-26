@@ -12,7 +12,7 @@ public class Node {
      * The unique identifier of the function or variable.
      * A costant integer.
      */
-    public final Integer id;
+    public final int id;
 
     /**
      * The name of the function or variable.
@@ -25,13 +25,13 @@ public class Node {
      * Empty for variables.
      * An ordered costant ArrayList.
      */
-    private final Integer[] args;
+    private final int[] args;
 
     /**
      * The rappresentative id of the function or variable.
      * A mutable integer
      */
-    public Integer find;
+    public int find;
 
     /**
      * The set of congruence closure parent (ccpar).
@@ -57,7 +57,7 @@ public class Node {
      * @param find  the rappresentative id of the function or variable
      * @param ccpar the [not ordered] set of congruence closure parent (ccpar)
      */
-    public Node(Integer id, String name, Integer[] args, Integer find, Set<Integer> ccpar) {
+    public Node(int id, String name, int[] args, int find, Set<Integer> ccpar) {
         this.id = id;
         this.name = name;
         this.args = args;
@@ -72,7 +72,7 @@ public class Node {
      * An ordered costant array.
      * Method used to make the array immutable 
      */
-    public Integer[] args() {
+    public int[] args() {
         return this.args;
     }
 

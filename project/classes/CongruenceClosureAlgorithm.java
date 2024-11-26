@@ -42,7 +42,7 @@ public class CongruenceClosureAlgorithm {
 
     private boolean checkSatifiability(){
         for (Integer[] disequality : this.disequalities){
-            if (this.DAG.FIND(disequality[0]).equals(this.DAG.FIND(disequality[1]))){
+            if (this.DAG.FIND(disequality[0]) == this.DAG.FIND(disequality[1])){
                 return false;
             }
         }

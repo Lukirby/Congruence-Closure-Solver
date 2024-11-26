@@ -16,7 +16,7 @@ public class TermsParser {
     
     public Debug logger;
 
-    public Integer id_index = 0;
+    public int id_index = 0;
 
     public HashMap<String,Integer> SF = new HashMap<String,Integer>();
 
@@ -26,7 +26,7 @@ public class TermsParser {
 
     public ArrayList<Integer[]> disequalities = new ArrayList<Integer[]>();
 
-    private Boolean isStringValid(String S){
+    private boolean isStringValid(String S){
         return !S.trim().isEmpty() && S != null;
     }
 
@@ -53,7 +53,7 @@ public class TermsParser {
         String recostructed;
         int nested_arg = 0;
         for (int i = 0; i < charsArgs.length; i++) {
-            Character c = charsArgs[i];
+            char c = charsArgs[i];
             if (c == ',' && nested_arg == 0){
                 recostructed = foundChars.toString();
                 logger.fine("Reconstructed: "+recostructed);
@@ -91,7 +91,7 @@ public class TermsParser {
         return args;
     }
 
-    public Integer makeNodes(String term,Integer parId){
+    public int makeNodes(String term,int parId){
 
         //assert isTermValid(term) : "Error: Invalid Term".concat(term);
 
@@ -101,9 +101,9 @@ public class TermsParser {
 
         if (this.SF.containsKey(term)){
             logger.fine("Found node for term: "+term);
-            Integer exist_id = this.SF.get(term);
+            int exist_id = this.SF.get(term);
             Node exist_node = this.nodes.get(exist_id);
-            if (parId != null){
+            if (parId != -1){
                 exist_node.ccpar.add(parId);
             }
             this.nodes.replace(exist_id, exist_node);
@@ -116,25 +116,25 @@ public class TermsParser {
         
         String[] arguments = this.retrinveArguments(term);
 
-        Integer arity;
+        int arity;
 
-        Integer[] args;
+        int[] args;
 
-        Integer id = this.id_index;
+        int id = this.id_index;
 
         Set<Integer> ccpar = new HashSet<Integer>();
 
-        if (parId != null){
+        if (parId != -1){
             ccpar.add(parId);
         }
 
-        id_index++;
+        this.id_index++;
 
         if (arguments.length > 0){
             //term is a function
             arity = arguments.length;
 
-            args = new Integer[arity]; 
+            args = new int[arity]; 
 
             for (int i = 0; i < args.length; i++) {
                 if (!isStringValid(arguments[i])){
@@ -145,7 +145,7 @@ public class TermsParser {
         } else {
             //term is a variable
             arity = 0;
-            args = new Integer[0];
+            args = new int[0];
         }
 
         Node N = new Node(
@@ -164,7 +164,7 @@ public class TermsParser {
         return id;
     }
 
-    public TermsParser(String formula, Boolean log){
+    public TermsParser(String formula, boolean log){
 
         Level level = log ? Level.FINE : Level.SEVERE;
         
@@ -199,8 +199,8 @@ public class TermsParser {
 
             logger.fine("Left Term: "+leftTerm+" Right Term: "+rightTerm);
 
-            Integer leftId = makeNodes(leftTerm,null);
-            Integer rightId = makeNodes(rightTerm,null);
+            Integer leftId = makeNodes(leftTerm,-1);
+            Integer rightId = makeNodes(rightTerm,-1);
 
             Integer[] pair = {leftId,rightId};
 
