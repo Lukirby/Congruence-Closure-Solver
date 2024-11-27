@@ -48,4 +48,15 @@ public class CongruenceClosureAlgorithmTest {
         CongruenceClosureAlgorithm CCA = new CongruenceClosureAlgorithm(TP.nodes, TP.equalities, TP.disequalities,false);
         assertFalse(CCA.compute());
     }
+
+    @Test
+    public void testComputeWithUnsatisfiableDisequalities2() {
+        String formula = " f(f(f(a))) = a;\r\n" + //
+                        "f(f(f(f(f(a))))) = a;\r\n" + //
+                        "f(a) != a ;";
+        TermsParser TP = new TermsParser(formula, false);
+        System.out.println(TP.SF.toString());
+        CongruenceClosureAlgorithm CCA = new CongruenceClosureAlgorithm(TP.nodes, TP.equalities, TP.disequalities,false);
+        assertFalse(CCA.compute());
+    }
 }

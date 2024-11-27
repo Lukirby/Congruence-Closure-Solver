@@ -16,6 +16,12 @@ public class CongruenceClosureDAG {
 
     public boolean verbose;
 
+    public boolean recursive_find;
+
+    public boolean euristic_union;
+
+    public boolean forbidden_set;
+
     public CongruenceClosureDAG(HashMap<Integer,Node> nodes, boolean verbose ,Level log){
 
         this.logger = new Debug(this.getClass(), log);
@@ -23,6 +29,12 @@ public class CongruenceClosureDAG {
         this.verbose = verbose;
 
         this.nodes = nodes;
+
+        this.recursive_find=false;
+
+        this.euristic_union=false;
+
+        this.forbidden_set=false;
 
         logger.fine(nodes.toString());
     }
@@ -39,7 +51,22 @@ public class CongruenceClosureDAG {
         return this.nodes.get(id);
     }
 
+    public int REC_FIND(int id){
+        Node N = NODE(id);
+        if (N==null){
+            logger.severe("Null Node for id "+id);
+        }
+        if (N.find == id){
+            return id;
+        } else {
+            return REC_FIND(N.find);
+        }
+    }
+
     public int FIND(int id){
+        if (this.recursive_find) {
+            return REC_FIND(id);
+        }
         Node N = NODE(id);
         if (N==null){
             logger.severe("Null Node for id "+id);
@@ -51,11 +78,13 @@ public class CongruenceClosureDAG {
         if(this.verbose){
             System.out.println("UNION "+this.printNode(id1)+" "+this.printNode(id2));
         }
-        Node N1 = NODE(id1);
-        Node N2 = NODE(id2);
-        for (Node N : nodes.values()) {
-            if (N.find == N1.find){
-                N.find = N2.find;
+        Node N1 = NODE(FIND(id1));
+        Node N2 = NODE(FIND(id2));
+        if (!this.recursive_find) {
+            for (Node N : nodes.values()) {
+                if (N.find == N1.find){
+                    N.find = N2.find;
+                }
             }
         }
         N1.find = N2.find;
@@ -133,6 +162,7 @@ public class CongruenceClosureDAG {
         }
         logger.fine("END MERGE: "+this.nodes.toString());
     }
+    
     
 
     public String printNode(int id){
