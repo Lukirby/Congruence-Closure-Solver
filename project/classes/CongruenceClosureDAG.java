@@ -32,7 +32,7 @@ public class CongruenceClosureDAG {
 
         this.recursive_find=false;
 
-        this.euristic_union=false;
+        this.euristic_union=true;
 
         this.forbidden_set=false;
 
@@ -74,24 +74,54 @@ public class CongruenceClosureDAG {
         return N.find;
     }
 
+    public void EUR_UNION(int id1, int id2){
+        Node N1 = NODE(FIND(id1));
+        Node N2 = NODE(FIND(id2));
+        Node R;
+        Node N;
+        if (N1.ccpar.size() > N2.ccpar.size()){
+            R = N1;
+            N = N2;
+        } else {
+            R = N2;
+            N = N1;
+        }
+        if (!this.recursive_find) {
+            for (Node M : nodes.values()) {
+                if (M.find == N.find){
+                    M.find = R.find;
+                }
+            }
+        }
+        N.find = R.find;
+        R.ccpar.addAll(N1.ccpar);
+        N.ccpar.clear();
+        logger.fine("ccpars rapp: "+R.ccpar.toString());
+        logger.fine("ccpars node: "+N.ccpar.toString());
+    }
+
     public void UNION(int id1, int id2){
         if(this.verbose){
             System.out.println("UNION "+this.printNode(id1)+" "+this.printNode(id2));
         }
-        Node N1 = NODE(FIND(id1));
-        Node N2 = NODE(FIND(id2));
-        if (!this.recursive_find) {
-            for (Node N : nodes.values()) {
-                if (N.find == N1.find){
-                    N.find = N2.find;
+        if(this.euristic_union){
+            EUR_UNION(id1, id2);
+        } else {
+            Node N1 = NODE(FIND(id1));
+            Node N2 = NODE(FIND(id2));
+            if (!this.recursive_find) {
+                for (Node N : nodes.values()) {
+                    if (N.find == N1.find){
+                        N.find = N2.find;
+                    }
                 }
             }
+            N1.find = N2.find;
+            N2.ccpar.addAll(N1.ccpar);
+            N1.ccpar.clear();
+            logger.fine("ccpars1: "+N1.ccpar.toString());
+            logger.fine("ccpars2: "+N1.ccpar.toString());
         }
-        N1.find = N2.find;
-        N2.ccpar.addAll(N1.ccpar);
-        N1.ccpar.clear();
-        logger.fine("ccpars1: "+N1.ccpar.toString());
-        logger.fine("ccpars2: "+N1.ccpar.toString());
     }
 
     public Set<Integer> CCPAR(int id){
