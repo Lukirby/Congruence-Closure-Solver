@@ -2,6 +2,7 @@ package project.classes;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -13,19 +14,25 @@ public class CongruenceClosureDAG {
 
     private HashMap<Integer,Node> nodes;
 
-    public CongruenceClosureDAG(HashMap<Integer,Node> nodes, boolean log){
+    public boolean verbose;
 
-        Level level = log ? Level.FINE : Level.SEVERE;
+    public CongruenceClosureDAG(HashMap<Integer,Node> nodes, boolean verbose ,Level log){
 
-        this.logger = new Debug(this.getClass(), level);
+        this.logger = new Debug(this.getClass(), log);
+
+        this.verbose = verbose;
 
         this.nodes = nodes;
 
         logger.fine(nodes.toString());
     }
 
+    public CongruenceClosureDAG(HashMap<Integer,Node> nodes, boolean verbose){
+        this(nodes,verbose,Level.SEVERE);
+    }
+
     public CongruenceClosureDAG(HashMap<Integer,Node> nodes){
-        this(nodes,true);
+        this(nodes,false,Level.SEVERE);
     }
 
     public Node NODE(int id){
@@ -45,17 +52,21 @@ public class CongruenceClosureDAG {
     }
 
     public void UNION(int id1, int id2){
+        if(this.verbose){
+            System.out.println("UNION "+this.printNode(id1)+" "+this.printNode(id2));
+        }
         Node N1 = NODE(id1);
         Node N2 = NODE(id2);
+        for (Node N : nodes.values()) {
+            if (N.find == N1.find){
+                N.find = N2.find;
+            }
+        }
         N1.find = N2.find;
         N2.ccpar.addAll(N1.ccpar);
-        N1.ccpar = new HashSet<Integer>();
-        /* for (Node N : nodes.values()) {
-            if (N.find == N1.find){
-                N.find = N1.id;
-                nodes.replace(N.id, newN);
-            }
-        } */
+        N1.ccpar.clear();
+        logger.fine("ccpars1: "+N1.ccpar.toString());
+        logger.fine("ccpars2: "+N1.ccpar.toString());
     }
 
     public Set<Integer> CCPAR(int id){
@@ -63,42 +74,60 @@ public class CongruenceClosureDAG {
     }
 
     private boolean congruenceCheck(Node N1, Node N2){
-        if (!(N1.name.equals(N2.name)) || !(N1.arity.equals(N2.arity))){
-            logger.fine("NO CONGRUENCE "+N1.name+" "+N2.name+" ");
-            logger.fine("NO CONGRUENCE "+N1.arity+" "+N2.arity+" ");
+        if (!(N1.name.equals(N2.name))) {
+            if(this.verbose){
+                System.out.println("FALSE: "+N1.name+" != "+N2.name);
+            }
+            return false;
+        }
+        if (N1.arity != N2.arity){
+            if(this.verbose){
+                System.out.println("FALSE: "+N1.arity+" != "+N2.arity);
+            }
             return false;
         }
         int[] args1 = N1.args(); 
         int[] args2 = N2.args(); 
         for (int i = 0; i < args2.length; i++) {
             if (FIND(args1[i]) != FIND(args2[i])) {
-                logger.fine("NO CONGRUENCE");
+                if(this.verbose){
+                    System.out.println("FALSE: FIND("+printNode(args1[i])+") != " + "FIND("+printNode(args2[i])+")");
+                }
                 return false;
             }
         }
-        logger.fine("OK CONGRUENCE");
+        if(this.verbose){
+            System.out.println("TRUE");
+        }
         return true;
     }
 
     public boolean CONGRUENT(int id1, int id2){
+        if(this.verbose){
+            System.out.println("CONGREUNCE "+this.printNode(id1)+" "+this.printNode(id2));
+        }
         Node N1 = NODE(id1);
         Node N2 = NODE(id2);
         return congruenceCheck(N1, N2);
     }
 
     public void MERGE(int id1, int id2){
+        if(this.verbose){
+            System.out.println("MERGE "+this.printNode(id1)+" "+this.printNode(id2));
+        }
         if (FIND(id1) != FIND(id2)) {
             Set<Integer> P1 = CCPAR(id1);
-            logger.fine("ccpars1: "+P1.toString());
+            
             Set<Integer> P2 = CCPAR(id2);
             logger.fine("ccpars2: "+P2.toString());
+            if(this.verbose){
+                System.out.println("P1: "+printCCPAR(P1));
+                System.out.println("P2: "+printCCPAR(P2));
+            }
             UNION(id1, id2);
             if(!P1.isEmpty() && !P2.isEmpty()){
-                for (Integer t1 : P1) {
-                    for (Integer t2 : P2) {
-                        logger.fine("CONGUENT "+t1+" "+t2);
-                        logger.fine("Same Find: "+(FIND(t1) != FIND(t2)));
-                        logger.fine("CONGRUENT : "+(CONGRUENT(t1, t2)));
+                for (int t1 : P1) {
+                    for (int t2 : P2) {
                         if (FIND(t1) != FIND(t2) && CONGRUENT(t1, t2)){
                             MERGE(t1, t2);
                         }                 
@@ -109,4 +138,34 @@ public class CongruenceClosureDAG {
         logger.fine("END MERGE: "+this.nodes.toString());
     }
     
+
+    public String printNode(int id){
+        Node N = NODE(id);
+        String s = N.name;
+        if (N.arity > 0){
+            s+="(";
+            for (int i = 0; i < N.arity; i++) {
+                s += printNode(N.args()[i]);
+                if (N.arity > 1 && i != N.arity-1){
+                    s+=",";
+                }
+            }
+            s+=")"; 
+        }
+        return s;
+    }
+
+    public String printCCPAR(Set<Integer> ccpar){
+        String s = "{";
+        Iterator<Integer> iter = ccpar.iterator();
+        while (iter.hasNext()) {
+            s += printNode(iter.next());
+            if(iter.hasNext()){
+                s += ", ";
+            }
+        }
+        s += "}";
+        return s;
+    }
+
 }

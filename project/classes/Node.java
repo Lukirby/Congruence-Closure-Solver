@@ -45,7 +45,7 @@ public class Node {
      * arguments of a function. Zero for variables. 
      * A costant integer
      */
-    public final Integer arity;
+    public final int arity;
 
     /**
      * Constructs a new Node with the specified id, name, arguments, find value, and ccpar set.

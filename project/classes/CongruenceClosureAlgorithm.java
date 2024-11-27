@@ -16,20 +16,32 @@ public class CongruenceClosureAlgorithm {
 
     public ArrayList<Integer[]> disequalities;
 
+    public boolean verbose;
+
     private Debug logger;
 
     public CongruenceClosureAlgorithm(
         HashMap<Integer,Node> nodes,
         ArrayList<Integer[]> equalities,
         ArrayList<Integer[]> disequalities,
-        Boolean log
+        boolean verbose,
+        Level log
     ){
-        Level level = log ? Level.FINE : Level.SEVERE;
-        this.logger = new Debug(this.getClass(), Level.OFF);
+        this.logger = new Debug(this.getClass(), log);
+        this.verbose = verbose;
         this.nodes = nodes;
         this.equalities = equalities;
         this.disequalities = disequalities;
-        this.DAG = new CongruenceClosureDAG(this.nodes);
+        this.DAG = new CongruenceClosureDAG(this.nodes,this.verbose);
+    }
+
+    public CongruenceClosureAlgorithm(
+        HashMap<Integer,Node> nodes,
+        ArrayList<Integer[]> equalities,
+        ArrayList<Integer[]> disequalities,
+        boolean verbose
+    ){
+        this(nodes, equalities, disequalities, verbose, Level.OFF);
     }
 
     public CongruenceClosureAlgorithm(
@@ -37,7 +49,7 @@ public class CongruenceClosureAlgorithm {
         ArrayList<Integer[]> equalities,
         ArrayList<Integer[]> disequalities
     ){
-        this(nodes, equalities, disequalities, false);
+        this(nodes, equalities, disequalities, false, Level.OFF);
     }
 
     private boolean checkSatifiability(){
