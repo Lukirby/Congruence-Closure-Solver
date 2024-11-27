@@ -44,11 +44,7 @@ public class CongruenceClosureDAG {
         if (N==null){
             logger.severe("Null Node for id "+id);
         }
-        if (N.find == id){
-            return id;
-        } else {
-            return FIND(N.find);
-        }
+        return N.find;
     }
 
     public void UNION(int id1, int id2){
