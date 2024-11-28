@@ -1,0 +1,176 @@
+\chapter{First-Order Theories}
+\label{cha:First-Order Theories}
+
+\section{Theories in First-Order Logic}
+\label{sec:Theories in First-Order Logic}
+
+A \textbf{theory} formalize structures in a specific domain of interest, 
+and help us reason about the properties of these structures.
+It really useful in verification.
+
+Will be introduced some definitions that concerns theories in FOL.
+
+\begin{definition}{Theory}
+    A \textbf{theory} $\theory$ is definted as a tuple $\theory = (\sig,\axioms)$ where:
+    \begin{itemize}
+        \item $\sig$ is a signature.
+        \item $\axioms$ is a set of formulas called \textit{axioms},
+        with only elements of the signature.
+    \end{itemize}
+\end{definition}
+
+\begin{definition}{Sigma-Forumla}
+    A formula $F$ is a \textbf{$\sig$-formula} if it contains symbols in
+    the signature $\sig$,
+    as well as the logical connectives, quantifiers and variables.
+\end{definition}
+
+\begin{definition}{Theory-Interpretation}
+    If $\I$ is an interpretation of $\sig$, then $\I$ is a \textbf{$\theory$-interpretation}
+    of a theory $\theory = (\sig,\axioms)$ if $\I \vDash \axioms$.
+\end{definition}
+
+\begin{definition}{Theory-Satisfiable Formula}
+    Let $\theory = (\sig,\axioms)$ be a theory. And $F$ be a $\sig$-formula.
+    If $\exists \I$ interpretation of $\sig$:
+    \begin{equation*}
+        \I \vDash \axioms \land \I \vDash F
+    \end{equation*}
+    Which means that $F$ is satisfied in $\I$ and $\I$ is a $\theory$-interpretation.
+
+    So $F$ is \textbf{$\theory$-satisfiable} in the theory $\theory$.
+\end{definition}
+
+\begin{definition}{Theory-Vaild Formula}
+    Let $\theory = (\sig,\axioms)$ be a theory. And $F$ be a $\sig$-formula.
+    If $\forall \I$ interpretation of $\sig$:
+    \begin{equation*}
+        \I \vDash \axioms \implies \I \vDash F
+    \end{equation*}
+
+    Which means $F$ is valid ($\vDash F$) in the theory $\theory$ if 
+    every $\theory$-interpretation satisfies $F$.
+
+    Then $F$ is a \textbf{$\theory$-valid formula}, also 
+    noted as $\theory \vDash F$. 
+\end{definition}
+
+\begin{definition}{Theory Fragment}
+    A \textbf{theory fragment} is a theory that deals only with a subset 
+    of formulas of the original theory.
+\end{definition}
+
+\begin{definition}{Quantifier-Free Fragment}
+    The \textbf{quantifier-free fragment} of a theory $\theory$ is the theory 
+    that contains only the formulas that do not containg quantifier: 
+    $\forall$ and $\exists$.
+    Which means that the variables in the formulas are free.
+\end{definition}
+
+\section{Theory of Equality}
+\label{sec:Theory of Equality}
+
+The theory of equality is a theory that is centered around 
+the \textbf{equality predicate} $\eql$ and the equivalence
+axioms.
+
+\begin{definition}{Equivalence Axioms}
+    Let $\varSet$ be a set of variables and $\eql$ be a predicate symbol.
+    Let $\axioms$ be a set of formulas called \textbf{equivalence axioms} if 
+    it contains the following formulas:
+    \begin{itemize}
+        \item \textbf{Reflexivity}: $\forall x \in \varSet. \quad x \eql x$.
+        \item \textbf{Symmetry}: $\forall x,y \in \varSet. \quad x \eql y \implies y \eql x$.
+        \item \textbf{Transitivity}: 
+        $\forall x,y,z \in \varSet. \quad x \eql y \land y \eql z \implies x \eql z$.
+    \end{itemize}
+\end{definition}
+
+\begin{definition}{Congruence Axioms}
+    Let $\varSet$ be a set of variables and $\eql$ be a predicate symbol.
+    Let $\funcSet$ be a set of function symbols and $\predSet$ be a set of predicate symbols.
+    Let $\axioms$ be a set of formulas called \textbf{congruence axioms} if
+    it contains the following formulas:
+    \begin{itemize}
+        \item \textbf{Function Congruence}: 
+        $\forall$ function symbol $f \in \funcSet$ with arity $n$ and
+        $\forall x_1,\dots,x_n,y_1,\dots,y_n \in \varSet$:
+        \begin{equation*}
+            x_1 \eql y_1 \land \dots \land x_n \eql y_n 
+            \implies f(x_1,\dots,x_n) \eql f(y_1,\dots,y_n)
+        \end{equation*}
+        \item \textbf{Predicate Congruence}:
+        $\forall$ predicate symbol $R \in \predSet$ with arity $n$ and
+        $\forall x_1,\dots,x_n,y_1,\dots,y_n \in \varSet$:
+        \begin{equation*}
+            x_1 \eql y_1 \land \dots \land x_n \eql y_n 
+            \implies R(x_1,\dots,x_n) \iff R(y_1,\dots,y_n)
+        \end{equation*}
+    \end{itemize}
+    Which states that if the arguments of a function or predicate are equal, 
+    then the result of the function or the truth value of the predicate is equal.
+\end{definition}
+
+\begin{definition}{Theory of Equality}
+    Let $\eqSig = (\consSet,\funcSet,\predSet \cup \{\eql\})$ be a signature.
+    Let $\eqAxi$ be a set of formulas called \textbf{equality axioms} 
+    if it contains the Equivalence Axioms and the Congruence Axioms.
+    The it can be defined the \textbf{theory of equality} as:
+    \begin{equation*}
+        \eqTheory = (\eqSig,\eqAxi)
+    \end{equation*}
+\end{definition}
+
+\begin{notation}{Disequaliti in Theory of Equality}
+    It is possible to define the \textbf{disequality predicate} $\deql$ as:
+    \begin{equation*}
+        x \deql y \iff \neg (x \eql y)
+    \end{equation*}
+    Where $x$ and $y$ are variables in $\varSet$.
+    It also possibleto ridefine the equality signature as:
+    \begin{equation*}
+        \eqSig = (\consSet,\funcSet,\predSet \cup \{\eql,\deql\})
+    \end{equation*}
+\end{notation}
+
+\begin{remark}{Theory of Equality}
+    Since the equality axioms contanin the equivalence axioms and 
+    the congruence axioms, then the equality predicate $\eql$ is
+    a \textbf{congruence relation}.
+\end{remark}
+
+\begin{example}{Satisfiability in Theory of Equality}
+    The formula $a \eql b \land f(a) \eql f(b)$ is
+    satisfiable in the theory of equality ($\eqTheory$-satisfiable).
+    While the formula $a \eql b \land R(a) \iff \neg R(b)$ is
+    unsatisfiable in the theory of equality
+    ($\eqTheory$-unsatisfiable).
+\end{example}
+
+\begin{notation}{Nested Function}
+    The notation $f^{(n)}(x)$ denotes the 
+    $n$-th iteration of the function $f$ on the argument $x$:
+    \begin{equation*}
+        f^{(n)}(x) = \underbrace{f(f(\dots f(x) \dots))}_{n}
+    \end{equation*}
+\end{notation}
+
+\begin{example}{Human Reasoning for Satisfiability}
+    Let the formula:
+    \begin{equation*}
+        F = \underbrace{f^{(3)}(x) \eql x}_{\text{EQ1}} \land
+        \underbrace{f^{(5)}(x) \eql x}_{\text{EQ2}} \land 
+        \underbrace{f(x) \deql x}_{\text{EQ3}}
+    \end{equation*}
+    Using human reasoning we can see that:
+    \begin{itemize}
+        \item EQ1 + EQ2 $\implies$ $f^{(2)}(x) \eql x$ (EQ4).
+        \item EQ1 + EQ4 $\implies$ $f(x) \eql x$ (EQ5).
+        \item EQ3 + EQ5 $\implies$ $\bot$.
+    \end{itemize}
+    So the formula $F$ is unsatisfiable.
+\end{example}
+
+The human reasoning is not efficient for large formulas, and 
+for machines, we need a decision procedure that can determine
+the satisfiability with an algorithm that can be executed by a computer.
