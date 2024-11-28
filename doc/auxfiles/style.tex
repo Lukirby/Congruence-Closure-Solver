@@ -6,6 +6,7 @@
 \colorlet{colthe}{magenta!85!black}
 \colorlet{colnot}{orange!85!black}
 \colorlet{colgra}{blue!25!black}
+\colorlet{colcod}{white!50!black}
 
 % Definizione del contatore
 \newcounter{boxcounter}[section]
@@ -166,6 +167,24 @@
   \begin{Table}{#1}{#1}
 }{
   \end{Table}
+}
+
+\newtcbtheorem[use counter = boxcounter,number within=section]{Code}{Code}{
+  lower separated=false,
+  colback = white,
+  colframe = colcod, 
+  fonttitle=\bfseries,
+  colbacktitle = colcod,
+  coltitle=white,
+  enhanced,
+  %attach boxed title to top left={yshift=0in,xshift=0in},
+  %boxed title style={boxrule=0pt,colframe=white,},
+  }{cod}
+
+\newenvironment{codee}[1]{
+  \begin{Code}{#1}{#1}
+}{
+  \end{Code}
 }
 
 \newtheoremstyle{defstyle}% Nome dello stile
