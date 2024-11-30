@@ -1,6 +1,7 @@
 package project.preprocessing;
 
 import project.classes.Node;
+import project.classes.Theory;
 import project.debug.Debug;
 
 import java.util.ArrayList;
@@ -18,6 +19,8 @@ public class TermsParser {
 
     public int id_index = 0;
 
+    public Theory theory = Theory.EQUALITY;
+
     public HashMap<String,Integer> SF = new HashMap<String,Integer>();
 
     public HashMap<Integer,Node> nodes = new HashMap<Integer,Node>();
@@ -28,6 +31,19 @@ public class TermsParser {
 
     private boolean isStringValid(String S){
         return !S.trim().isEmpty() && S != null;
+    }
+
+    private String[] predicateHandler(String S){
+        String[] newLiteral = new String[3];
+        if (S.startsWith(Regex.negation)){
+            S = S.substring(1);
+            newLiteral[2] = "!=";
+        } else {
+            newLiteral[2] = "=";
+        }
+        newLiteral[0] = S;
+        newLiteral[1] = Regex.trueCostant;
+        return newLiteral;
     }
 
     private String retriveName(String function){
@@ -181,14 +197,23 @@ public class TermsParser {
         String[] literals = formula.split(Regex.inputRegex);
         for (String literal : literals) {
             logger.fine("Literal: "+literal);
+
             Pattern literalPattern = Pattern.compile(Regex.literalRegex);
             Matcher literalMatcher = literalPattern.matcher(literal);
-            if (!literalMatcher.find()){
-                logger.severe("No equality operator found");
+            String operator;
+            String[] terms = new String[2];
+            if (literalMatcher.find()){
+                operator = literalMatcher.group();
+                terms = literal.split(operator);    
+            } else {
+                String[] newLiteral = predicateHandler(literal);
+                logger.fine("Predicate Found");
+                operator = newLiteral[2];
+                terms[0] = newLiteral[0];
+                terms[1] = newLiteral[1];
             }
-            String operator = literalMatcher.group();
+            
             logger.fine("Operator Found: "+operator);
-            String[] terms = literal.split(operator);
 
             if (terms.length!=2){
                 logger.severe("Invalid Number of (Dis)Equalities in Literal ".concat(literal));
@@ -204,7 +229,7 @@ public class TermsParser {
 
             Integer[] pair = {leftId,rightId};
 
-            if (operator.equals("=")){
+            if (operator.equals(Regex.equalityPredicate)){
                 this.equalities.add(pair);
             } else {
                 this.nodes.get(leftId).forb.add(rightId);
@@ -233,8 +258,9 @@ public class TermsParser {
     }
 
     public static void main(String[] args) {
-        String S = "f(a,b) = a ; f(f(a,b)) != a";
-        TermsParser A = new TermsParser(S,true);
+        //String S = "f(a,b) = a ; f(f(a,b)) != a";
+        String R = "R(a,b) ; ~G(b,f(a,c))";
+        TermsParser A = new TermsParser(R,true);
         System.out.println(A.SF.toString());
     }
 

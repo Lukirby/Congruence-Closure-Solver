@@ -20,31 +20,31 @@ public class CongruenceClosureAlgorithm {
 
     //private Debug logger;
 
-    public boolean forbidden_set;
+    public boolean forbiddenSet;
 
     public CongruenceClosureAlgorithm(
         HashMap<Integer,Node> nodes,
         ArrayList<Integer[]> equalities,
         ArrayList<Integer[]> disequalities,
-        boolean verbose,
+        Options opt,
         Level log
     ){
         //this.logger = new Debug(this.getClass(), log);
-        this.verbose = verbose;
-        this.forbidden_set=false;
+        this.verbose = opt.verbose;
+        this.forbiddenSet=opt.forbiddenSet;
         this.nodes = nodes;
         this.equalities = equalities;
         this.disequalities = disequalities;
-        this.DAG = new CongruenceClosureDAG(this.nodes,this.verbose);
+        this.DAG = new CongruenceClosureDAG(this.nodes,opt);
     }
 
     public CongruenceClosureAlgorithm(
         HashMap<Integer,Node> nodes,
         ArrayList<Integer[]> equalities,
         ArrayList<Integer[]> disequalities,
-        boolean verbose
+        Options opt
     ){
-        this(nodes, equalities, disequalities, verbose, Level.OFF);
+        this(nodes, equalities, disequalities, opt, Level.OFF);
     }
 
     public CongruenceClosureAlgorithm(
@@ -52,7 +52,7 @@ public class CongruenceClosureAlgorithm {
         ArrayList<Integer[]> equalities,
         ArrayList<Integer[]> disequalities
     ){
-        this(nodes, equalities, disequalities, false, Level.OFF);
+        this(nodes, equalities, disequalities, new Options(), Level.OFF);
     }
 
     private boolean checkSatifiability(){
@@ -74,7 +74,7 @@ public class CongruenceClosureAlgorithm {
                 return false;
             }
         }
-        if (this.forbidden_set){
+        if (this.forbiddenSet){
             return true;
         } else {
             return checkSatifiability();

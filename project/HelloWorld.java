@@ -1,9 +1,10 @@
 package project;
 
-import java.util.Scanner;
+//import java.util.Scanner;
 import java.util.logging.Level;
 
 import project.classes.CongruenceClosureAlgorithm;
+import project.classes.Options;
 import project.preprocessing.FormulaReader;
 import project.preprocessing.TermsParser;
 
@@ -19,7 +20,12 @@ public class HelloWorld {
         String formula = FR.readFormulaFromFile(fileName);
         TermsParser TP = new TermsParser(formula, false);
         //System.out.println(TP.SF.toString());
-        CongruenceClosureAlgorithm CCA = new CongruenceClosureAlgorithm(TP.nodes, TP.equalities, TP.disequalities,true,Level.SEVERE);
+        Options opt = new Options();
+        opt.setEuristicUnion(true);
+        opt.setRecursiveFind(false);
+        opt.setForbiddenSet(false);
+        opt.setVerbose(true);
+        CongruenceClosureAlgorithm CCA = new CongruenceClosureAlgorithm(TP.nodes, TP.equalities, TP.disequalities,opt,Level.SEVERE);
         if (CCA.compute()){
             System.out.println("SAT");
         } else {

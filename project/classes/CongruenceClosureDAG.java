@@ -24,11 +24,11 @@ public class CongruenceClosureDAG {
 
     public boolean forbiddenSet;
 
-    public CongruenceClosureDAG(HashMap<Integer,Node> nodes, boolean verbose ,Level log){
+    public CongruenceClosureDAG(HashMap<Integer,Node> nodes, Options opt, Level log){
 
         this.logger = new Debug(this.getClass(), log);
 
-        this.verbose = verbose;
+        this.verbose = opt.verbose;
 
         this.nodes = nodes;
 
@@ -43,12 +43,12 @@ public class CongruenceClosureDAG {
         logger.fine(nodes.toString());
     }
 
-    public CongruenceClosureDAG(HashMap<Integer,Node> nodes, boolean verbose){
-        this(nodes,verbose,Level.SEVERE);
+    public CongruenceClosureDAG(HashMap<Integer,Node> nodes, Options opt){
+        this(nodes,opt,Level.SEVERE);
     }
 
     public CongruenceClosureDAG(HashMap<Integer,Node> nodes){
-        this(nodes,false,Level.SEVERE);
+        this(nodes,new Options(),Level.SEVERE);
     }
 
     public Node NODE(int id){

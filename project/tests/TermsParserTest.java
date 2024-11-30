@@ -29,4 +29,22 @@ public class TermsParserTest {
         assertEquals(1, equalities.size());
         assertEquals(1, disequalities.size());
     }
+
+    @Test
+    public void testTermParserWithPositivePredicate(){
+        TermsParser parser = new TermsParser("R(a,b);");
+        ArrayList<Integer[]> equalities = parser.getEqualities();
+        ArrayList<Integer[]> disequalities = parser.getDisequalities();
+        assertEquals(1, equalities.size());
+        assertEquals(0, disequalities.size());
+    }
+
+    @Test
+    public void testTermParserWithNegativePredicate(){
+        TermsParser parser = new TermsParser("~R(a,b);");
+        ArrayList<Integer[]> equalities = parser.getEqualities();
+        ArrayList<Integer[]> disequalities = parser.getDisequalities();
+        assertEquals(0, equalities.size());
+        assertEquals(1, disequalities.size());
+    }
 }
