@@ -174,3 +174,166 @@ axioms.
 The human reasoning is not efficient for large formulas, and 
 for machines, we need a decision procedure that can determine
 the satisfiability with an algorithm that can be executed by a computer.
+
+\section{Theory of Lists}
+
+The theory of lists is a theory that is centered around the
+\textbf{list data structure} and the operations that can be
+performed on lists.
+
+This theory is based on the theory of equality.
+
+\begin{definition}{List Signature}
+    The \textbf{list signature} $\listSig$ is
+    a signature \ref{def:Signature} defined as:
+    \begin{equation*}
+        \listSig = (\emptyset,\{\cons, \car, \cdr\},\{\atom,\eql\})
+    \end{equation*}
+    \begin{itemize}
+        \item $\cons$ is the constructor function.
+        \item $\car$ (Content of Address Register) is the function that
+        returns the first element of the list.
+        \item $\cdr$ (Content of Decrement Register) is the function that
+        returns the rest of the list.        
+        \item $\atom$ is the predicate that checks if the list is empty.
+        \item $\eql$ is the equality predicate.
+    \end{itemize}
+\end{definition}
+
+\begin{definition}{List Axioms}
+    Let $\varSet$ be a set of variables and $\listSig$ be the list signature. 
+    The \textbf{list axioms} $\listAxi$ are defined as:
+    \begin{itemize}
+        \item \textbf{Equivalence Axioms} (\ref{def:Equivalence Axioms}) on 
+        the equality predicate $\eql$ and variables in $\varSet$.
+        \item \textbf{Function Congruence} (\ref{def:Congruence Axioms}) on 
+        functions $\cons$, $\car$ and $\cdr$.
+        \item \textbf{Predicate Congruence} (\ref{def:Congruence Axioms}) on
+        the predicate $\atom$.
+        \item \textbf{Left and Right Projection}: $\forall x,y \in \varSet$. 
+        \begin{equation*}
+            \car(\cons(x,y)) \eql x \land \cdr(\cons(x,y)) \eql y
+        \end{equation*}
+        
+        \item \textbf{Construction Axiom}: $\forall x \in \varSet$.
+        \begin{equation*}
+            \neg\atom(x) \implies x \eql \cons(\car(x),\cdr(x)) 
+        \end{equation*}
+        
+        \item \textbf{Atom Axiom}: $\forall x,y \in \varSet: \quad \neg \atom(\cons(x,y))$
+    \end{itemize}
+\end{definition}
+
+\begin{remark}{Extensionalty on Lists}
+    The \textit{Function Congruence} axioms and the \textit{Predicate Congruence}
+    axioms imply that two lists are equal if and only if they have the same
+    elements in the same order:
+    \begin{equation*}
+        x \eql y \iff \car(x) \eql \car(y) \land \cdr(x) \eql \cdr(y)
+        \quad \forall x,y \in \varSet
+    \end{equation*}
+    This is called the \textbf{extensionality} property of lists.
+\end{remark}
+
+\begin{definition}{Theory of Lists}
+    The \textbf{theory of lists} $\listTheory$ is defined as:
+    \begin{equation*}
+        \listTheory = (\listSig,\listAxi)
+    \end{equation*}
+\end{definition}
+
+\begin{remark}{Decidability of the Theory of Lists}
+    The theory of lists is not decidable, in general,
+    but the quantifier-free fragment of the theory of lists is decidable.
+\end{remark}
+
+\subsection{Theory of Acyclic Lists}
+\label{subsec:Theory of Acyclic Lists}
+
+The theory of acyclic lists is a theory that is centered around the
+\textbf{acyclic list data structure} this type of list does not contain
+any recursion in the list structure.
+
+New axioms are added to the theory of lists to ensure that the lists
+are acyclic.
+
+\begin{definition}{Acyclic List Axioms}
+    Let $\varSet$ be a set of variables and $\listSig$ be the list signature.
+    The \textbf{acyclic list axioms} $\aListAxi$ are defined as:
+    For all variables $x \in \varSet$ and for all $t[x]$ terms 
+    that contain $x$:
+    \begin{equation*}
+        x \eql t[x] \implies \car(x) \deql x \land \cdr(x) \deql \cdr(x) \land
+        \car(\cdr(x)) \deql x
+    \end{equation*}
+    And contains the $\listAxi$ axioms.
+\end{definition}
+
+In this way, the acyclic list cannot contain their own address in the list.
+
+\begin{definition}{Theory of Acyclic Lists}
+    The \textbf{theory of acyclic lists} $\aListTheory$ is defined as:
+    \begin{equation*}
+        \aListTheory = (\listSig,\aListAxi)
+    \end{equation*}
+\end{definition}
+
+\subsection{Theory of Lists with Specified Atoms}
+\label{subsec:Theory of Lists with Specified Atoms}
+
+The theory of lists with specified atoms is a theory that is centered
+around the \textbf{list data structure} and the operations that can be
+done on atomic lists.
+
+In this case the an additional axiom is added to the theory of lists:
+\begin{definition}{Specified Atom Axiom}
+    Let $\varSet$ be a set of variables and $\listSig$ be the list signature.
+    The \textbf{specified atom axiom} $\listAxi^\text{atom}$ is defined as:
+    \begin{equation*}
+        \atom(x) \implies \atom(\car(x)) \land \atom(\cdr(x))
+    \end{equation*}
+    And contains the $\listAxi$ axioms.
+\end{definition}
+
+\begin{definition}{Theory of Lists with Specified Atoms}
+    The \textbf{theory of lists with specified atoms} $\listTheory^\text{atom}$ is defined as:
+    \begin{equation*}
+        \listTheory^\text{atom} = (\listSig,\listAxi^\text{atom})
+    \end{equation*}
+\end{definition}
+
+\subsection{Theory of Possibly Empty Lists}
+\label{subsec:Theory of Possibly Empty Lists}
+
+The theory of possibly empty lists is a theory that is centered around
+the \textbf{list data structure} and the operations that can be done
+on possibly empty lists.
+
+In this case, an additional axiom is added to the theory of lists:
+
+\begin{definition}{Possibly Empty List Signature}
+    The \textbf{possibly empty list signature} $\listSig^\nil$ is defined as:
+    \begin{equation*}
+        \listSig^\nil = (\{\nil\},\{\cons, \car, \cdr\},\{\atom,\eql\})
+    \end{equation*}
+    Where $\nil$ is the constant that represents the empty list.
+    And the other symbols are the same as the list signature \ref{def:List Signature}.
+\end{definition}
+
+\begin{definition}{Possibly Empty List Axiom}
+    Let $\varSet$ be a set of variables and $\listSig^\nil$ be the list signature.
+    The \textbf{possibly empty list axiom} $\listAxi^\nil$ is defined as:
+    \begin{itemize}
+        \item $\car(\nil) \eql \nil \land \cdr(\nil) \eql \nil$
+        \item $x \eql \nil \implies x \eql \cons(\car(x),\cdr(x)) \quad 
+        \forall x \in \varSet$
+    \end{itemize}
+    And contains the $\listAxi$ axioms.
+\end{definition}
+
+\begin{definition}{Theory of Possibly Empty Lists}
+    The \textbf{theory of possibly empty lists} $\listTheory^\nil$ is defined as:
+    \begin{equation*}
+        \listTheory^\nil = (\listSig^\nil,\listAxi^\nil)
+    \end{equation*}
+\end{definition}
