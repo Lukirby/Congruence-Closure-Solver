@@ -207,8 +207,12 @@ public class TermsParser {
             if (operator.equals("=")){
                 this.equalities.add(pair);
             } else {
+                this.nodes.get(leftId).forb.add(rightId);
+                this.nodes.get(rightId).forb.add(leftId);
                 this.disequalities.add(pair);
             }
+            this.logger.fine("Forbidden Left: "+this.nodes.get(leftId).forb);
+            this.logger.fine("Forbidden Right: "+this.nodes.get(rightId).forb);
         }
     };
 

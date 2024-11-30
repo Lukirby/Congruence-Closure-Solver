@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 
-import project.debug.Debug;
+//import project.debug.Debug;
 
 public class CongruenceClosureAlgorithm {
     
@@ -18,7 +18,9 @@ public class CongruenceClosureAlgorithm {
 
     public boolean verbose;
 
-    private Debug logger;
+    //private Debug logger;
+
+    public boolean forbidden_set;
 
     public CongruenceClosureAlgorithm(
         HashMap<Integer,Node> nodes,
@@ -27,8 +29,9 @@ public class CongruenceClosureAlgorithm {
         boolean verbose,
         Level log
     ){
-        this.logger = new Debug(this.getClass(), log);
+        //this.logger = new Debug(this.getClass(), log);
         this.verbose = verbose;
+        this.forbidden_set=false;
         this.nodes = nodes;
         this.equalities = equalities;
         this.disequalities = disequalities;
@@ -54,6 +57,9 @@ public class CongruenceClosureAlgorithm {
 
     private boolean checkSatifiability(){
         for (Integer[] disequality : this.disequalities){
+            if(this.verbose){
+                System.out.println("CHECK DISEQUALITY "+this.DAG.printNode(disequality[0])+" "+this.DAG.printNode(disequality[1]));
+            }
             if (this.DAG.FIND(disequality[0]) == this.DAG.FIND(disequality[1])){
                 return false;
             }
@@ -64,8 +70,15 @@ public class CongruenceClosureAlgorithm {
     public boolean compute(){
         for (Integer[] equality : this.equalities) {
             this.DAG.MERGE(equality[0],equality[1]);
+            if(this.DAG.unsatFlag){
+                return false;
+            }
         }
-        return checkSatifiability();
+        if (this.forbidden_set){
+            return true;
+        } else {
+            return checkSatifiability();
+        }   
     }
 
 }

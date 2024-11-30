@@ -14,13 +14,15 @@ public class CongruenceClosureDAG {
 
     private HashMap<Integer,Node> nodes;
 
+    public boolean unsatFlag;
+
     public boolean verbose;
 
-    public boolean recursive_find;
+    public boolean recursiveFind;
 
-    public boolean euristic_union;
+    public boolean euristicUnion;
 
-    public boolean forbidden_set;
+    public boolean forbiddenSet;
 
     public CongruenceClosureDAG(HashMap<Integer,Node> nodes, boolean verbose ,Level log){
 
@@ -30,11 +32,13 @@ public class CongruenceClosureDAG {
 
         this.nodes = nodes;
 
-        this.recursive_find=false;
+        this.unsatFlag = false;
 
-        this.euristic_union=true;
+        this.recursiveFind=false;
 
-        this.forbidden_set=false;
+        this.euristicUnion=true;
+
+        this.forbiddenSet=false;
 
         logger.fine(nodes.toString());
     }
@@ -64,7 +68,7 @@ public class CongruenceClosureDAG {
     }
 
     public int FIND(int id){
-        if (this.recursive_find) {
+        if (this.recursiveFind) {
             return REC_FIND(id);
         }
         Node N = NODE(id);
@@ -86,7 +90,7 @@ public class CongruenceClosureDAG {
             R = N2;
             N = N1;
         }
-        if (!this.recursive_find) {
+        if (!this.recursiveFind) {
             for (Node M : nodes.values()) {
                 if (M.find == N.find){
                     M.find = R.find;
@@ -96,20 +100,26 @@ public class CongruenceClosureDAG {
         N.find = R.find;
         R.ccpar.addAll(N1.ccpar);
         N.ccpar.clear();
-        logger.fine("ccpars rapp: "+R.ccpar.toString());
-        logger.fine("ccpars node: "+N.ccpar.toString());
+        if(this.forbiddenSet){
+            R.forb.addAll(N.forb);
+            N.forb.clear();
+        }
+        logger.fine("ccpars rapp: "+R.ccpar);
+        logger.fine("ccpars node: "+N.ccpar);
+        logger.fine("forbidden rapp: "+R.forb);
+        logger.fine("forbidden node: "+N.forb);
     }
 
     public void UNION(int id1, int id2){
         if(this.verbose){
             System.out.println("UNION "+this.printNode(id1)+" "+this.printNode(id2));
         }
-        if(this.euristic_union){
+        if(this.euristicUnion){
             EUR_UNION(id1, id2);
         } else {
             Node N1 = NODE(FIND(id1));
             Node N2 = NODE(FIND(id2));
-            if (!this.recursive_find) {
+            if (!this.recursiveFind) {
                 for (Node N : nodes.values()) {
                     if (N.find == N1.find){
                         N.find = N2.find;
@@ -119,13 +129,29 @@ public class CongruenceClosureDAG {
             N1.find = N2.find;
             N2.ccpar.addAll(N1.ccpar);
             N1.ccpar.clear();
-            logger.fine("ccpars1: "+N1.ccpar.toString());
-            logger.fine("ccpars2: "+N1.ccpar.toString());
+            if(this.forbiddenSet){
+                N2.forb.addAll(N1.forb);
+                N1.forb.clear();
+            }
+            logger.fine("ccpars1: "+N1.ccpar);
+            logger.fine("ccpars2: "+N1.ccpar);
+            logger.fine("forbidden1: "+N1.forb);
+            logger.fine("forbidden2: "+N1.forb);
         }
     }
 
     public Set<Integer> CCPAR(int id){
         return new HashSet<Integer>(NODE(FIND(id)).ccpar);
+    }
+
+    private boolean FORBIDDEN(int id1, int id2){
+        Node N1 = NODE(id1);
+        Node N2 = NODE(id2);
+        if (N1.forb.contains(N2.find) || N2.forb.contains(N1.find)){
+            this.unsatFlag = true;
+            return true;
+        }
+        return false;
     }
 
     private boolean congruenceCheck(Node N1, Node N2){
@@ -170,6 +196,17 @@ public class CongruenceClosureDAG {
         if(this.verbose){
             System.out.println("MERGE "+this.printNode(id1)+" "+this.printNode(id2));
         }
+        if(this.forbiddenSet){
+            if(FORBIDDEN(id1, id2)){
+                if(this.verbose){
+                    System.out.println("FORBIDDEN "+this.printNode(id1)+" "+this.printNode(id2));
+                }    
+            }      
+        }
+        if (this.unsatFlag){
+            logger.fine("MERGE INTERRUPTED: "+this.nodes.toString());
+            return;
+        }
         if (FIND(id1) != FIND(id2)) {
             Set<Integer> P1 = CCPAR(id1);
             
@@ -185,6 +222,10 @@ public class CongruenceClosureDAG {
                     for (int t2 : P2) {
                         if (FIND(t1) != FIND(t2) && CONGRUENT(t1, t2)){
                             MERGE(t1, t2);
+                            if (this.unsatFlag){
+                                logger.fine("MERGE INTERRUPTED: "+this.nodes.toString());
+                                return;
+                            }
                         }                 
                     }                
                 }

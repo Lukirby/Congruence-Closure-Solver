@@ -1,5 +1,6 @@
 package project.classes;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -40,6 +41,11 @@ public class Node {
     public Set<Integer> ccpar;
 
 
+    /** The set of terms that cannot be mergeto into a congruence class.
+     *  An unordered mutable set of integers.
+     */
+    public Set<Integer> forb;
+
     /**
      * The arity of the function which is the number of 
      * arguments of a function. Zero for variables. 
@@ -56,6 +62,7 @@ public class Node {
      * Empty for variables
      * @param find  the rappresentative id of the function or variable
      * @param ccpar the [not ordered] set of congruence closure parent (ccpar)
+     * @param forbb the [not ordered] set of terms that cannot be mergeto into a congruence class
      */
     public Node(int id, String name, int[] args, int find, Set<Integer> ccpar) {
         this.id = id;
@@ -64,6 +71,7 @@ public class Node {
         this.find = find;
         this.ccpar = ccpar;
         this.arity = args.length;
+        this.forb = new HashSet<Integer>();
     }
 
     /**
@@ -98,6 +106,7 @@ public class Node {
               .append(",\n\tfind: ").append(this.find)
               .append(",\n\tccpar: ").append(this.ccpar)
               .append(",\n\tarity: ").append(this.arity)
+              .append("\n\tforb: ").append(this.forb)
               .append("\n}");
         return output.toString();
     }

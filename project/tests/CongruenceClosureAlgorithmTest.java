@@ -6,10 +6,6 @@ import project.classes.CongruenceClosureAlgorithm;
 import project.preprocessing.TermsParser;
 
 import static org.junit.jupiter.api.Assertions.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-
-
 
 public class CongruenceClosureAlgorithmTest {
 
