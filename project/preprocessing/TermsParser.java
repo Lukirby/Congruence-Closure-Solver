@@ -41,7 +41,7 @@ public class TermsParser {
         } else {
             newLiteral[2] = "=";
         }
-        newLiteral[0] = S;
+        newLiteral[0] = Regex.functionPredicatePrefix.concat(S);
         newLiteral[1] = Regex.trueCostant;
         return newLiteral;
     }
@@ -105,6 +105,33 @@ public class TermsParser {
         }
         logger.fine("Term Arguments: "+Arrays.toString(args));
         return args;
+    }
+
+    private void checkListTheory(Node N){
+        if (Pattern.matches(Regex.listTheoryTerms, N.name)){
+            if (N.arity == 2){
+                if (N.name.equals("cons")){
+                    theory = Theory.LIST;
+                    logger.fine("List Theory Term Found"); 
+                } else {
+
+                } 
+            } else
+            if (N.arity==1){
+                if (!N.name.equals("cons")){
+                    theory = Theory.LIST;
+                    logger.fine("List Theory Term Found"); 
+                } else {
+
+                }
+            } else {
+
+            }
+        }
+    }
+
+    private void checkTheory(Node N){
+        checkListTheory(N);
     }
 
     public int makeNodes(String term,int parId){
@@ -226,6 +253,9 @@ public class TermsParser {
 
             Integer leftId = makeNodes(leftTerm,-1);
             Integer rightId = makeNodes(rightTerm,-1);
+
+            checkListTheory(this.nodes.get(leftId));
+            checkListTheory(this.nodes.get(rightId));
 
             Integer[] pair = {leftId,rightId};
 

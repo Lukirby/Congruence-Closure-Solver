@@ -10,6 +10,10 @@ public class Regex {
 
     public static String disequalityPredicate = "!=";
 
+    public static String functionPredicatePrefix = "f_";
+
+    public static String listTheoryTerms = "(cons|car|cdr|f_atom)";
+
     public static String inputRegex = ";";
 
     public static String literalRegex = "(=|!=)";
