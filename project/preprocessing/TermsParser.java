@@ -254,8 +254,8 @@ public class TermsParser {
             Integer leftId = makeNodes(leftTerm,-1);
             Integer rightId = makeNodes(rightTerm,-1);
 
-            checkListTheory(this.nodes.get(leftId));
-            checkListTheory(this.nodes.get(rightId));
+            checkTheory(this.nodes.get(leftId));
+            checkTheory(this.nodes.get(rightId));
 
             Integer[] pair = {leftId,rightId};
 
