@@ -8,3 +8,5 @@ doc/*.fdb_latexmk
 
 doc/chapters/*.aux
 
+.vscode/settings.json
+lib/junit-platform-console-standalone-1.11.3.jar
