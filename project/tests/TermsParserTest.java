@@ -3,6 +3,7 @@ package project.tests;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import project.classes.Node;
 import project.classes.Theory;
 import project.preprocessing.TermsParser;
 import java.util.ArrayList;
@@ -69,11 +70,11 @@ public class TermsParserTest {
     @Test
     public void testListTermNotFound(){
         ArrayList<String> A = new ArrayList<String>(5);
-        A.add("cons(a) != cons(b,a,c);");
-        A.add("car(a,a,a) = car(b,a);");
-        A.add("car(a,a) = car(b,b,a);");
-        A.add("atom(a,a);");
-        A.add("~atom(a,a,a);"); 
+        A.add("cns(a) != con(b,a,c);");
+        A.add("cr(a,a,a) = ar(b,a);");
+        A.add("r(a,a) = c(b,b,a);");
+        A.add("atm(a,a);");
+        A.add("~tom(a,a,a);"); 
         TermsParser parser;
         for (String formula : A) {
             parser = new TermsParser(formula);    
@@ -81,4 +82,32 @@ public class TermsParserTest {
         };
         
     }
+
+    @Test
+    public void testHandleNegatedAtom(){
+        TermsParser parser = new TermsParser("~atom(r)");
+        Integer[] terms = parser.equalities.get(0);
+        Node N0 = parser.nodes.get(terms[0]);
+        assertEquals(N0.name,"r");
+        Node N1 = parser.nodes.get(terms[1]);
+        assertEquals(N1.name,"cons");
+        for (int i=1 ; i<3 ; i++){
+            Node A = parser.nodes.get(N1.args()[i-1]);
+            assertEquals(A.name, "r_"+i);
+        }
+
+        parser = new TermsParser("~atom(f(abv))");
+        assertTrue(parser.equalities.isEmpty());
+        terms = parser.disequalities.get(0);
+        N0 = parser.nodes.get(terms[0]);
+        assertEquals(N0.name,"f_atom");
+        N1 = parser.nodes.get(terms[1]);
+        assertEquals(N1.name,"_");
+        assertEquals(N0.arity,1);
+        Node A = parser.nodes.get(N0.args()[0]);
+        assertEquals(A.name, "f");
+        Node B = parser.nodes.get(A.args()[0]);
+        assertEquals(B.name, "abv");
+    }
+
 }

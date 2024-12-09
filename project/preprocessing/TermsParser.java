@@ -35,14 +35,30 @@ public class TermsParser {
 
     private String[] predicateHandler(String S){
         String[] newLiteral = new String[3];
-        if (S.startsWith(Regex.negation)){
+
+        // if theory of list is recognized and there is a negated atom with one argument
+        if(this.theory == Theory.LIST && S.contains(ListSignature.negatedAtom)
+            && !S.contains(Regex.argsRegex)){
+            //remove "~atom(" and ")"
+            newLiteral[0] = S.substring(ListSignature.negatedAtom.length()+1, S.length()-1);
+            //if the argument it is not a function then:
+            if (!newLiteral[0].contains("(") && !newLiteral[0].contains(")")) {
+                String arg1 = newLiteral[0].charAt(0)+"_1";
+                String arg2 = newLiteral[0].charAt(0)+"_2";
+                newLiteral[1] = ListSignature.cons+"("+arg1+","+arg2+")";
+                newLiteral[2] = EqSignature.equality;
+                return newLiteral;
+            }
+        }
+
+        if (S.startsWith(PropLogic.negation)){
             S = S.substring(1);
             newLiteral[2] = "!=";
         } else {
             newLiteral[2] = "=";
         }
-        newLiteral[0] = Regex.functionPredicatePrefix.concat(S);
-        newLiteral[1] = Regex.trueCostant;
+        newLiteral[0] = EqSignature.functionPredicatePrefix.concat(S);
+        newLiteral[1] = PropLogic.trueCostant;
         return newLiteral;
     }
 
@@ -107,31 +123,16 @@ public class TermsParser {
         return args;
     }
 
-    private void checkListTheory(Node N){
-        if (Pattern.matches(Regex.listTheoryTerms, N.name)){
-            if (N.arity == 2){
-                if (N.name.equals("cons")){
-                    theory = Theory.LIST;
-                    logger.fine("List Theory Term Found"); 
-                } else {
-
-                } 
-            } else
-            if (N.arity==1){
-                if (!N.name.equals("cons")){
-                    theory = Theory.LIST;
-                    logger.fine("List Theory Term Found"); 
-                } else {
-
-                }
-            } else {
-
-            }
-        }
+    private boolean checkTheoryType(String formula,String regex){
+        Matcher theoryMatcher = Pattern.compile(regex).matcher(formula);
+        return theoryMatcher.find();
     }
 
-    private void checkTheory(Node N){
-        checkListTheory(N);
+    private void checkTheory(String formula){
+        if (checkTheoryType(formula, Regex.listRegex)){
+            this.theory = Theory.LIST;
+            logger.fine("List Theory Term Found"); 
+        }
     }
 
     public int makeNodes(String term,int parId){
@@ -221,6 +222,9 @@ public class TermsParser {
         formula = formula.replaceAll("\\s", "");
         formula = formula.replaceAll("\n", "");
         logger.fine("Forumula: "+formula);
+
+        checkTheory(formula);
+
         String[] literals = formula.split(Regex.inputRegex);
         for (String literal : literals) {
             logger.fine("Literal: "+literal);
@@ -254,12 +258,9 @@ public class TermsParser {
             Integer leftId = makeNodes(leftTerm,-1);
             Integer rightId = makeNodes(rightTerm,-1);
 
-            checkTheory(this.nodes.get(leftId));
-            checkTheory(this.nodes.get(rightId));
-
             Integer[] pair = {leftId,rightId};
 
-            if (operator.equals(Regex.equalityPredicate)){
+            if (operator.equals(EqSignature.equality)){
                 this.equalities.add(pair);
             } else {
                 this.nodes.get(leftId).forb.add(rightId);
