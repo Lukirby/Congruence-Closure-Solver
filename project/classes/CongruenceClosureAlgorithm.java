@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 
+import project.preprocessing.ListSignature;
+
 //import project.debug.Debug;
 
 public class CongruenceClosureAlgorithm {
@@ -16,6 +18,8 @@ public class CongruenceClosureAlgorithm {
 
     public ArrayList<Integer[]> disequalities;
 
+    public Theory theory;
+
     public boolean verbose;
 
     //private Debug logger;
@@ -26,6 +30,7 @@ public class CongruenceClosureAlgorithm {
         HashMap<Integer,Node> nodes,
         ArrayList<Integer[]> equalities,
         ArrayList<Integer[]> disequalities,
+        Theory theory,
         Options opt,
         Level log
     ){
@@ -35,24 +40,27 @@ public class CongruenceClosureAlgorithm {
         this.nodes = nodes;
         this.equalities = equalities;
         this.disequalities = disequalities;
-        this.DAG = new CongruenceClosureDAG(this.nodes,opt);
+        this.theory = theory;
+        this.DAG = new CongruenceClosureDAG(this.nodes,opt,log);
     }
 
     public CongruenceClosureAlgorithm(
         HashMap<Integer,Node> nodes,
         ArrayList<Integer[]> equalities,
         ArrayList<Integer[]> disequalities,
+        Theory theory,
         Options opt
     ){
-        this(nodes, equalities, disequalities, opt, Level.OFF);
+        this(nodes, equalities, disequalities, theory, opt, Level.OFF);
     }
 
     public CongruenceClosureAlgorithm(
         HashMap<Integer,Node> nodes,
         ArrayList<Integer[]> equalities,
-        ArrayList<Integer[]> disequalities
+        ArrayList<Integer[]> disequalities,
+        Theory theory
     ){
-        this(nodes, equalities, disequalities, new Options(), Level.OFF);
+        this(nodes, equalities, disequalities, theory, new Options(), Level.OFF);
     }
 
     private boolean checkSatifiability(){
@@ -64,6 +72,29 @@ public class CongruenceClosureAlgorithm {
                 return false;
             }
         }
+
+        //check if atom axiom is not conflicting.
+        if (this.theory == Theory.LIST){
+            this.nodes = this.DAG.getNodes();
+            Node[] consNodes = (Node[]) this.nodes.values().stream()
+                                            .filter(N -> N.name.equals(ListSignature.cons))
+                                            .toArray(Node[]::new);
+            for (Node U : this.nodes.values()){
+                if(U.name.equals(ListSignature.atomFunction)){
+                    for (Node CONS : consNodes){
+                        if(this.verbose){
+                            System.out.println("CHECK DISEQUALITY "+
+                                                this.DAG.printNode(U.id)+" "+
+                                                this.DAG.printNode(CONS.id));
+                        }
+                        if (this.DAG.FIND(CONS.id) == this.DAG.FIND(U.args()[0])){
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        
         return true;
     }
 

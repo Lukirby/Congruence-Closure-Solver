@@ -34,11 +34,11 @@ public class CongruenceClosureDAG {
 
         this.unsatFlag = false;
 
-        this.recursiveFind=false;
+        this.recursiveFind=opt.recursiveFind;
 
-        this.euristicUnion=true;
+        this.euristicUnion=opt.euristicUnion;
 
-        this.forbiddenSet=false;
+        this.forbiddenSet=opt.forbiddenSet;
 
         logger.fine(nodes.toString());
     }
@@ -145,8 +145,8 @@ public class CongruenceClosureDAG {
     }
 
     private boolean FORBIDDEN(int id1, int id2){
-        Node N1 = NODE(id1);
-        Node N2 = NODE(id2);
+        Node N1 = NODE(FIND(id1));
+        Node N2 = NODE(FIND(id2));
         if (N1.forb.contains(N2.find) || N2.forb.contains(N1.find)){
             this.unsatFlag = true;
             return true;
@@ -204,7 +204,7 @@ public class CongruenceClosureDAG {
             }      
         }
         if (this.unsatFlag){
-            logger.fine("MERGE INTERRUPTED: "+this.nodes.toString());
+            logger.fine("MERGE INTERRUPTED");
             return;
         }
         if (FIND(id1) != FIND(id2)) {
@@ -223,7 +223,7 @@ public class CongruenceClosureDAG {
                         if (FIND(t1) != FIND(t2) && CONGRUENT(t1, t2)){
                             MERGE(t1, t2);
                             if (this.unsatFlag){
-                                logger.fine("MERGE INTERRUPTED: "+this.nodes.toString());
+                                logger.fine("MERGE INTERRUPTED");
                                 return;
                             }
                         }                 
@@ -231,10 +231,16 @@ public class CongruenceClosureDAG {
                 }
             }
         }
-        logger.fine("END MERGE: "+this.nodes.toString());
+        logger.fine("END MERGE");
     }
     
-    
+    public void setNodes(HashMap<Integer, Node> nodes) {
+        this.nodes = nodes;
+    }
+
+    public HashMap<Integer, Node> getNodes() {
+        return nodes;
+    }
 
     public String printNode(int id){
         Node N = NODE(id);
@@ -262,6 +268,27 @@ public class CongruenceClosureDAG {
             }
         }
         s += "}";
+        return s;
+    }
+
+    public String printCoungruenceClasses(){
+        HashMap<Integer,HashSet<Node>> classes = new HashMap<Integer,HashSet<Node>>();
+        for (Node N: this.nodes.values()){
+            if (!classes.containsKey(N.find)){
+                classes.put(N.find, new HashSet<Node>());
+            }
+            classes.get(N.find).add(N);
+        }
+        String s = "{\n";
+        for (int key : classes.keySet()){
+            s = s+"\t"+this.printNode(key)+" : { ";
+
+            for (Node N : classes.get(key)){
+                s = s+this.printNode(N.id)+", ";
+            }
+            s += "}\n";
+        }
+        s = s+"\n}";
         return s;
     }
 

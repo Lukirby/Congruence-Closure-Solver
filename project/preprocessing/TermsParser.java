@@ -135,6 +135,22 @@ public class TermsParser {
         }
     }
 
+    private void addToForbiddenList(){
+        Node[] consNodes = (Node[]) this.nodes.values().stream()
+                                            .filter(N -> N.name.equals(ListSignature.cons))
+                                            .toArray(Node[]::new);
+        //merge betweeen cons(x,y) and z s.t atom(z) is forbidden for any x,y,z
+        for (Node U : this.nodes.values()){
+            if(U.name.equals(ListSignature.atomFunction)){
+                Node A = this.nodes.get(U.args()[0]);
+                for (Node CONS : consNodes){
+                        CONS.forb.add(A.id);
+                        A.forb.add(CONS.id);
+                    }
+            }
+        }
+    }
+
     public int makeNodes(String term,int parId){
 
         //assert isTermValid(term) : "Error: Invalid Term".concat(term);
@@ -208,23 +224,7 @@ public class TermsParser {
         return id;
     }
 
-    public TermsParser(String formula, boolean log){
-
-        Level level = log ? Level.FINE : Level.SEVERE;
-        
-        this.logger = new Debug(this,level);
-
-        if (!isStringValid(formula)){
-            logger.severe("Empty Formula");
-        }
-        
-        //replace white spaces with empty spaces.
-        formula = formula.replaceAll("\\s", "");
-        formula = formula.replaceAll("\n", "");
-        logger.fine("Forumula: "+formula);
-
-        checkTheory(formula);
-
+    public void parseFormula(String formula){
         String[] literals = formula.split(Regex.inputRegex);
         for (String literal : literals) {
             logger.fine("Literal: "+literal);
@@ -269,7 +269,51 @@ public class TermsParser {
             }
             this.logger.fine("Forbidden Left: "+this.nodes.get(leftId).forb);
             this.logger.fine("Forbidden Right: "+this.nodes.get(rightId).forb);
+
+            if (this.theory == Theory.LIST){
+                String subFormula;
+                String[] args;
+                // if the term is cons(x,y) -> car(cons(x,y)) = x; cdr(cons(x,y)) = y; 
+                // AND cons(x,y) != atom(z) for each z
+                if (leftTerm.startsWith(ListSignature.cons)){
+                    args = retrinveArguments(leftTerm);
+                    subFormula = ListSignature.car+"("+leftTerm+")"+EqSignature.equality+args[0]+";";
+                    subFormula += ListSignature.cdr+"("+leftTerm+")"+EqSignature.equality+args[1]+";";
+                    parseFormula(subFormula);
+                }
+                if (rightTerm.startsWith(ListSignature.cons)){
+                    args = retrinveArguments(rightTerm);
+                    subFormula = ListSignature.car+"("+rightTerm+")"+EqSignature.equality+args[0]+";";
+                    subFormula += ListSignature.cdr+"("+rightTerm+")"+EqSignature.equality+args[1]+";";
+                    parseFormula(subFormula);
+                }
+            }
         }
+    }
+
+    public TermsParser(String formula, boolean log){
+
+        Level level = log ? Level.FINE : Level.SEVERE;
+        
+        this.logger = new Debug(this,level);
+
+        if (!isStringValid(formula)){
+            logger.severe("Empty Formula");
+        }
+        
+        //replace white spaces with empty spaces.
+        formula = formula.replaceAll("\\s", "");
+        formula = formula.replaceAll("\n", "");
+        logger.fine("Forumula: "+formula);
+
+        checkTheory(formula);
+
+        parseFormula(formula);
+
+        if (theory == Theory.LIST){
+            addToForbiddenList();
+        }
+
     };
 
     public TermsParser(String formula){
@@ -290,8 +334,9 @@ public class TermsParser {
 
     public static void main(String[] args) {
         //String S = "f(a,b) = a ; f(f(a,b)) != a";
-        String R = "R(a,b) ; ~G(b,f(a,c))";
-        TermsParser A = new TermsParser(R,true);
+        //String R = "R(a,b) ; ~G(b,f(a,c))";
+        String C = "cons(a,b) = c";
+        TermsParser A = new TermsParser(C,true);
         System.out.println(A.SF.toString());
     }
 

@@ -10,6 +10,8 @@ public class ListSignature {
 
     public static String atom = "atom";
 
-    public static String negatedAtom = PropLogic.negation.concat(atom);
+    public static String negatedAtom = PropLogic.negation+atom;
+
+    public static String atomFunction = EqSignature.functionPredicatePrefix+atom;
 
 }
