@@ -1,2 +1,0 @@
-atom(x); 
-cons(z,z) = x;

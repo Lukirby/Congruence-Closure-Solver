@@ -21,13 +21,17 @@ public class FormulaReader {
 
     public String readFormulaFromFile(String fileName){
         logger.fine("File Path Received: "+fileName);
-        this.totalPath = Paths.get(absPath.toString(),fileName);
+        String absString = absPath.toString();
+        logger.fine("Absolute Path"+absString);
+        this.totalPath = Paths.get(absString,fileName.trim());
         try (BufferedReader br = new BufferedReader(new FileReader(totalPath.toString()))) {
             logger.fine("Total Path: "+totalPath.toString());
             StringBuilder content = new StringBuilder();
             String line;
             while ((line = br.readLine()) != null) {
-                content.append(line).append("\n");
+                if (!line.startsWith("_")){
+                    content.append(line).append("\n");
+                }
             }
             this.formula = content.toString();
         } catch (IOException e) {

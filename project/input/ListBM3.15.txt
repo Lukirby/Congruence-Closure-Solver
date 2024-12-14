@@ -1,0 +1,6 @@
+__Bradley Manna ex 3.2 result SAT_
+car(a) = car(b);
+cdr(a) = cdr(b); 
+~atom(a); 
+~atom(b); 
+f(a) = f(b);
