@@ -110,4 +110,27 @@ public class TermsParserTest {
         assertEquals(B.name, "abv");
     }
 
+    @Test
+    public void testArrayTermFound(){
+        ArrayList<String> A = new ArrayList<String>(5);
+        A.add("select(a,a) != select(b,a);");
+        A.add("store(a) = f(b);");
+        A.add("store(b) != a;");
+        A.add("select(a,a) = store(b,b);");
+        TermsParser parser;
+        for (String formula : A) {
+            parser = new TermsParser(formula);    
+            assertEquals(Theory.ARRAY, parser.theory);
+        };   
+        ArrayList<String> B = new ArrayList<String>(5);
+        B.add("st(a,a) != st(b,a);");
+        B.add("stoe(a) = b;");
+        B.add("stoe(b) != a;");
+        B.add("selt(a,a) = sore(b,b);");
+        for (String formula : B) {
+            parser = new TermsParser(formula);    
+            assertNotEquals(Theory.ARRAY, parser.theory);
+        };   
+    }
+
 }
