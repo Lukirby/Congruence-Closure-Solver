@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import project.classes.CongruenceClosureAlgorithm;
 import project.classes.Options;
 import project.preprocessing.FormulaReader;
+import project.preprocessing.LogicParser;
 import project.preprocessing.Regex;
 import project.preprocessing.TermsParser;
 
@@ -56,11 +57,8 @@ public class CongruenceClosureSolver {
         return O;
     }
 
-    public static void solve(String formula, Options opt){
-        TermsParser TP = new TermsParser(formula, false);
-        CongruenceClosureAlgorithm CCA = new CongruenceClosureAlgorithm(TP.nodes, TP.equalities, TP.disequalities,TP.theory,opt,Level.SEVERE);
+    public static void writeOutput(){
         String result;
-        sat = CCA.compute();
         if (sat){
             result = "SAT";
         } else {
@@ -83,13 +81,29 @@ public class CongruenceClosureSolver {
         }
     }
 
+    public static boolean solve(String formula, Options opt){
+        TermsParser TP = new TermsParser(formula, false);
+        CongruenceClosureAlgorithm CCA = new CongruenceClosureAlgorithm(TP.nodes, TP.equalities, TP.disequalities,TP.theory,opt,Level.SEVERE);
+        sat = CCA.compute();
+        return sat;
+    }
+
+    // solve F = F1 or F2 .... or Fn
+    // return true if exist i s.t. Fi is SAT.
     public static boolean solveInput(String input){
-        String formula = openFile(input);
+        String formulaInput = openFile(input);
 
         Options opt = parseOptions(input);
 
-        solve(formula, opt);
+        LogicParser LP = new LogicParser(formulaInput, Level.SEVERE);
 
+        for (String formula: LP.formulaList){
+            solve(formula, opt);
+            if (sat){
+                System.out.print(formula);
+                break;
+            }
+        }
         return sat;
     }
 
@@ -101,6 +115,8 @@ public class CongruenceClosureSolver {
         S.close();
 
         solveInput(input);
+
+        writeOutput();
 
     }
 }
