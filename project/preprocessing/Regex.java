@@ -11,6 +11,9 @@ public class Regex {
                                         +ListSignature.cdr+"|"
                                         +ListSignature.atom+")";
 
+    public static String arrayRegex = "("+ArraySignature.select+"|"
+                                         +ArraySignature.store+")";
+
     public static String inputRegex = ";";
 
     public static String literalRegex = "(=|!=)";

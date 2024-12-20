@@ -33,6 +33,12 @@ public class TermsParser {
         return !S.trim().isEmpty() && S != null;
     }
 
+    public static String cleanFormula(String formula){
+        formula = formula.replaceAll("\\s", "");
+        formula = formula.replaceAll("\n", "");
+        return formula;
+    }
+
     private String[] predicateHandler(String S){
         String[] newLiteral = new String[3];
 
@@ -123,15 +129,25 @@ public class TermsParser {
         return args;
     }
 
-    private boolean checkTheoryType(String formula,String regex){
+    public static boolean checkTheoryType(String formula,String regex){
         Matcher theoryMatcher = Pattern.compile(regex).matcher(formula);
         return theoryMatcher.find();
     }
 
-    private void checkTheory(String formula){
+    public void checkTheory(String formula){
         if (checkTheoryType(formula, Regex.listRegex)){
             this.theory = Theory.LIST;
             logger.fine("List Theory Term Found"); 
+        }
+        if (checkTheoryType(formula, Regex.arrayRegex)){
+            logger.fine("Array Theory Term Found");
+            if (this.theory == Theory.LIST){
+                this.theory = Theory.EQUALITY;
+                System.out.println("Multiple literal from different Theories found: solving formula with Theory of Equality");
+            } else {
+                this.theory = Theory.ARRAY;
+            }
+            
         }
     }
 
@@ -302,8 +318,7 @@ public class TermsParser {
         }
         
         //replace white spaces with empty spaces.
-        formula = formula.replaceAll("\\s", "");
-        formula = formula.replaceAll("\n", "");
+        formula = cleanFormula(formula);
         logger.fine("Forumula: "+formula);
 
         checkTheory(formula);
