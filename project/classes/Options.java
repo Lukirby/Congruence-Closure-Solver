@@ -36,4 +36,9 @@ public class Options {
         this.recursiveFind = recursiveFind;
     }
 
+    @Override
+    public String toString(){
+        return "Options [verbose=" + verbose + ", recursiveFind=" + recursiveFind + ", euristicUnion=" + euristicUnion + ", forbiddenSet=" + forbiddenSet + "]";
+    }
+
 }
