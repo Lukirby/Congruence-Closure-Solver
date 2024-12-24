@@ -39,7 +39,7 @@ public class TermsParser {
         return formula;
     }
 
-    private String[] predicateHandler(String S){
+    public String[] predicateHandler(String S){
         String[] newLiteral = new String[3];
 
         // if theory of list is recognized and there is a negated atom with one argument

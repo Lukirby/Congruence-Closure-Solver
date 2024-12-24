@@ -52,6 +52,15 @@ public class TermsParserTest {
     }
 
     @Test
+    public void testTermParserWithPropVariables(){
+        TermsParser parser = new TermsParser("R;~G;A");
+        ArrayList<Integer[]> equalities = parser.getEqualities();
+        ArrayList<Integer[]> disequalities = parser.getDisequalities();
+        assertEquals(2, equalities.size());
+        assertEquals(1, disequalities.size());
+    }
+
+    @Test
     public void testListTermFound(){
         ArrayList<String> A = new ArrayList<String>(5);
         A.add("cons(a,a) != cons(b,a);");
