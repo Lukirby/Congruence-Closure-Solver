@@ -1,0 +1,19 @@
+Formula: 
+Q1 & Q2 | R1 & R2
+
+List of Cubes to check:
+- Q1 & Q2
+- R1 & R2
+
+Solving: 
+- Q1;Q2
+
+MERGE f_Q1 _
+P1: {}
+P2: {}
+UNION f_Q1 _
+MERGE f_Q2 _
+P1: {}
+P2: {}
+UNION f_Q2 _
+SAT

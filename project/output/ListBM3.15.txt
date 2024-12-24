@@ -1,1 +1,113 @@
+Formula: 
+car(a) = car(b);
+cdr(a) = cdr(b); 
+~atom(a); 
+~atom(b); 
+f(a) = f(b);
+
+List of Cubes to check:
+- car(a)=car(b) & cdr(a)=cdr(b) & ~atom(a) & ~atom(b) & f(a)=f(b) & 
+
+Solving: 
+- car(a)=car(b);cdr(a)=cdr(b);~atom(a);~atom(b);f(a)=f(b);
+
+MERGE car(a) car(b)
+P1: {}
+P2: {}
+UNION car(a) car(b)
+MERGE cdr(a) cdr(b)
+P1: {}
+P2: {}
+UNION cdr(a) cdr(b)
+MERGE a cons(a_1,a_2)
+P1: {car(a), f(a), cdr(a)}
+P2: {car(cons(a_1,a_2)), cdr(cons(a_1,a_2))}
+UNION a cons(a_1,a_2)
+CONGREUNCE car(a) car(cons(a_1,a_2))
+TRUE
+	MERGE car(a) car(cons(a_1,a_2))
+	P1: {}
+	P2: {}
+	UNION car(a) car(cons(a_1,a_2))
+CONGREUNCE car(a) cdr(cons(a_1,a_2))
+FALSE: car != cdr
+CONGREUNCE f(a) car(cons(a_1,a_2))
+FALSE: f != car
+CONGREUNCE f(a) cdr(cons(a_1,a_2))
+FALSE: f != cdr
+CONGREUNCE cdr(a) car(cons(a_1,a_2))
+FALSE: cdr != car
+CONGREUNCE cdr(a) cdr(cons(a_1,a_2))
+TRUE
+	MERGE cdr(a) cdr(cons(a_1,a_2))
+	P1: {}
+	P2: {}
+	UNION cdr(a) cdr(cons(a_1,a_2))
+MERGE car(cons(a_1,a_2)) a_1
+P1: {}
+P2: {cons(a_1,a_2)}
+UNION car(cons(a_1,a_2)) a_1
+MERGE cdr(cons(a_1,a_2)) a_2
+P1: {}
+P2: {cons(a_1,a_2)}
+UNION cdr(cons(a_1,a_2)) a_2
+MERGE b cons(b_1,b_2)
+P1: {f(b), car(b), cdr(b)}
+P2: {car(cons(b_1,b_2)), cdr(cons(b_1,b_2))}
+UNION b cons(b_1,b_2)
+CONGREUNCE f(b) car(cons(b_1,b_2))
+FALSE: f != car
+CONGREUNCE f(b) cdr(cons(b_1,b_2))
+FALSE: f != cdr
+CONGREUNCE car(b) car(cons(b_1,b_2))
+TRUE
+	MERGE car(b) car(cons(b_1,b_2))
+	P1: {cons(a_1,a_2)}
+	P2: {}
+	UNION car(b) car(cons(b_1,b_2))
+CONGREUNCE car(b) cdr(cons(b_1,b_2))
+FALSE: car != cdr
+CONGREUNCE cdr(b) car(cons(b_1,b_2))
+FALSE: cdr != car
+CONGREUNCE cdr(b) cdr(cons(b_1,b_2))
+TRUE
+	MERGE cdr(b) cdr(cons(b_1,b_2))
+	P1: {cons(a_1,a_2)}
+	P2: {}
+	UNION cdr(b) cdr(cons(b_1,b_2))
+MERGE car(cons(b_1,b_2)) b_1
+P1: {cons(a_1,a_2)}
+P2: {cons(b_1,b_2)}
+UNION car(cons(b_1,b_2)) b_1
+CONGREUNCE cons(a_1,a_2) cons(b_1,b_2)
+FALSE: FIND(a_2) != FIND(b_2)
+MERGE cdr(cons(b_1,b_2)) b_2
+P1: {cons(a_1,a_2)}
+P2: {cons(b_1,b_2)}
+UNION cdr(cons(b_1,b_2)) b_2
+CONGREUNCE cons(a_1,a_2) cons(b_1,b_2)
+TRUE
+	MERGE cons(a_1,a_2) cons(b_1,b_2)
+	P1: {car(a), f(a), cdr(a)}
+	P2: {f(b), car(b), cdr(b)}
+	UNION cons(a_1,a_2) cons(b_1,b_2)
+	CONGREUNCE car(a) f(b)
+	FALSE: car != f
+	CONGREUNCE car(a) cdr(b)
+	FALSE: car != cdr
+	CONGREUNCE f(a) f(b)
+	TRUE
+		MERGE f(a) f(b)
+		P1: {}
+		P2: {}
+		UNION f(a) f(b)
+	CONGREUNCE f(a) car(b)
+	FALSE: f != car
+	CONGREUNCE f(a) cdr(b)
+	FALSE: f != cdr
+	CONGREUNCE cdr(a) f(b)
+	FALSE: cdr != f
+	CONGREUNCE cdr(a) car(b)
+	FALSE: cdr != car
+MERGE f(a) f(b)
 SAT

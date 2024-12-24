@@ -1,1 +1,39 @@
+Formula: 
+a = b ;
+b = c;
+g(f(a),b) = g (f(c),a);
+
+List of Cubes to check:
+- a=b & b=c & g(f(a),b)=g(f(c),a) & 
+
+Solving: 
+- a=b;b=c;g(f(a),b)=g(f(c),a);
+
+MERGE a b
+P1: {f(a), g(f(c),a)}
+P2: {g(f(a),b)}
+UNION a b
+CONGREUNCE f(a) g(f(a),b)
+FALSE: f != g
+CONGREUNCE g(f(c),a) g(f(a),b)
+FALSE: FIND(f(c)) != FIND(f(a))
+MERGE b c
+P1: {f(a), g(f(c),a)}
+P2: {f(c)}
+UNION b c
+CONGREUNCE f(a) f(c)
+TRUE
+	MERGE f(a) f(c)
+	P1: {g(f(a),b)}
+	P2: {g(f(c),a)}
+	UNION f(a) f(c)
+	CONGREUNCE g(f(a),b) g(f(c),a)
+	TRUE
+		MERGE g(f(a),b) g(f(c),a)
+		P1: {}
+		P2: {}
+		UNION g(f(a),b) g(f(c),a)
+CONGREUNCE g(f(c),a) f(c)
+FALSE: g != f
+MERGE g(f(a),b) g(f(c),a)
 SAT

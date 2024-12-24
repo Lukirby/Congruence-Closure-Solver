@@ -1,1 +1,43 @@
+Formula: 
+i1 = j;
+i1 != i2;
+select(a,j) = v1;
+select(store(store(a,i1,v1),i2,v2),j) != select(a,j);
+
+List of Cubes to check:
+- i1=j & i1!=i2 & select(a,j)=v1 & v2!=select(a,j) &  & i2=j
+- i1=j & i1!=i2 & select(a,j)=v1 & v1!=select(a,j) &  & i2!=j & i1=j
+- i1=j & i1!=i2 & select(a,j)=v1 & select(a,j)!=select(a,j) &  & i2!=j & i1!=j
+
+Solving: 
+- i1=j;i1!=i2;select(a,j)=v1;v2!=select(a,j);;i2=j
+
+MERGE i1 j
+P1: {}
+P2: {select(a,j)}
+UNION i1 j
+MERGE select(a,j) v1
+P1: {}
+P2: {}
+UNION select(a,j) v1
+MERGE f_ _
+P1: {}
+P2: {}
+UNION f_ _
+MERGE i2 j
+FORBIDDEN i2 j
+Solving: 
+- i1=j;i1!=i2;select(a,j)=v1;v1!=select(a,j);;i2!=j;i1=j
+
+MERGE i1 j
+P1: {}
+P2: {select(a,j)}
+UNION i1 j
+MERGE select(a,j) v1
+FORBIDDEN select(a,j) v1
+Solving: 
+- i1=j;i1!=i2;select(a,j)=v1;select(a,j)!=select(a,j);;i2!=j;i1!=j
+
+MERGE i1 j
+FORBIDDEN i1 j
 UNSAT
