@@ -109,7 +109,19 @@ public class LogicParser {
 
     public ArrayList<String> DNF(String formula){
         ArrayList<String> AL = new ArrayList<String>();
-        AL.add(formula);
+        if (formula.contains(Regex.inputRegex)){
+            AL.add(formula);
+        } else {
+            /* 
+             * ROBA DA FARE
+             */
+            formula = formula.replace(PropLogic.conjuction, Regex.inputRegex);
+            String[] subformulas = formula.split(Regex.disjunctionRegex);
+            for (String f : subformulas){
+                System.out.println(f);
+                AL.add(f);
+            }
+        }
         return AL;
     }
 
@@ -125,7 +137,14 @@ public class LogicParser {
         if (TermsParser.checkTheoryType(formula, Regex.arrayRegex)){
             this.arrayTheoryFormulaTransformation();
         }
+    }
 
-
+    public String getDNF(){
+        String dnf = "List of Cubes to check:\n";
+        for (String f : this.formulaList){
+            dnf+="- "+f.replace(Regex.inputRegex," "+PropLogic.conjuction+" ")+"\n";
+        }
+        dnf+="\n";
+        return dnf;
     }
 }
