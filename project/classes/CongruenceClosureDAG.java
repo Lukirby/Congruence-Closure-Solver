@@ -24,6 +24,12 @@ public class CongruenceClosureDAG {
 
     public boolean forbiddenSet;
 
+    public String output = "";
+
+    private char indentationChar = '\t';
+
+    private StringBuilder indentation = new StringBuilder();
+
     public CongruenceClosureDAG(HashMap<Integer,Node> nodes, Options opt, Level log){
 
         this.logger = new Debug(this.getClass(), log);
@@ -112,7 +118,7 @@ public class CongruenceClosureDAG {
 
     public void UNION(int id1, int id2){
         if(this.verbose){
-            System.out.println("UNION "+this.printNode(id1)+" "+this.printNode(id2));
+            writeMessage("UNION "+this.printNode(id1)+" "+this.printNode(id2));
         }
         if(this.euristicUnion){
             EUR_UNION(id1, id2);
@@ -157,13 +163,13 @@ public class CongruenceClosureDAG {
     private boolean congruenceCheck(Node N1, Node N2){
         if (!(N1.name.equals(N2.name))) {
             if(this.verbose){
-                System.out.println("FALSE: "+N1.name+" != "+N2.name);
+                writeMessage("FALSE: "+N1.name+" != "+N2.name);
             }
             return false;
         }
         if (N1.arity != N2.arity){
             if(this.verbose){
-                System.out.println("FALSE: "+N1.arity+" != "+N2.arity);
+                writeMessage("FALSE: "+N1.arity+" != "+N2.arity);
             }
             return false;
         }
@@ -172,20 +178,20 @@ public class CongruenceClosureDAG {
         for (int i = 0; i < args2.length; i++) {
             if (FIND(args1[i]) != FIND(args2[i])) {
                 if(this.verbose){
-                    System.out.println("FALSE: FIND("+printNode(args1[i])+") != " + "FIND("+printNode(args2[i])+")");
+                    writeMessage("FALSE: FIND("+printNode(args1[i])+") != " + "FIND("+printNode(args2[i])+")");
                 }
                 return false;
             }
         }
         if(this.verbose){
-            System.out.println("TRUE");
+            writeMessage("TRUE");
         }
         return true;
     }
 
     public boolean CONGRUENT(int id1, int id2){
         if(this.verbose){
-            System.out.println("CONGREUNCE "+this.printNode(id1)+" "+this.printNode(id2));
+            writeMessage("CONGREUNCE "+this.printNode(id1)+" "+this.printNode(id2));
         }
         Node N1 = NODE(id1);
         Node N2 = NODE(id2);
@@ -194,12 +200,12 @@ public class CongruenceClosureDAG {
 
     public void MERGE(int id1, int id2){
         if(this.verbose){
-            System.out.println("MERGE "+this.printNode(id1)+" "+this.printNode(id2));
+            writeMessage("MERGE "+this.printNode(id1)+" "+this.printNode(id2));
         }
         if(this.forbiddenSet){
             if(FORBIDDEN(id1, id2)){
                 if(this.verbose){
-                    System.out.println("FORBIDDEN "+this.printNode(id1)+" "+this.printNode(id2));
+                    writeMessage("FORBIDDEN "+this.printNode(id1)+" "+this.printNode(id2));
                 }    
             }      
         }
@@ -213,15 +219,17 @@ public class CongruenceClosureDAG {
             Set<Integer> P2 = CCPAR(id2);
             logger.fine("ccpars2: "+P2.toString());
             if(this.verbose){
-                System.out.println("P1: "+printCCPAR(P1));
-                System.out.println("P2: "+printCCPAR(P2));
+                writeMessage("P1: "+printCCPAR(P1));
+                writeMessage("P2: "+printCCPAR(P2));
             }
             UNION(id1, id2);
             if(!P1.isEmpty() && !P2.isEmpty()){
                 for (int t1 : P1) {
                     for (int t2 : P2) {
                         if (FIND(t1) != FIND(t2) && CONGRUENT(t1, t2)){
+                            this.indentation.append(this.indentationChar);
                             MERGE(t1, t2);
+                            this.indentation.deleteCharAt(0);
                             if (this.unsatFlag){
                                 logger.fine("MERGE INTERRUPTED");
                                 return;
@@ -240,6 +248,10 @@ public class CongruenceClosureDAG {
 
     public HashMap<Integer, Node> getNodes() {
         return nodes;
+    }
+
+    public void writeMessage(String message){
+        this.output += this.indentation.toString()+message+"\n";
     }
 
     public String printNode(int id){

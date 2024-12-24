@@ -66,7 +66,7 @@ public class CongruenceClosureAlgorithm {
     private boolean checkSatifiability(){
         for (Integer[] disequality : this.disequalities){
             if(this.verbose){
-                System.out.println("CHECK DISEQUALITY "+this.DAG.printNode(disequality[0])+" "+this.DAG.printNode(disequality[1]));
+                this.DAG.writeMessage("CHECK DISEQUALITY "+this.DAG.printNode(disequality[0])+" "+this.DAG.printNode(disequality[1]));
             }
             if (this.DAG.FIND(disequality[0]) == this.DAG.FIND(disequality[1])){
                 return false;
@@ -83,7 +83,7 @@ public class CongruenceClosureAlgorithm {
                 if(U.name.equals(ListSignature.atomFunction)){
                     for (Node CONS : consNodes){
                         if(this.verbose){
-                            System.out.println("CHECK DISEQUALITY "+
+                            this.DAG.writeMessage("CHECK DISEQUALITY "+
                                                 this.DAG.printNode(U.id)+" "+
                                                 this.DAG.printNode(CONS.id));
                         }

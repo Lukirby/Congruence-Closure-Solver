@@ -17,11 +17,15 @@ import project.preprocessing.TermsParser;
 
 public class CongruenceClosureSolver {
 
-    public static Path totalPath;
+    public Path totalPath;
 
-    public static boolean sat;
+    public boolean sat;
 
-    public static String openFile(String input){
+    public String output = "";
+
+    public CongruenceClosureAlgorithm CCA;
+
+    public String openFile(String input){
         String fileName = input.trim().split(Regex.optionRegex)[0];
         System.out.println("file Name: "+fileName);
         FormulaReader FR = new FormulaReader(true);
@@ -30,7 +34,7 @@ public class CongruenceClosureSolver {
         return formula;
     }
 
-    public static Options parseOptions(String input){
+    public Options parseOptions(String input){
         Options O = new Options();
 
         String[] args = input.split(Regex.optionRegex);
@@ -53,24 +57,25 @@ public class CongruenceClosureSolver {
                     break;
             }
         }
-
         return O;
     }
 
-    public static void writeOutput(){
+    public void writeOutput(){
         String result;
         if (sat){
             result = "SAT";
         } else {
             result = "UNSAT";
         }
-        
+
+        this.output += result;
+
         try {
             // Create a FileWriter object to write to the file
             FileWriter fw = new FileWriter(totalPath.toString().replace("input", "output"));
             
             // Write the string content to the file
-            fw.write(result);
+            fw.write(output);
             
             // Close the FileWriter to release system resources
             fw.close();
@@ -81,31 +86,43 @@ public class CongruenceClosureSolver {
         }
     }
 
-    public static boolean solve(String formula, Options opt){
+    public boolean solve(String formula, Options opt){
         TermsParser TP = new TermsParser(formula, false);
-        CongruenceClosureAlgorithm CCA = new CongruenceClosureAlgorithm(TP.nodes, TP.equalities, TP.disequalities,TP.theory,opt,Level.SEVERE);
+        CCA = new CongruenceClosureAlgorithm(TP.nodes, TP.equalities, TP.disequalities,TP.theory,opt,Level.SEVERE);
         sat = CCA.compute();
+        this.output += CCA.DAG.output;
         return sat;
     }
 
     // solve F = F1 or F2 .... or Fn
     // return true if exist i s.t. Fi is SAT.
-    public static boolean solveInput(String input){
+    public boolean solveInput(String input){
+        this.output = "";
+
+        input = TermsParser.cleanFormula(input);
+
         String formulaInput = openFile(input);
+
+        output+="Formula: \n"+formulaInput+"\n";
 
         Options opt = parseOptions(input);
 
         LogicParser LP = new LogicParser(formulaInput, Level.SEVERE);
 
+        output+=LP.getDNF();
+
         for (String formula: LP.formulaList){
+            output+="Solving: \n- "+formula+"\n\n";
             solve(formula, opt);
             if (sat){
-                System.out.print(formula);
                 break;
             }
         }
+
         return sat;
     }
+
+    public CongruenceClosureSolver(){}
 
     public static void main(String[] args) {
         
@@ -114,9 +131,9 @@ public class CongruenceClosureSolver {
         String input = S.nextLine();
         S.close();
 
-        solveInput(input);
+        CongruenceClosureSolver CCS = new CongruenceClosureSolver();
 
-        writeOutput();
+        CCS.solveInput(input);
 
     }
 }
