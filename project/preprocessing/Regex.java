@@ -16,6 +16,8 @@ public class Regex {
 
     public static String inputRegex = ";";
 
+    public static String disjunctionRegex = "\\"+PropLogic.disjunction;
+
     public static String literalRegex = "(=|!=)";
 
     public static String termRegex = "\\w+\\(.*?\\)|\\w+";
