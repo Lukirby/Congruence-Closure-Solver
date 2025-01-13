@@ -18,9 +18,13 @@ public class Regex {
 
     public static String disjunctionRegex = "\\"+PropLogic.disjunction;
 
+    public static String implicationRegex = "->";
+
+    public static String coimplicationRegex = "<->";
+
     public static String literalRegex = "(=|!=)";
 
-    public static String termRegex = "\\w+\\(.*?\\)|\\w+";
+    public static String termRegex = "\\w+\\(.*?\\)|\\w+|"+PropLogic.trueCostant;
 
     public static String argsRegex = ",";
 }
