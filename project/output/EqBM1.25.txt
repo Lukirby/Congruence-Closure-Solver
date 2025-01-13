@@ -1,19 +1,22 @@
 Formula: 
 Q1 & Q2 | R1 & R2
 
+DNF:
+Q1 & Q2   |  R1 & R2  
+
 List of Cubes to check:
-- Q1 & Q2
-- R1 & R2
+1) Q1 ; Q2   
+2)  R1 ; R2   
 
 Solving: 
-- Q1;Q2
+1) Q1 ; Q2  
 
-MERGE f_Q1 _
+MERGE f_Q1 °
 P1: {}
 P2: {}
-UNION f_Q1 _
-MERGE f_Q2 _
+UNION f_Q1 °
+MERGE f_Q2 °
 P1: {}
 P2: {}
-UNION f_Q2 _
+UNION f_Q2 °
 SAT

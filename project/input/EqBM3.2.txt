@@ -1,4 +1,3 @@
 _Bradley Manna ex 3.2 result SAT_
-a = b ;
-b = c;
-g(f(a),b) = g (f(c),a);
+a = b & b = c  ->
+g(f(a),b) = g (f(c),a)

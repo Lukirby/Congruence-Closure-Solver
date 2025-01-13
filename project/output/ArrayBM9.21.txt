@@ -4,13 +4,16 @@ i1 != i2;
 select(a,j) = v1;
 select(store(store(a,i1,v1),i2,v2),j) != select(a,j);
 
+DNF:
+i1=j&i1!=i2&select(a,j)=v1&v2!=select(a,j)&&i2=j | i1=j&i1!=i2&select(a,j)=v1&v1!=select(a,j)&&i2!=j&i1=j | i1=j&i1!=i2&select(a,j)=v1&select(a,j)!=select(a,j)&&i2!=j&i1!=j
+
 List of Cubes to check:
-- i1=j & i1!=i2 & select(a,j)=v1 & v2!=select(a,j) &  & i2=j
-- i1=j & i1!=i2 & select(a,j)=v1 & v1!=select(a,j) &  & i2!=j & i1=j
-- i1=j & i1!=i2 & select(a,j)=v1 & select(a,j)!=select(a,j) &  & i2!=j & i1!=j
+1) i1=j;i1!=i2;select(a,j)=v1;v2!=select(a,j);;i2=j 
+2) i1=j;i1!=i2;select(a,j)=v1;v1!=select(a,j);;i2!=j;i1=j 
+3) i1=j;i1!=i2;select(a,j)=v1;select(a,j)!=select(a,j);;i2!=j;i1!=j 
 
 Solving: 
-- i1=j;i1!=i2;select(a,j)=v1;v2!=select(a,j);;i2=j
+1) i1=j;i1!=i2;select(a,j)=v1;v2!=select(a,j);;i2=j
 
 MERGE i1 j
 P1: {}
@@ -20,14 +23,14 @@ MERGE select(a,j) v1
 P1: {}
 P2: {}
 UNION select(a,j) v1
-MERGE f_ _
+MERGE f_ °
 P1: {}
 P2: {}
-UNION f_ _
+UNION f_ °
 MERGE i2 j
 FORBIDDEN i2 j
 Solving: 
-- i1=j;i1!=i2;select(a,j)=v1;v1!=select(a,j);;i2!=j;i1=j
+1) i1=j;i1!=i2;select(a,j)=v1;v1!=select(a,j);;i2!=j;i1=j
 
 MERGE i1 j
 P1: {}
@@ -36,7 +39,7 @@ UNION i1 j
 MERGE select(a,j) v1
 FORBIDDEN select(a,j) v1
 Solving: 
-- i1=j;i1!=i2;select(a,j)=v1;select(a,j)!=select(a,j);;i2!=j;i1!=j
+1) i1=j;i1!=i2;select(a,j)=v1;select(a,j)!=select(a,j);;i2!=j;i1!=j
 
 MERGE i1 j
 FORBIDDEN i1 j
