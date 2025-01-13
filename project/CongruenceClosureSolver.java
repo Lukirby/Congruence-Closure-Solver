@@ -111,8 +111,14 @@ public class CongruenceClosureSolver {
 
         output+=LP.getDNF();
 
+        output+="\n";
+
+        output+=LP.getListOfCubes();
+
+        int i = 1;
+
         for (String formula: LP.formulaList){
-            output+="Solving: \n- "+formula+"\n\n";
+            output+="Solving: \n"+i+") "+formula+"\n\n";
             solve(formula, opt);
             if (sat){
                 break;

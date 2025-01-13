@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import project.classes.Node;
 import project.classes.Theory;
+import project.preprocessing.PropLogic;
 import project.preprocessing.TermsParser;
 import java.util.ArrayList;
 
@@ -111,7 +112,7 @@ public class TermsParserTest {
         N0 = parser.nodes.get(terms[0]);
         assertEquals(N0.name,"f_atom");
         N1 = parser.nodes.get(terms[1]);
-        assertEquals(N1.name,"_");
+        assertEquals(N1.name,PropLogic.trueCostant);
         assertEquals(N0.arity,1);
         Node A = parser.nodes.get(N0.args()[0]);
         assertEquals(A.name, "f");
