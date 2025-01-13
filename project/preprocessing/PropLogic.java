@@ -2,7 +2,7 @@ package project.preprocessing;
 
 public class PropLogic {
     
-    public static String trueCostant = "_";
+    public static String trueCostant = "°";
 
     public static String negation = "~";
 
@@ -10,8 +10,14 @@ public class PropLogic {
 
     public static String disjunction = "|";
 
-    public static String implication = "->";
+    public static String implication = "£";
 
-    public static String coimplication = "<->";
+    public static String coimplication = "$";
+
+    public static String leftParenthesis = "[";
+
+    public static String rightParenthesis = "]";
+
+    public static String[] operators = {negation,conjuction,disjunction,implication,coimplication};
 
 }

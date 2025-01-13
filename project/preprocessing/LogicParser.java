@@ -1,10 +1,12 @@
 package project.preprocessing;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import project.classes.DNFTree;
 import project.debug.Debug;
 
 public class LogicParser {
@@ -107,15 +109,42 @@ public class LogicParser {
 
     }
 
+    public String castImplications(String formula){
+        String S = formula;
+        S = S.replace(Regex.coimplicationRegex, PropLogic.coimplication);
+        S = S.replace(Regex.implicationRegex, PropLogic.implication);
+        return S;
+    }
+
+    public String reverseCastImplications(String formula){
+        String S = formula;
+        S = S.replace(PropLogic.coimplication, Regex.coimplicationRegex);
+        S = S.replace(PropLogic.implication, Regex.implicationRegex);
+        return S;
+    }
+
+    public String castInputOnConjunctions(String formula){
+        String S = formula;
+        S = S.replace(PropLogic.conjuction, Regex.inputRegex);
+        return S;
+    }
+
+    public String castConjunctionsOnInput(String formula){
+        String S = formula;
+        S = S.replace(Regex.inputRegex, PropLogic.conjuction);
+        return S;
+    }
+
     public ArrayList<String> DNF(String formula){
         ArrayList<String> AL = new ArrayList<String>();
         if (formula.contains(Regex.inputRegex)){
             AL.add(formula);
-        } else {
-            /* 
-             * ROBA DA FARE
-             */
-            formula = formula.replace(PropLogic.conjuction, Regex.inputRegex);
+        } else 
+        if(!formula.isEmpty()){
+            formula = castImplications(formula);
+            DNFTree tree = DNFParser.parse(formula);
+            formula = DNFTrasformer.transform(tree);
+            formula = castInputOnConjunctions(formula);
             String[] subformulas = formula.split(Regex.disjunctionRegex);
             for (String f : subformulas){
                 System.out.println(f);
@@ -140,9 +169,24 @@ public class LogicParser {
     }
 
     public String getDNF(){
+        String dnf = "DNF:\n";
+        Iterator<String> it = this.formulaList.iterator();
+        while(it.hasNext()){
+            dnf+=castConjunctionsOnInput(it.next());
+            if (it.hasNext()){
+                dnf+=" "+PropLogic.disjunction+" ";
+            }
+        }
+        dnf+="\n";
+        return dnf;
+    }
+
+    public String getListOfCubes(){
         String dnf = "List of Cubes to check:\n";
+        int i = 1;
         for (String f : this.formulaList){
-            dnf+="- "+f.replace(Regex.inputRegex," "+PropLogic.conjuction+" ")+"\n";
+            dnf+=i+") "+f+" "+"\n";
+            i++;
         }
         dnf+="\n";
         return dnf;

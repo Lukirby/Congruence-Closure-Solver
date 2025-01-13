@@ -2,12 +2,15 @@ package project.tests;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.ArrayList;
 import java.util.logging.Level;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import project.preprocessing.LogicParser;
+import project.preprocessing.TermsParser;
 
 
 public class LogicParserTest {
@@ -49,6 +52,114 @@ public class LogicParserTest {
         assertEquals("w!=select(a,k);j=k", formula1);
         assertEquals("v!=select(a,k);j!=k;i=k", formula2);
         assertEquals("select(a,k)!=select(a,k);j!=k;i!=k", formula3);
+    }
+
+    @Test
+    public void testCastImplications() {
+        String formula = "a->b";
+        String expected = "a£b";
+        String result = logicParser.castImplications(formula);
+        assertEquals(expected, result);
+
+        formula = "a<->b";
+        expected = "a$b";
+        result = logicParser.castImplications(formula);
+        assertEquals(expected, result);
+
+        formula = "a -> b <-> c";
+        expected = "a £ b $ c";
+        result = logicParser.castImplications(formula);
+        assertEquals(expected, result);
+
+        formula = "a <-> b -> c";
+        expected = "a $ b £ c";
+        result = logicParser.castImplications(formula);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void testReverseCastImplications() {
+        String formula = "a£b";
+        String expected = "a->b";
+        String result = logicParser.reverseCastImplications(formula);
+        assertEquals(expected, result);
+
+        formula = "a$b";
+        expected = "a<->b";
+        result = logicParser.reverseCastImplications(formula);
+        assertEquals(expected, result);
+
+        formula = "a £ b $ c";
+        expected = "a -> b <-> c";
+        result = logicParser.reverseCastImplications(formula);
+        assertEquals(expected, result);
+
+        formula = "a $ b £ c";
+        expected = "a <-> b -> c";
+        result = logicParser.reverseCastImplications(formula);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void testCastInputOnConjunctions() {
+        String formula = "a & b";
+        String expected = "a ; b";
+        String result = logicParser.castInputOnConjunctions(formula);
+        assertEquals(expected, result);
+
+        formula = "a & b&c";
+        expected = "a ; b;c";
+        result = logicParser.castInputOnConjunctions(formula);
+        assertEquals(expected, result);
+
+        formula = "[a & b] & [c & d]";
+        expected = "[a ; b] ; [c ; d]";
+        result = logicParser.castInputOnConjunctions(formula);
+        assertEquals(expected, result);
+
+        formula = "a & [b & c]";
+        expected = "a ; [b ; c]";
+        result = logicParser.castInputOnConjunctions(formula);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void testDNF() {
+        String formula = "a & b | c";
+        String[] expected = {
+            "a ; b",
+            "c"
+        };
+        ArrayList<String> result = logicParser.DNF(formula);
+        assertEquals(expected.length, result.size());
+        for (int i = 0; i < expected.length; i++) {
+            assertEquals(TermsParser.cleanFormula(expected[i]),TermsParser.cleanFormula(result.get(i)));
+        }
+
+        String formula2 = "a & [b | c]";
+        String[] expected2 = {
+            "a ; b",
+            "a ; c"
+        };
+        ArrayList<String> result2 = logicParser.DNF(formula2);
+        System.out.println(result);
+        assertEquals(expected2.length, result.size());
+        for (int i = 0; i < expected2.length; i++) {
+            assertEquals(TermsParser.cleanFormula(expected2[i]),TermsParser.cleanFormula(result2.get(i)));
+        }
+
+        formula = "[a | b] & [c | d]";
+        String[] expected3 = {
+            "a ; c",
+            "a ; d",
+            "b ; c",
+            "b ; d"
+        };
+        result = logicParser.DNF(formula);
+        assertEquals(expected3.length, result.size());
+        for (int i = 0; i < expected3.length; i++) {
+            assertEquals(TermsParser.cleanFormula(expected3[i]),TermsParser.cleanFormula(result.get(i)));
+        }
     }
 
 }
