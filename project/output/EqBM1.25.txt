@@ -20,3 +20,5 @@ P1: {}
 P2: {}
 UNION f_Q2 °
 SAT
+
+Time Elapsed: 0.0 seconds

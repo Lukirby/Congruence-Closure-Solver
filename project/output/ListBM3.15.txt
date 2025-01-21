@@ -114,3 +114,5 @@ TRUE
 	FALSE: cdr != car
 MERGE f(a) f(b)
 SAT
+
+Time Elapsed: 0.002 seconds

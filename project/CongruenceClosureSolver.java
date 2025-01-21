@@ -23,6 +23,8 @@ public class CongruenceClosureSolver {
 
     public String output = "";
 
+    public long time;
+
     public CongruenceClosureAlgorithm CCA;
 
     public String openFile(String input){
@@ -69,6 +71,8 @@ public class CongruenceClosureSolver {
         }
 
         this.output += result;
+
+        this.output += "\n\nElapsed Time: " + ((double)time)/1000 + " seconds";
 
         try {
             // Create a FileWriter object to write to the file
@@ -117,6 +121,8 @@ public class CongruenceClosureSolver {
 
         int i = 1;
 
+
+        long startTime = System.currentTimeMillis();
         for (String formula: LP.formulaList){
             output+="Solving: \n"+i+") "+formula+"\n\n";
             solve(formula, opt);
@@ -124,7 +130,8 @@ public class CongruenceClosureSolver {
                 break;
             }
         }
-
+        long endTime = System.currentTimeMillis();
+        time = endTime - startTime;
         return sat;
     }
 

@@ -17,3 +17,5 @@ P1: {}
 P2: {}
 UNION f_p(x,y) °
 SAT
+
+Time Elapsed: 0.007 seconds

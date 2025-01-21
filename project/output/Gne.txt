@@ -1,0 +1,20 @@
+Formula: 
+select(store(select(store(b,c,d),s),i,v),w)!=z;
+
+List of Cubes to check:
+- v!=z &  & i=w
+- select(d,w)!=z &  & i!=w & c=s
+- select(select(b,s),w)!=z &  & i!=w & c!=s
+
+Solving: 
+- v!=z;;i=w
+
+MERGE f_ °
+P1: {}
+P2: {}
+UNION f_ °
+MERGE i w
+P1: {}
+P2: {}
+UNION i w
+SAT

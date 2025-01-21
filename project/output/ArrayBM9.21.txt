@@ -44,3 +44,5 @@ Solving:
 MERGE i1 j
 FORBIDDEN i1 j
 UNSAT
+
+Time Elapsed: 0.002 seconds

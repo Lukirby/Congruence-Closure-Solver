@@ -18,3 +18,5 @@ P1: {}
 P2: {}
 UNION g(f(a),b) g(f(c),a)
 SAT
+
+Time Elapsed: 0.0 seconds
