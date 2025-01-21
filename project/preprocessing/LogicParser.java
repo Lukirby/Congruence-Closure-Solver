@@ -135,6 +135,12 @@ public class LogicParser {
         return S;
     }
 
+    public String removeQuantifiers(String formula){
+        String S = formula;
+        S = S.replaceAll(Regex.quantifierRegex, "");
+        return S;
+    }
+
     public ArrayList<String> DNF(String formula){
         ArrayList<String> AL = new ArrayList<String>();
         if (formula.contains(Regex.inputRegex)){
@@ -158,6 +164,8 @@ public class LogicParser {
         this.logger = new Debug(this, level);
 
         formula = TermsParser.cleanFormula(formula);
+
+        formula = removeQuantifiers(formula);
             
         ArrayList<String> formulaDNF = DNF(formula);
 

@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import project.preprocessing.LogicParser;
+import project.preprocessing.Regex;
 import project.preprocessing.TermsParser;
 
 
@@ -160,6 +161,34 @@ public class LogicParserTest {
         for (int i = 0; i < expected3.length; i++) {
             assertEquals(TermsParser.cleanFormula(expected3[i]),TermsParser.cleanFormula(result.get(i)));
         }
+    }
+
+    @Test
+    public void testRemoveQuantifiers() {
+        String formula = "\\forall x. P(x)".replace(" ", "");
+        String expected = "P(x)";
+        String result = logicParser.removeQuantifiers(formula);
+        assertEquals(expected, result);
+
+        formula = "\\exists y. Q(y)".replace(" ", "");
+        expected = "Q(y)";
+        result = logicParser.removeQuantifiers(formula);
+        assertEquals(expected, result);
+
+        formula = "\\forall x. \\exists y. R(x, y)".replace(" ", "");;
+        expected = "R(x,y)";
+        result = logicParser.removeQuantifiers(formula);
+        assertEquals(expected, result);
+
+        formula = "P(x) & \\forall y. Q(y)".replace(" ", "");;
+        expected = "P(x)&Q(y)";
+        result = logicParser.removeQuantifiers(formula);
+        assertEquals(expected, result);
+
+        formula = "\\exists z. [P(z) | \\forall w. Q(w)]".replace(" ", "");;
+        expected = "[P(z)|Q(w)]";
+        result = logicParser.removeQuantifiers(formula);
+        assertEquals(expected, result);
     }
 
 }
