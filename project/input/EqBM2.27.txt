@@ -1,0 +1,2 @@
+_Bradley Manna ex 2.27 result SAT_
+\forall x. ~[\exists y. p(x,y) & p(x,z)] | \exists y. p(x,y)
