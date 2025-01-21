@@ -27,4 +27,7 @@ public class Regex {
     public static String termRegex = "\\w+\\(.*?\\)|\\w+|"+PropLogic.trueCostant;
 
     public static String argsRegex = ",";
+
+    public static String quantifierRegex = "(\\"+FirstOrderLogic.exist+"|\\"
+                                            +FirstOrderLogic.forall+")\\w*\\"+FirstOrderLogic.varTerminator;
 }
