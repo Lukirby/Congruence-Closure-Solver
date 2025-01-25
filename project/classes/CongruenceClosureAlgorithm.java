@@ -99,6 +99,13 @@ public class CongruenceClosureAlgorithm {
     }
 
     public boolean compute(){
+        if (this.forbiddenSet){
+            for (Integer[] disequality : this.disequalities){
+                if (this.DAG.FIND(disequality[0]) == this.DAG.FIND(disequality[1])){
+                    return false;
+                }
+            }
+        } 
         for (Integer[] equality : this.equalities) {
             this.DAG.MERGE(equality[0],equality[1]);
             if(this.DAG.unsatFlag){
