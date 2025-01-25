@@ -30,4 +30,12 @@ public class Regex {
 
     public static String quantifierRegex = "(\\"+FirstOrderLogic.exist+"|\\"
                                             +FirstOrderLogic.forall+")\\w*\\"+FirstOrderLogic.varTerminator;
+
+
+    public static String declareFunRegex = "\\(declare-fun\\s+(\\w+)\\s*\\((.*?)\\)\\s+(\\w+)\\)";
+
+    public static String assertRegex = "\\(assert\\s+(.*?)\\)";
+
+    
+
 }
