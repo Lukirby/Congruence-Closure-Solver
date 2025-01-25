@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import project.preprocessing.LogicParser;
-import project.preprocessing.Regex;
 import project.preprocessing.TermsParser;
 
 
@@ -50,9 +49,9 @@ public class LogicParserTest {
         String formula1 = logicParser.formulaList.get(0);
         String formula2 = logicParser.formulaList.get(1);
         String formula3 = logicParser.formulaList.get(2);
-        assertEquals("w!=select(a,k);j=k", formula1);
-        assertEquals("v!=select(a,k);j!=k;i=k", formula2);
-        assertEquals("select(a,k)!=select(a,k);j!=k;i!=k", formula3);
+        assertEquals("w!=select(a,k) ; j=k", formula1);
+        assertEquals("v!=select(a,k) ; j!=k ; i=k", formula2);
+        assertEquals("select(a,k)!=select(a,k) ; j!=k ; i!=k", formula3);
     }
 
     @Test
