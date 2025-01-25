@@ -46,4 +46,28 @@ public class CongruenceClosureSolverTest {
         assertFalse(CCS.solveInput(file+" -v -r -e -f"));
     }
 
+    @Test void EqBM2_27Test(){
+        String file = "EqBM2.27.txt";
+        assertTrue(CCS.solveInput(file));
+        assertTrue(CCS.solveInput(file+" -v -r -e -f"));
+    }
+
+    @Test void EqDiamond1(){
+        String file = "eq_diamond1.smt2";
+        assertFalse(CCS.solveInput(file));
+        assertFalse(CCS.solveInput(file+" -v -r -e -f"));
+    }
+
+    @Test void EqDiamond2(){
+        String file = "eq_diamond2.smt2";
+        assertFalse(CCS.solveInput(file));
+        assertFalse(CCS.solveInput(file+" -v -r -e -f"));
+    }
+
+    @Test void EqDiamond3(){
+        String file = "eq_diamond3.smt2";
+        assertFalse(CCS.solveInput(file));
+        assertFalse(CCS.solveInput(file+" -v -r -e -f"));
+    }
+
 }

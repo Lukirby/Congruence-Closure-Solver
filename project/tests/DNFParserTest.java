@@ -166,4 +166,17 @@ public class DNFParserTest {
         System.out.println(result.toString());
     }
 
+    @Test
+    public void testComplex3(){
+        DNFTree result = DNFParser.parse("[[[A & B] | [C & D]] & [[E & F] | [G & H]] & I]");
+        System.out.println(result.toString());
+        assertNotNull(result);
+        assertEquals(PropLogic.conjuction, result.getValue());
+        assertEquals(2, result.getChildren().size());
+        assertEquals(PropLogic.conjuction, result.getChildren().get(0).getValue());
+        assertEquals("I", result.getChildren().get(1).getValue());
+        DNFTree left1 = result.getChildren().get(0);
+        assertEquals(2, left1.getChildren().size());
+    }
+
 }
