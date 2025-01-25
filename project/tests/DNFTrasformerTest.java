@@ -145,6 +145,7 @@ public class DNFTrasformerTest {
         System.out.println(tree.toString());
 
         DNFTree result = DNFTrasformer.distributeConjunctions(tree);
+        System.out.println(result.toString());
         assertEquals(PropLogic.disjunction, result.getValue());
         assertEquals(PropLogic.conjuction, result.getChildren().get(0).getValue());
         assertEquals("A", result.getChildren().get(0).getChildren().get(0).getValue());
@@ -152,38 +153,6 @@ public class DNFTrasformerTest {
         assertEquals(PropLogic.conjuction, result.getChildren().get(1).getValue());
         assertEquals("A", result.getChildren().get(1).getChildren().get(0).getValue());
         assertEquals("C", result.getChildren().get(1).getChildren().get(1).getValue());
-    }
-
-    @Test
-    public void testCompactTreeConjuctions() {
-        DNFTree tree = new DNFTree(PropLogic.conjuction);
-        DNFTree child1 = new DNFTree(PropLogic.conjuction);
-        DNFTree child2 = new DNFTree("A");
-        DNFTree child3 = new DNFTree("B");
-        child1.addChildren(child2);
-        child1.addChildren(child3);
-        tree.addChildren(child1);
-
-        DNFTree result = DNFTrasformer.compactTree(tree);
-        assertEquals(PropLogic.conjuction, result.getValue());
-        assertEquals("A", result.getChildren().get(0).getValue());
-        assertEquals("B", result.getChildren().get(1).getValue());
-    }
-
-    @Test
-    public void testCompactTreeDisjuctions() {
-        DNFTree tree = new DNFTree(PropLogic.disjunction);
-        DNFTree child1 = new DNFTree(PropLogic.disjunction);
-        DNFTree child2 = new DNFTree("A");
-        DNFTree child3 = new DNFTree("B");
-        child1.addChildren(child2);
-        child1.addChildren(child3);
-        tree.addChildren(child1);
-
-        DNFTree result = DNFTrasformer.compactTree(tree);
-        assertEquals(PropLogic.disjunction, result.getValue());
-        assertEquals("A", result.getChildren().get(0).getValue());
-        assertEquals("B", result.getChildren().get(1).getValue());
     }
 
     @Test
@@ -242,6 +211,65 @@ public class DNFTrasformerTest {
     }
 
     @Test
+    public void testHandleDoubleOperatorConjunction() {
+        DNFTree tree = new DNFTree(PropLogic.conjuction);
+        DNFTree child1 = new DNFTree(PropLogic.conjuction);
+        DNFTree child2 = new DNFTree("A");
+        DNFTree child3 = new DNFTree("B");
+        DNFTree child4 = new DNFTree("C");
+        child1.addChildren(child2);
+        child1.addChildren(child3);
+        tree.addChildren(child1);
+        tree.addChildren(child4);
+
+        DNFTree result = DNFTrasformer.handleDoubleOperator(tree);
+        assertEquals(PropLogic.conjuction, result.getValue());
+        assertEquals("A", result.getChildren().get(0).getValue());
+        assertEquals("B", result.getChildren().get(1).getValue());
+        assertEquals("C", result.getChildren().get(2).getValue());
+    }
+
+    @Test
+    public void testHandleDoubleOperatorDisjunction() {
+        DNFTree tree = new DNFTree(PropLogic.disjunction);
+        DNFTree child1 = new DNFTree(PropLogic.disjunction);
+        DNFTree child2 = new DNFTree("A");
+        DNFTree child3 = new DNFTree("B");
+        DNFTree child4 = new DNFTree("C");
+        child1.addChildren(child2);
+        child1.addChildren(child3);
+        tree.addChildren(child1);
+        tree.addChildren(child4);
+
+        DNFTree result = DNFTrasformer.handleDoubleOperator(tree);
+        assertEquals(PropLogic.disjunction, result.getValue());
+        assertEquals("A", result.getChildren().get(0).getValue());
+        assertEquals("B", result.getChildren().get(1).getValue());
+        assertEquals("C", result.getChildren().get(2).getValue());
+    }
+
+    @Test
+    public void testHandleDoubleOperatorNoChange() {
+        DNFTree tree = new DNFTree(PropLogic.conjuction);
+        DNFTree child1 = new DNFTree(PropLogic.disjunction);
+        DNFTree child2 = new DNFTree("A");
+        DNFTree child3 = new DNFTree("B");
+        DNFTree child4 = new DNFTree("C");
+
+        child1.addChildren(child2);
+        child1.addChildren(child3);
+        tree.addChildren(child1);
+        tree.addChildren(child4);
+
+        DNFTree result = DNFTrasformer.handleDoubleOperator(tree);
+        assertEquals(PropLogic.conjuction, result.getValue());
+        assertEquals(PropLogic.disjunction, result.getChildren().get(0).getValue());
+        assertEquals("A", result.getChildren().get(0).getChildren().get(0).getValue());
+        assertEquals("B", result.getChildren().get(0).getChildren().get(1).getValue());
+        assertEquals("C", result.getChildren().get(1).getValue());
+    }
+
+    @Test
     public void ComplexFormula(){
         DNFTree tree = new DNFTree(PropLogic.negation);
         DNFTree implication = new DNFTree(PropLogic.implication);
@@ -279,5 +307,15 @@ public class DNFTrasformerTest {
         String result = DNFTrasformer.transform(parsedTree);
         System.out.println(result);
         assertEquals("a & c  | a & d  | b & c  | b & d  ", result);
+    }
+
+    @Test
+    public void ComplexFormula4(){
+        DNFTree parsedTree = DNFParser.parse("[a | b] & [c | d] & e");
+        assertEquals("e", parsedTree.children.get(1).value);
+        System.out.println(parsedTree.toString());
+        String result = DNFTrasformer.transform(parsedTree);
+        System.out.println(result);
+        assertEquals("a & c & e  | a & d & e  | b & c & e  | b & d & e  ", result);
     }
 }
