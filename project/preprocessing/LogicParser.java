@@ -94,8 +94,8 @@ public class LogicParser {
                 String[] splittedFormulas = splitSelectOverStore(F);
                 if (splittedFormulas.length>0){
                     splitted = true;
-                    flCopy.add(splittedFormulas[0]);
-                    flCopy.add(splittedFormulas[1]);
+                    flCopy.add(splittedFormulas[0].replace(";;",";"));
+                    flCopy.add(splittedFormulas[1].replace(";;",";"));
                 } else {
                     flCopy.add(F);
                 }
@@ -103,10 +103,6 @@ public class LogicParser {
             this.formulaList = new ArrayList<>(flCopy);
             flCopy.clear();
         }
-        for (String formula : this.formulaList){
-            System.out.println(formula);
-        }
-
     }
 
     public String castImplications(String formula){
@@ -131,7 +127,16 @@ public class LogicParser {
 
     public String castConjunctionsOnInput(String formula){
         String S = formula;
-        S = S.replace(Regex.inputRegex, PropLogic.conjuction);
+        S = S.replace(Regex.inputRegex,PropLogic.conjuction);
+        return S;
+    }
+
+    public String formatFormula(String formula){
+        String S = TermsParser.cleanFormula(formula);
+        if (S.endsWith(Regex.inputRegex)){
+            S = S.substring(0, S.length()-1);
+        }
+        S = S.replace(";", " ; ");
         return S;
     }
 
@@ -174,6 +179,9 @@ public class LogicParser {
         if (TermsParser.checkTheoryType(formula, Regex.arrayRegex)){
             this.arrayTheoryFormulaTransformation();
         }
+
+        this.formulaList.replaceAll(f -> formatFormula(f));
+
     }
 
     public String getDNF(){
@@ -182,7 +190,7 @@ public class LogicParser {
         while(it.hasNext()){
             dnf+=castConjunctionsOnInput(it.next());
             if (it.hasNext()){
-                dnf+=" "+PropLogic.disjunction+" ";
+                dnf+="  "+PropLogic.disjunction+"  ";
             }
         }
         dnf+="\n";
@@ -193,7 +201,7 @@ public class LogicParser {
         String dnf = "List of Cubes to check:\n";
         int i = 1;
         for (String f : this.formulaList){
-            dnf+=i+") "+f+" "+"\n";
+            dnf+=i+") "+f+"\n";
             i++;
         }
         dnf+="\n";
