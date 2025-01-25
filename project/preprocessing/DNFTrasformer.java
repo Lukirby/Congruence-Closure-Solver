@@ -11,7 +11,6 @@ public class DNFTrasformer {
         tree = deleteImplications(tree);
         tree = deleteNestedNegations(tree);
         tree = distributeConjunctions(tree);
-        tree = compactTree(tree);
         tree = removeDuplicates(tree);
 
         return makeFormula(tree);
@@ -116,12 +115,59 @@ public class DNFTrasformer {
 
     public static DNFTree distributeConjunctions(DNFTree tree){
         if(tree.getValue().equals(PropLogic.conjuction)){
-            tree = handleConjunction(tree);
+            tree = handleDoubleOperator(tree);
+            tree = handleConjunction2(tree);
         }
         if (!tree.isLeaf()){
             tree.getChildren().replaceAll(child -> distributeConjunctions(child));
         }
+        if(tree.getValue().equals(PropLogic.disjunction)){
+            tree = handleDoubleOperator(tree);
+        }
+        if(tree.getValue().equals(PropLogic.negation)){
+            tree = makeNegatedTerm(tree);
+        }
         return tree;    
+    }
+
+    public static DNFTree handleConjunction2(DNFTree tree){
+        int childrenSize = tree.getChildren().size();
+        ArrayList<DNFTree> children = new ArrayList<DNFTree>(childrenSize);
+        int disjunctions = -1;
+        int branchesSize = childrenSize;
+        
+        for (int i = 0; i < childrenSize; i++) {
+            DNFTree child = tree.children.remove(0);
+            if(child.getValue().equals(PropLogic.disjunction) && disjunctions == -1){
+                disjunctions = i;
+                branchesSize = child.getChildren().size();
+            }
+            children.add(child);
+        }
+
+        if(disjunctions != -1){
+            tree.value = PropLogic.disjunction;
+            for (int i = 0; i < branchesSize; i++) {
+                DNFTree newConjunction = new DNFTree(PropLogic.conjuction);
+                for (int j = 0; j < childrenSize; j++) {
+                    if (j == disjunctions){
+                        DNFTree disjunction = children.get(j);
+                        DNFTree child = disjunction.getChildren().get(i);
+                        newConjunction.addChildren(child);
+                    } else {
+                        DNFTree child = children.get(j);
+                        newConjunction.addChildren(child);
+                    }
+                }
+                tree.addChildren(newConjunction);
+            }
+        } else {
+            for (int i = 0; i < childrenSize; i++) {
+                DNFTree child = children.get(i);
+                tree.addChildren(child);
+            }
+        }
+        return tree;
     }
 
     public static DNFTree handleConjunction(DNFTree tree) {
@@ -173,21 +219,26 @@ public class DNFTrasformer {
         return tree;
     }
 
-    public static DNFTree compactTree(DNFTree tree){
-        if (!tree.isLeaf()){
-            ArrayList<DNFTree> children = tree.getChildren();
-            for (int i = 0; i < children.size(); i++) {
+    public static DNFTree handleDoubleOperator(DNFTree tree){
+        boolean hasRipetitions = true;
+        int childrenSize ;
+        ArrayList<DNFTree> children;
+        while (hasRipetitions) {
+            hasRipetitions = false;
+            childrenSize = tree.getChildren().size();
+            children = new ArrayList<>(tree.getChildren());
+            tree.children.clear();
+            for (int i = 0; i < childrenSize; i++) {
                 DNFTree child = children.get(i);
                 if(child.getValue().equals(tree.getValue())){
-                    children.remove(i);
-                    children.addAll(child.getChildren());
-                    i--;
+                    for (DNFTree grandChild : child.getChildren()) {
+                        tree.addChildren(grandChild);
+                    }
+                    hasRipetitions = true;
+                } else {
+                    tree.addChildren(child);
                 }
             }
-            if (tree.getValue().equals(PropLogic.negation)){
-                tree = makeNegatedTerm(tree);
-            }
-            tree.getChildren().replaceAll(child -> compactTree(child));
         }
         return tree;
     }
@@ -237,6 +288,13 @@ public class DNFTrasformer {
             }
             return sb.toString();
         }
+    }
+
+    public static void main(String[] args) {
+        String F = TermsParser.cleanFormula("[[[x0 = y0 & y0 = x1] | [x0 = z0 & z0 = x1]] & ~[x0 = x1]]");
+        DNFTree tree = DNFParser.parse(F);
+        String S = DNFTrasformer.transform(tree);
+        System.out.println(S);
     }
 }
 
