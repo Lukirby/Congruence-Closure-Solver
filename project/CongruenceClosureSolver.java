@@ -11,6 +11,7 @@ import project.classes.Options;
 import project.preprocessing.FormulaReader;
 import project.preprocessing.LogicParser;
 import project.preprocessing.Regex;
+import project.preprocessing.SMTLIBParser;
 import project.preprocessing.TermsParser;
 
 
@@ -30,6 +31,12 @@ public class CongruenceClosureSolver {
     public String openFile(String input){
         String fileName = input.trim().split(Regex.optionRegex)[0];
         System.out.println("file Name: "+fileName);
+        if (fileName.endsWith(".smt2")){
+            SMTLIBParser SP = new SMTLIBParser();
+            String content = SP.readContentFromFile(fileName);
+            SP.writeInputFile(content);
+            fileName = fileName.replace(".smt2", ".txt");
+        }
         FormulaReader FR = new FormulaReader(true);
         String formula = FR.readFormulaFromFile(fileName);
         totalPath = FR.totalPath;
@@ -124,11 +131,12 @@ public class CongruenceClosureSolver {
 
         long startTime = System.currentTimeMillis();
         for (String formula: LP.formulaList){
-            output+="Solving: \n"+i+") "+formula+"\n\n";
+            output+="\nSolving: \n"+i+") "+formula+"\n\n";
             solve(formula, opt);
             if (sat){
                 break;
             }
+            i++;
         }
         long endTime = System.currentTimeMillis();
         time = endTime - startTime;
