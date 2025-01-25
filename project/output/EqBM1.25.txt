@@ -2,14 +2,15 @@ Formula:
 Q1 & Q2 | R1 & R2
 
 DNF:
-Q1 & Q2   |  R1 & R2  
+Q1 & Q2  |  R1 & R2
 
 List of Cubes to check:
-1) Q1 ; Q2   
-2)  R1 ; R2   
+1) Q1 ; Q2
+2) R1 ; R2
+
 
 Solving: 
-1) Q1 ; Q2  
+1) Q1 ; Q2
 
 MERGE f_Q1 °
 P1: {}
@@ -21,4 +22,4 @@ P2: {}
 UNION f_Q2 °
 SAT
 
-Time Elapsed: 0.0 seconds
+Elapsed Time: 0.0 seconds

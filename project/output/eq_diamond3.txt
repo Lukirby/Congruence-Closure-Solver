@@ -1,0 +1,88 @@
+Formula: 
+
+[[[x0 = y0 & y0 = x1] | [x0 = z0 & z0 = x1]] & [[x1 = y1 & y1 = x2] | [x1 = z1 & z1 = x2]] & ~[x0 = x2]]
+
+DNF:
+x0=y0 & y0=x1 & x1=y1 & y1=x2 & x0!=x2  |  x0=y0 & y0=x1 & x1=z1 & z1=x2 & x0!=x2  |  x0=z0 & z0=x1 & x1=y1 & y1=x2 & x0!=x2  |  x0=z0 & z0=x1 & x1=z1 & z1=x2 & x0!=x2
+
+List of Cubes to check:
+1) x0=y0 ; y0=x1 ; x1=y1 ; y1=x2 ; x0!=x2
+2) x0=y0 ; y0=x1 ; x1=z1 ; z1=x2 ; x0!=x2
+3) x0=z0 ; z0=x1 ; x1=y1 ; y1=x2 ; x0!=x2
+4) x0=z0 ; z0=x1 ; x1=z1 ; z1=x2 ; x0!=x2
+
+
+Solving: 
+1) x0=y0 ; y0=x1 ; x1=y1 ; y1=x2 ; x0!=x2
+
+MERGE x0 y0
+P1: {}
+P2: {}
+UNION x0 y0
+MERGE y0 x1
+P1: {}
+P2: {}
+UNION y0 x1
+MERGE x1 y1
+P1: {}
+P2: {}
+UNION x1 y1
+MERGE y1 x2
+FORBIDDEN y1 x2
+
+Solving: 
+2) x0=y0 ; y0=x1 ; x1=z1 ; z1=x2 ; x0!=x2
+
+MERGE x0 y0
+P1: {}
+P2: {}
+UNION x0 y0
+MERGE y0 x1
+P1: {}
+P2: {}
+UNION y0 x1
+MERGE x1 z1
+P1: {}
+P2: {}
+UNION x1 z1
+MERGE z1 x2
+FORBIDDEN z1 x2
+
+Solving: 
+3) x0=z0 ; z0=x1 ; x1=y1 ; y1=x2 ; x0!=x2
+
+MERGE x0 z0
+P1: {}
+P2: {}
+UNION x0 z0
+MERGE z0 x1
+P1: {}
+P2: {}
+UNION z0 x1
+MERGE x1 y1
+P1: {}
+P2: {}
+UNION x1 y1
+MERGE y1 x2
+FORBIDDEN y1 x2
+
+Solving: 
+4) x0=z0 ; z0=x1 ; x1=z1 ; z1=x2 ; x0!=x2
+
+MERGE x0 z0
+P1: {}
+P2: {}
+UNION x0 z0
+MERGE z0 x1
+P1: {}
+P2: {}
+UNION z0 x1
+MERGE x1 z1
+P1: {}
+P2: {}
+UNION x1 z1
+MERGE z1 x2
+FORBIDDEN z1 x2
+UNSAT
+
+Elapsed Time: 0.0 seconds

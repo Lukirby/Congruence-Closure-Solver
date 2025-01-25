@@ -6,13 +6,14 @@ cdr(a) = cdr(b);
 f(a) = f(b);
 
 DNF:
-car(a)=car(b)&cdr(a)=cdr(b)&~atom(a)&~atom(b)&f(a)=f(b)&
+car(a)=car(b) & cdr(a)=cdr(b) & ~atom(a) & ~atom(b) & f(a)=f(b)
 
 List of Cubes to check:
-1) car(a)=car(b);cdr(a)=cdr(b);~atom(a);~atom(b);f(a)=f(b); 
+1) car(a)=car(b) ; cdr(a)=cdr(b) ; ~atom(a) ; ~atom(b) ; f(a)=f(b)
+
 
 Solving: 
-1) car(a)=car(b);cdr(a)=cdr(b);~atom(a);~atom(b);f(a)=f(b);
+1) car(a)=car(b) ; cdr(a)=cdr(b) ; ~atom(a) ; ~atom(b) ; f(a)=f(b)
 
 MERGE car(a) car(b)
 P1: {}
@@ -115,4 +116,4 @@ TRUE
 MERGE f(a) f(b)
 SAT
 
-Time Elapsed: 0.002 seconds
+Elapsed Time: 0.005 seconds

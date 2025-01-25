@@ -3,20 +3,17 @@ a = b & b = c  ->
 g(f(a),b) = g (f(c),a)
 
 DNF:
-g(f(a),b)=g(f(c),a)  |  a!=b  |  b!=c 
+a!=b  |  b!=c  |  g(f(a),b)=g(f(c),a)
 
 List of Cubes to check:
-1) g(f(a),b)=g(f(c),a)  
-2)  a!=b  
-3)  b!=c  
+1) a!=b
+2) b!=c
+3) g(f(a),b)=g(f(c),a)
+
 
 Solving: 
-1) g(f(a),b)=g(f(c),a) 
+1) a!=b
 
-MERGE g(f(a),b) g(f(c),a)
-P1: {}
-P2: {}
-UNION g(f(a),b) g(f(c),a)
 SAT
 
-Time Elapsed: 0.0 seconds
+Elapsed Time: 0.0 seconds
