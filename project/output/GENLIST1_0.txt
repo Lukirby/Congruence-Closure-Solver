@@ -1,0 +1,35 @@
+Formula: 
+f(f(y)) != f(f(x));
+atom(f(x)) ;
+f(car(x)) = y;
+f(car(x)) = f(f(y));
+atom(car(y)) ;
+atom(f(x)) ;
+atom(car(x)) ;
+y != f(f(y));
+atom(cdr(y)) ;
+cdr(cdr(x)) != cdr(car(y));
+
+DNF:
+f(f(y))!=f(f(x)) & atom(f(x)) & f(car(x))=y & f(car(x))=f(f(y)) & atom(car(y)) & atom(f(x)) & atom(car(x)) & y!=f(f(y)) & atom(cdr(y)) & cdr(cdr(x))!=cdr(car(y))
+
+List of Cubes to check:
+1) f(f(y))!=f(f(x)) ; atom(f(x)) ; f(car(x))=y ; f(car(x))=f(f(y)) ; atom(car(y)) ; atom(f(x)) ; atom(car(x)) ; y!=f(f(y)) ; atom(cdr(y)) ; cdr(cdr(x))!=cdr(car(y))
+
+
+Solving: 
+1) f(f(y))!=f(f(x)) ; atom(f(x)) ; f(car(x))=y ; f(car(x))=f(f(y)) ; atom(car(y)) ; atom(f(x)) ; atom(car(x)) ; y!=f(f(y)) ; atom(cdr(y)) ; cdr(cdr(x))!=cdr(car(y))
+
+MERGE f_atom(f(x)) °
+P1: {}
+P2: {}
+UNION f_atom(f(x)) °
+MERGE f(car(x)) y
+P1: {}
+P2: {f(y), car(y), cdr(y)}
+UNION f(car(x)) y
+MERGE f(car(x)) f(f(y))
+FORBIDDEN f(car(x)) f(f(y))
+UNSAT
+
+Elapsed Time: 0.0 seconds

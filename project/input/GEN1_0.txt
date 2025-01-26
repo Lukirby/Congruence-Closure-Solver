@@ -1,0 +1,10 @@
+h(h(c,a),h(c,c)) != h(g(a,c),g(a));
+g(g(h(h(c,c),h(a,c)))) = h(h(g(g(b,b),g(a)),f(g(b,c),g(c))));
+~P(g(g(a)),g(h(c))) ;
+Q(f(g(f(b,b),g(a)),f(h(b))),f(f(f(c),f(b)),f(g(b)))) ;
+Q(g(f(a),h(b)),h(h(b,a),h(a))) ;
+~R(f(h(c),g(b,a)),h(g(b))) ;
+Q(h(h(f(c,c)),h(h(b))),g(f(g(a),f(b,c)))) ;
+R(h(g(a,b),h(b,c)),g(g(b,c),h(a))) ;
+b = f(f(f(g(c,b)),g(h(a,b))));
+R(f(a),h(a,a)) ;

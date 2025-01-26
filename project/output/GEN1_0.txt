@@ -1,0 +1,53 @@
+Formula: 
+h(h(c,a),h(c,c)) != h(g(a,c),g(a));
+g(g(h(h(c,c),h(a,c)))) = h(h(g(g(b,b),g(a)),f(g(b,c),g(c))));
+~P(g(g(a)),g(h(c))) ;
+Q(f(g(f(b,b),g(a)),f(h(b))),f(f(f(c),f(b)),f(g(b)))) ;
+Q(g(f(a),h(b)),h(h(b,a),h(a))) ;
+~R(f(h(c),g(b,a)),h(g(b))) ;
+Q(h(h(f(c,c)),h(h(b))),g(f(g(a),f(b,c)))) ;
+R(h(g(a,b),h(b,c)),g(g(b,c),h(a))) ;
+b = f(f(f(g(c,b)),g(h(a,b))));
+R(f(a),h(a,a)) ;
+
+DNF:
+h(h(c,a),h(c,c))!=h(g(a,c),g(a)) & g(g(h(h(c,c),h(a,c))))=h(h(g(g(b,b),g(a)),f(g(b,c),g(c)))) & ~P(g(g(a)),g(h(c))) & Q(f(g(f(b,b),g(a)),f(h(b))),f(f(f(c),f(b)),f(g(b)))) & Q(g(f(a),h(b)),h(h(b,a),h(a))) & ~R(f(h(c),g(b,a)),h(g(b))) & Q(h(h(f(c,c)),h(h(b))),g(f(g(a),f(b,c)))) & R(h(g(a,b),h(b,c)),g(g(b,c),h(a))) & b=f(f(f(g(c,b)),g(h(a,b)))) & R(f(a),h(a,a))
+
+List of Cubes to check:
+1) h(h(c,a),h(c,c))!=h(g(a,c),g(a)) ; g(g(h(h(c,c),h(a,c))))=h(h(g(g(b,b),g(a)),f(g(b,c),g(c)))) ; ~P(g(g(a)),g(h(c))) ; Q(f(g(f(b,b),g(a)),f(h(b))),f(f(f(c),f(b)),f(g(b)))) ; Q(g(f(a),h(b)),h(h(b,a),h(a))) ; ~R(f(h(c),g(b,a)),h(g(b))) ; Q(h(h(f(c,c)),h(h(b))),g(f(g(a),f(b,c)))) ; R(h(g(a,b),h(b,c)),g(g(b,c),h(a))) ; b=f(f(f(g(c,b)),g(h(a,b)))) ; R(f(a),h(a,a))
+
+
+Solving: 
+1) h(h(c,a),h(c,c))!=h(g(a,c),g(a)) ; g(g(h(h(c,c),h(a,c))))=h(h(g(g(b,b),g(a)),f(g(b,c),g(c)))) ; ~P(g(g(a)),g(h(c))) ; Q(f(g(f(b,b),g(a)),f(h(b))),f(f(f(c),f(b)),f(g(b)))) ; Q(g(f(a),h(b)),h(h(b,a),h(a))) ; ~R(f(h(c),g(b,a)),h(g(b))) ; Q(h(h(f(c,c)),h(h(b))),g(f(g(a),f(b,c)))) ; R(h(g(a,b),h(b,c)),g(g(b,c),h(a))) ; b=f(f(f(g(c,b)),g(h(a,b)))) ; R(f(a),h(a,a))
+
+MERGE g(g(h(h(c,c),h(a,c)))) h(h(g(g(b,b),g(a)),f(g(b,c),g(c))))
+P1: {}
+P2: {}
+UNION g(g(h(h(c,c),h(a,c)))) h(h(g(g(b,b),g(a)),f(g(b,c),g(c))))
+MERGE f_Q(f(g(f(b,b),g(a)),f(h(b))),f(f(f(c),f(b)),f(g(b)))) °
+P1: {}
+P2: {}
+UNION f_Q(f(g(f(b,b),g(a)),f(h(b))),f(f(f(c),f(b)),f(g(b)))) °
+MERGE f_Q(g(f(a),h(b)),h(h(b,a),h(a))) °
+P1: {}
+P2: {}
+UNION f_Q(g(f(a),h(b)),h(h(b,a),h(a))) °
+MERGE f_Q(h(h(f(c,c)),h(h(b))),g(f(g(a),f(b,c)))) °
+P1: {}
+P2: {}
+UNION f_Q(h(h(f(c,c)),h(h(b))),g(f(g(a),f(b,c)))) °
+MERGE f_R(h(g(a,b),h(b,c)),g(g(b,c),h(a))) °
+P1: {}
+P2: {}
+UNION f_R(h(g(a,b),h(b,c)),g(g(b,c),h(a))) °
+MERGE b f(f(f(g(c,b)),g(h(a,b))))
+P1: {h(a,b), f(b), g(b), h(b,a), g(b,a), g(b,b), g(b,c), f(b,c), g(a,b), h(b,c), f(b,b), h(b), g(c,b)}
+P2: {}
+UNION b f(f(f(g(c,b)),g(h(a,b))))
+MERGE f_R(f(a),h(a,a)) °
+P1: {}
+P2: {}
+UNION f_R(f(a),h(a,a)) °
+SAT
+
+Elapsed Time: 0.003 seconds

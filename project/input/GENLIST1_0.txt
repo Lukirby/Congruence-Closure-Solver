@@ -1,0 +1,10 @@
+f(f(y)) != f(f(x));
+atom(f(x)) ;
+f(car(x)) = y;
+f(car(x)) = f(f(y));
+atom(car(y)) ;
+atom(f(x)) ;
+atom(car(x)) ;
+y != f(f(y));
+atom(cdr(y)) ;
+cdr(cdr(x)) != cdr(car(y));
