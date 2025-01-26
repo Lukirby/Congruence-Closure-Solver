@@ -97,8 +97,9 @@ public class CongruenceClosureDAG {
             N = N1;
         }
         if (!this.recursiveFind) {
+            int originalFind = N.find;
             for (Node M : nodes.values()) {
-                if (M.find == N.find){
+                if (M.find == originalFind){
                     M.find = R.find;
                 }
             }
@@ -126,9 +127,10 @@ public class CongruenceClosureDAG {
             Node N1 = NODE(FIND(id1));
             Node N2 = NODE(FIND(id2));
             if (!this.recursiveFind) {
-                for (Node N : nodes.values()) {
-                    if (N.find == N1.find){
-                        N.find = N2.find;
+                int originalFind = N1.find;
+                for (Node M : nodes.values()) {
+                    if (M.find == originalFind){
+                        M.find = N2.find;
                     }
                 }
             }
