@@ -1,0 +1,3 @@
+_es 3.9 pag 77 Bradley Manna result SAT_
+
+\forall x. [ geq(x,0) -> \exists y. [geq(y,0) & x=+(y,1)]]

@@ -1,6 +1,8 @@
 Formula: 
 Q1 & Q2 | R1 & R2
 
+Options: [verbose=true, recursiveFind=true, euristicUnion=true, forbiddenSet=true]
+
 DNF:
 Q1 & Q2  |  R1 & R2
 
@@ -12,6 +14,7 @@ List of Cubes to check:
 Solving: 
 1) Q1 ; Q2
 
+SF = {°=1, f_Q2=2, f_Q1=0}
 MERGE f_Q1 °
 P1: {}
 P2: {}

@@ -1,0 +1,3 @@
+_Bradley Manna ex 3.16 pag 88 result SAT_
+
+select(a,i) = e -> \forall j. [select(store(a,i,e),j) = select(a,j)]

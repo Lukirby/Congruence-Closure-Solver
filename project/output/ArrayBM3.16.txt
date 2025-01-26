@@ -1,0 +1,22 @@
+Formula: 
+
+select(a,i) = e -> \forall j. [select(store(a,i,e),j) = select(a,j)]
+
+Options: [verbose=true, recursiveFind=true, euristicUnion=true, forbiddenSet=true]
+
+DNF:
+select(a,i)!=e  |  e=select(a,j) & i=j  |  select(a,j)=select(a,j) & i!=j
+
+List of Cubes to check:
+1) select(a,i)!=e
+2) e=select(a,j) ; i=j
+3) select(a,j)=select(a,j) ; i!=j
+
+
+Solving: 
+1) select(a,i)!=e
+
+SF = {a=1, select(a,i)=0, e=3, i=2}
+SAT
+
+Elapsed Time: 0.0 seconds

@@ -1,0 +1,3 @@
+_es 9.1 pag 267 Bradley Manna result UNSAT_
+
+p(x) & f(f(x)) = x & f(f(f(x))) = x & ~p(f(x))

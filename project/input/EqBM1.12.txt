@@ -1,0 +1,3 @@
+_es 1.12 pag 15 Bradley Manna result SAT_
+
+P -> Q <-> ~P | Q

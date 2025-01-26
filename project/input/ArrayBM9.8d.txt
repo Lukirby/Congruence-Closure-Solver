@@ -1,0 +1,3 @@
+_Bradley Manna ex 9.8 pag 268 result UNSAT_
+
+select(store(store(a,i,e),j,f),k)=g & j!=k & i=j & select(a,k)!=g

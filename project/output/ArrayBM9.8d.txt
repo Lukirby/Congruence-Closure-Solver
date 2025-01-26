@@ -1,0 +1,54 @@
+Formula: 
+
+select(store(store(a,i,e),j,f),k)=g & j!=k & i=j & select(a,k)!=g
+
+Options: [verbose=true, recursiveFind=true, euristicUnion=true, forbiddenSet=true]
+
+DNF:
+f=g & j!=k & i=j & select(a,k)!=g & j=k  |  e=g & j!=k & i=j & select(a,k)!=g & j!=k & i=k  |  select(a,k)=g & j!=k & i=j & select(a,k)!=g & j!=k & i!=k
+
+List of Cubes to check:
+1) f=g ; j!=k ; i=j ; select(a,k)!=g ; j=k
+2) e=g ; j!=k ; i=j ; select(a,k)!=g ; j!=k ; i=k
+3) select(a,k)=g ; j!=k ; i=j ; select(a,k)!=g ; j!=k ; i!=k
+
+
+Solving: 
+1) f=g ; j!=k ; i=j ; select(a,k)!=g ; j=k
+
+SF = {a=6, select(a,k)=5, f=0, g=1, i=4, j=2, k=3}
+MERGE f g
+P1: {}
+P2: {}
+UNION f g
+MERGE i j
+P1: {}
+P2: {}
+UNION i j
+MERGE j k
+FORBIDDEN j k
+
+Solving: 
+2) e=g ; j!=k ; i=j ; select(a,k)!=g ; j!=k ; i=k
+
+SF = {a=6, select(a,k)=5, e=0, g=1, i=4, j=2, k=3}
+MERGE e g
+P1: {}
+P2: {}
+UNION e g
+MERGE i j
+P1: {}
+P2: {}
+UNION i j
+MERGE i k
+FORBIDDEN i k
+
+Solving: 
+3) select(a,k)=g ; j!=k ; i=j ; select(a,k)!=g ; j!=k ; i!=k
+
+SF = {a=1, select(a,k)=0, g=3, i=5, j=4, k=2}
+MERGE select(a,k) g
+FORBIDDEN select(a,k) g
+UNSAT
+
+Elapsed Time: 0.002 seconds

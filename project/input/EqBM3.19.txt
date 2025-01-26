@@ -1,0 +1,3 @@
+_Bradley Manna ex 3.19 pag 92 result SAT_
+
+leq(1,x) & leq(x,2) & f(x)!=f(1) & f(x)!=f(2) 

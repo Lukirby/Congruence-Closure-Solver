@@ -1,0 +1,62 @@
+Formula: 
+
+~atom(x) & car(x) = y & cdr(x) = z & x != cons(y,z)
+
+Options: [verbose=true, recursiveFind=true, euristicUnion=true, forbiddenSet=true]
+
+DNF:
+~atom(x) & car(x)=y & cdr(x)=z & x!=cons(y,z)
+
+List of Cubes to check:
+1) ~atom(x) ; car(x)=y ; cdr(x)=z ; x!=cons(y,z)
+
+
+Solving: 
+1) ~atom(x) ; car(x)=y ; cdr(x)=z ; x!=cons(y,z)
+
+SF = {car(cons(y,z))=11, x_2=3, x_1=2, cdr(cons(y,z))=12, cdr(x)=8, car(cons(x_1,x_2))=4, cons(x_1,x_2)=1, cons(y,z)=10, x=0, y=7, cdr(cons(x_1,x_2))=5, z=9, car(x)=6}
+MERGE x cons(x_1,x_2)
+P1: {car(x), cdr(x)}
+P2: {car(cons(x_1,x_2)), cdr(cons(x_1,x_2))}
+UNION x cons(x_1,x_2)
+CONGREUNCE car(x) car(cons(x_1,x_2))
+TRUE
+	MERGE car(x) car(cons(x_1,x_2))
+	P1: {}
+	P2: {}
+	UNION car(x) car(cons(x_1,x_2))
+CONGREUNCE car(x) cdr(cons(x_1,x_2))
+FALSE: car != cdr
+CONGREUNCE cdr(x) car(cons(x_1,x_2))
+FALSE: cdr != car
+CONGREUNCE cdr(x) cdr(cons(x_1,x_2))
+TRUE
+	MERGE cdr(x) cdr(cons(x_1,x_2))
+	P1: {}
+	P2: {}
+	UNION cdr(x) cdr(cons(x_1,x_2))
+MERGE car(cons(x_1,x_2)) x_1
+P1: {}
+P2: {cons(x_1,x_2)}
+UNION car(cons(x_1,x_2)) x_1
+MERGE cdr(cons(x_1,x_2)) x_2
+P1: {}
+P2: {cons(x_1,x_2)}
+UNION cdr(cons(x_1,x_2)) x_2
+MERGE car(x) y
+P1: {cons(x_1,x_2)}
+P2: {cons(y,z)}
+UNION car(x) y
+CONGREUNCE cons(x_1,x_2) cons(y,z)
+FALSE: FIND(x_2) != FIND(z)
+MERGE cdr(x) z
+P1: {cons(x_1,x_2)}
+P2: {cons(y,z)}
+UNION cdr(x) z
+CONGREUNCE cons(x_1,x_2) cons(y,z)
+TRUE
+	MERGE cons(x_1,x_2) cons(y,z)
+	FORBIDDEN cons(x_1,x_2) cons(y,z)
+UNSAT
+
+Elapsed Time: 0.0 seconds

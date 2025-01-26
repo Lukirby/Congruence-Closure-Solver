@@ -1,0 +1,28 @@
+Formula: 
+
+leq(1,x) & leq(x,2) & f(x)!=f(1) & f(x)!=f(2) 
+
+Options: [verbose=true, recursiveFind=true, euristicUnion=true, forbiddenSet=true]
+
+DNF:
+leq(1,x) & leq(x,2) & f(x)!=f(1) & f(x)!=f(2)
+
+List of Cubes to check:
+1) leq(1,x) ; leq(x,2) ; f(x)!=f(1) ; f(x)!=f(2)
+
+
+Solving: 
+1) leq(1,x) ; leq(x,2) ; f(x)!=f(1) ; f(x)!=f(2)
+
+SF = {°=3, 1=1, 2=5, f(1)=7, f(2)=8, x=2, f(x)=6, f_leq(1,x)=0, f_leq(x,2)=4}
+MERGE f_leq(1,x) °
+P1: {}
+P2: {}
+UNION f_leq(1,x) °
+MERGE f_leq(x,2) °
+P1: {}
+P2: {}
+UNION f_leq(x,2) °
+SAT
+
+Elapsed Time: 0.0 seconds

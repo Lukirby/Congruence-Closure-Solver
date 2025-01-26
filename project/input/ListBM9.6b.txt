@@ -1,0 +1,3 @@
+_Bradley Manna ex 9.1 b pag 267 result UNSAT_
+
+~atom(x) & car(x) = y & cdr(x) = z & x != cons(y,z)

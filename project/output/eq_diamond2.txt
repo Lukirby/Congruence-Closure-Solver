@@ -2,6 +2,8 @@ Formula:
 
 [[[x0 = y0 & y0 = x1] | [x0 = z0 & z0 = x1]] & ~[x0 = x1]]
 
+Options: [verbose=true, recursiveFind=true, euristicUnion=true, forbiddenSet=true]
+
 DNF:
 x0=y0 & y0=x1 & x0!=x1  |  x0=z0 & z0=x1 & x0!=x1
 
@@ -13,6 +15,7 @@ List of Cubes to check:
 Solving: 
 1) x0=y0 ; y0=x1 ; x0!=x1
 
+SF = {y0=1, x0=0, x1=2}
 MERGE x0 y0
 P1: {}
 P2: {}
@@ -23,6 +26,7 @@ FORBIDDEN y0 x1
 Solving: 
 2) x0=z0 ; z0=x1 ; x0!=x1
 
+SF = {z0=1, x0=0, x1=2}
 MERGE x0 z0
 P1: {}
 P2: {}

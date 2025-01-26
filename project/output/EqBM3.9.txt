@@ -1,0 +1,21 @@
+Formula: 
+
+\forall x. [ geq(x,0) -> \exists y. [geq(y,0) & x=+(y,1)]]
+
+Options: [verbose=true, recursiveFind=true, euristicUnion=true, forbiddenSet=true]
+
+DNF:
+~geq(x,0)  |  geq(y,0) & x=+(y,1)
+
+List of Cubes to check:
+1) ~geq(x,0)
+2) geq(y,0) ; x=+(y,1)
+
+
+Solving: 
+1) ~geq(x,0)
+
+SF = {0=2, °=3, x=1, f_geq(x,0)=0}
+SAT
+
+Elapsed Time: 0.0 seconds

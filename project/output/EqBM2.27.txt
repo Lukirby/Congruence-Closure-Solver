@@ -1,6 +1,8 @@
 Formula: 
 \forall x. ~[\exists y. p(x,y) & p(x,z)] | \exists y. p(x,y)
 
+Options: [verbose=true, recursiveFind=true, euristicUnion=true, forbiddenSet=true]
+
 DNF:
 ~p(x,y)  |  ~p(x,z)  |  p(x,y)
 
@@ -13,6 +15,7 @@ List of Cubes to check:
 Solving: 
 1) ~p(x,y)
 
+SF = {°=3, f_p(x,y)=0, x=1, y=2}
 SAT
 
 Elapsed Time: 0.0 seconds

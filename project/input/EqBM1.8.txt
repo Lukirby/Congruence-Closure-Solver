@@ -1,0 +1,3 @@
+_Bradley Manna ex 1.8b pag 34 result SAT - SOL: ~P Q R_
+
+[P | Q | R] & [~P | ~Q | ~R] & [~P | Q | R] & [~Q | R] & [Q | ~R]

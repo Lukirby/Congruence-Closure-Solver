@@ -1,0 +1,3 @@
+_Bradley Manna ex 9.1 a pag 267 result SAT_
+
+car(x) = y & cdr(x) = z & x!=cons(y,z)

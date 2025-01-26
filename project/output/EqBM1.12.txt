@@ -1,21 +1,24 @@
 Formula: 
 
-~[x0 = x0]
+P -> Q <-> ~P | Q
 
 Options: [verbose=true, recursiveFind=true, euristicUnion=true, forbiddenSet=true]
 
 DNF:
-x0!=x0
+~P  |  ~P & Q  |  Q & ~P  |  Q  |  P & ~Q
 
 List of Cubes to check:
-1) x0!=x0
+1) ~P
+2) ~P ; Q
+3) Q ; ~P
+4) Q
+5) P ; ~Q
 
 
 Solving: 
-1) x0!=x0
+1) ~P
 
-SF = {x0=0}
-CONFLICT: x0 x0
-UNSAT
+SF = {°=1, f_P=0}
+SAT
 
 Elapsed Time: 0.0 seconds

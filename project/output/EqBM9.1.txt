@@ -1,0 +1,46 @@
+Formula: 
+
+p(x) & f(f(x)) = x & f(f(f(x))) = x & ~p(f(x))
+
+Options: [verbose=true, recursiveFind=true, euristicUnion=true, forbiddenSet=true]
+
+DNF:
+p(x) & f(f(x))=x & f(f(f(x)))=x & ~p(f(x))
+
+List of Cubes to check:
+1) p(x) ; f(f(x))=x ; f(f(f(x)))=x ; ~p(f(x))
+
+
+Solving: 
+1) p(x) ; f(f(x))=x ; f(f(f(x)))=x ; ~p(f(x))
+
+SF = {°=2, f_p(f(x))=6, x=1, f(f(f(x)))=5, f(f(x))=3, f(x)=4, f_p(x)=0}
+MERGE f_p(x) °
+P1: {}
+P2: {}
+UNION f_p(x) °
+MERGE f(f(x)) x
+P1: {f(f(f(x)))}
+P2: {f_p(x), f(x)}
+UNION f(f(x)) x
+CONGREUNCE f(f(f(x))) f_p(x)
+FALSE: f != f_p
+CONGREUNCE f(f(f(x))) f(x)
+TRUE
+	MERGE f(f(f(x))) f(x)
+	P1: {}
+	P2: {f(f(x)), f_p(f(x))}
+	UNION f(f(f(x))) f(x)
+MERGE f(f(f(x))) x
+P1: {f(f(x)), f_p(f(x))}
+P2: {f_p(x), f(x), f(f(f(x)))}
+UNION f(f(f(x))) x
+CONGREUNCE f(f(x)) f_p(x)
+FALSE: f != f_p
+CONGREUNCE f_p(f(x)) f_p(x)
+TRUE
+	MERGE f_p(f(x)) f_p(x)
+	FORBIDDEN f_p(f(x)) f_p(x)
+UNSAT
+
+Elapsed Time: 0.0 seconds
