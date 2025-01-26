@@ -70,4 +70,17 @@ public class CongruenceClosureSolverTest {
         assertFalse(CCS.solveInput(file+" -v -r -e -f"));
     }
 
+    @Test void GEN1(){
+        String file = "GEN1.properties";
+        assertTrue(CCS.solveInput(file));
+        assertTrue(CCS.solveInput(file+" -v -r -e -f"));
+    }
+
+    @Test void GENLIST1(){
+        String file = "GENLIST1.properties";
+        assertFalse(CCS.solveInput(file));
+        assertFalse(CCS.solveInput(file+" -v -r -e -f"));
+    }
+
+
 }
