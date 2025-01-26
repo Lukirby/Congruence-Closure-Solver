@@ -15,4 +15,4 @@ Solving:
 
 SAT
 
-Elapsed Time: 0.002 seconds
+Elapsed Time: 0.0 seconds

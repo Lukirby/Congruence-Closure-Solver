@@ -16,4 +16,4 @@ Solving:
 
 SAT
 
-Elapsed Time: 0.0 seconds
+Elapsed Time: 0.005 seconds

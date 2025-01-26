@@ -85,4 +85,4 @@ MERGE z1 x2
 FORBIDDEN z1 x2
 UNSAT
 
-Elapsed Time: 0.0 seconds
+Elapsed Time: 0.002 seconds

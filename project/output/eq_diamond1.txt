@@ -12,6 +12,7 @@ List of Cubes to check:
 Solving: 
 1) x0!=x0
 
+CONFLICT: x0 x0
 UNSAT
 
 Elapsed Time: 0.0 seconds

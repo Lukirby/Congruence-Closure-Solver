@@ -40,6 +40,7 @@ FORBIDDEN select(a,j) v1
 Solving: 
 3) i1=j ; i1!=i2 ; select(a,j)=v1 ; select(a,j)!=select(a,j) ; i2!=j ; i1!=j
 
+CONFLICT: select(a,j) select(a,j)
 UNSAT
 
 Elapsed Time: 0.0 seconds
