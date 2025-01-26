@@ -168,6 +168,15 @@ public class TermsParser {
         }
     }
 
+    private void listProjectionAxiom(String term){
+        // if the term is cons(x,y) -> car(cons(x,y)) = x; cdr(cons(x,y)) = y; 
+        // AND cons(x,y) != atom(z) for each z
+        String[] args = retrinveArguments(term);
+        String subFormula = ListSignature.car+"("+term+")"+EqSignature.equality+args[0]+";";
+        subFormula += ListSignature.cdr+"("+term+")"+EqSignature.equality+args[1]+";";
+        parseFormula(subFormula);
+    }
+
     public int makeNodes(String term,int parId){
 
         //assert isTermValid(term) : "Error: Invalid Term".concat(term);
@@ -288,21 +297,13 @@ public class TermsParser {
             this.logger.fine("Forbidden Right: "+this.nodes.get(rightId).forb);
 
             if (this.theory == Theory.LIST){
-                String subFormula;
-                String[] args;
                 // if the term is cons(x,y) -> car(cons(x,y)) = x; cdr(cons(x,y)) = y; 
                 // AND cons(x,y) != atom(z) for each z
                 if (leftTerm.startsWith(ListSignature.cons)){
-                    args = retrinveArguments(leftTerm);
-                    subFormula = ListSignature.car+"("+leftTerm+")"+EqSignature.equality+args[0]+";";
-                    subFormula += ListSignature.cdr+"("+leftTerm+")"+EqSignature.equality+args[1]+";";
-                    parseFormula(subFormula);
+                    listProjectionAxiom(leftTerm);
                 }
                 if (rightTerm.startsWith(ListSignature.cons)){
-                    args = retrinveArguments(rightTerm);
-                    subFormula = ListSignature.car+"("+rightTerm+")"+EqSignature.equality+args[0]+";";
-                    subFormula += ListSignature.cdr+"("+rightTerm+")"+EqSignature.equality+args[1]+";";
-                    parseFormula(subFormula);
+                    listProjectionAxiom(rightTerm);
                 }
             }
         }
@@ -351,9 +352,18 @@ public class TermsParser {
     public static void main(String[] args) {
         //String S = "f(a,b) = a ; f(f(a,b)) != a";
         //String R = "R(a,b) ; ~G(b,f(a,c))";
-        String C = "cons(a,b) = c";
+        String C = "car(x) = y ; cdr(x) = z ; x!=cons(y,z)";
         TermsParser A = new TermsParser(C,true);
         System.out.println(A.SF.toString());
+        for (Integer[] e :A.equalities){
+            System.out.println(Arrays.toString(e));
+        }
+        System.out.println();
+        for (Integer[] e :A.disequalities){
+            System.out.println(Arrays.toString(e));
+        }
+        System.out.println();
+        System.out.println(A.getNodes().toString());
     }
 
 }
