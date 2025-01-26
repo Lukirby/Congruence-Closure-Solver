@@ -102,6 +102,7 @@ public class CongruenceClosureAlgorithm {
         if (this.forbiddenSet){
             for (Integer[] disequality : this.disequalities){
                 if (this.DAG.FIND(disequality[0]) == this.DAG.FIND(disequality[1])){
+                    this.DAG.writeMessage("CONFLICT: "+this.DAG.printNode(disequality[0])+" "+this.DAG.printNode(disequality[1]));
                     return false;
                 }
             }
