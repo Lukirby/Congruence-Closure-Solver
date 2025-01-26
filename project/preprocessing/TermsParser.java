@@ -48,13 +48,14 @@ public class TermsParser {
             //remove "~atom(" and ")"
             newLiteral[0] = S.substring(ListSignature.negatedAtom.length()+1, S.length()-1);
             //if the argument it is not a function then:
-            if (!newLiteral[0].contains("(") && !newLiteral[0].contains(")")) {
-                String arg1 = newLiteral[0].charAt(0)+"_1";
-                String arg2 = newLiteral[0].charAt(0)+"_2";
-                newLiteral[1] = ListSignature.cons+"("+arg1+","+arg2+")";
-                newLiteral[2] = EqSignature.equality;
-                return newLiteral;
+            if (newLiteral[0].contains("(") || newLiteral[0].contains(")")) {
+                newLiteral[0] = newLiteral[0].replace("(", Regex.commentRegex).replace(")", "");
             }
+            String arg1 = newLiteral[0]+"_1";
+            String arg2 = newLiteral[0]+"_2";
+            newLiteral[1] = ListSignature.cons+"("+arg1+","+arg2+")";
+            newLiteral[2] = EqSignature.equality;
+            return newLiteral;
         }
 
         if (S.startsWith(PropLogic.negation)){
