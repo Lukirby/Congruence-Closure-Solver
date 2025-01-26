@@ -22,8 +22,6 @@ public class SMTLIBParser {
 
     private Path absPath;
 
-    private Path absDestinationPath;
-
     public Path totalPath;
 
     private String declareFun = "(declare-fun";
@@ -181,13 +179,10 @@ public class SMTLIBParser {
         this.absPath = Paths.get("").toAbsolutePath();
         if (!absPath.toString().matches("project$")){
             this.absPath = Paths.get(this.absPath.toString(),"project","smtlib_input");
-            this.absDestinationPath = Paths.get(this.absPath.toString(),"project","input");
         } else {
             this.absPath = Paths.get(this.absPath.toString(),"smtlib_input");
-            this.absPath = Paths.get(this.absPath.toString(),"input");
         }
         this.logger.fine("Absolute Path: "+this.absPath.toString());
-        this.logger.fine("Absolute Destination Path: "+this.absDestinationPath.toString());
     }
 
     public SMTLIBParser(){
