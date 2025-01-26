@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import project.classes.CongruenceClosureAlgorithm;
 import project.classes.Options;
 import project.preprocessing.FormulaReader;
+import project.preprocessing.Generator;
 import project.preprocessing.LogicParser;
 import project.preprocessing.Regex;
 import project.preprocessing.SMTLIBParser;
@@ -36,6 +37,12 @@ public class CongruenceClosureSolver {
             String content = SP.readContentFromFile(fileName);
             SP.writeInputFile(content);
             fileName = fileName.replace(".smt2", ".txt");
+        } else 
+        if (fileName.endsWith(".properties")){
+            Generator G = new Generator();
+            G.readFileGenerator(fileName);
+            G.generateFile();
+            fileName = fileName.replace(".properties", G.getNewExtention());
         }
         FormulaReader FR = new FormulaReader(true);
         String formula = FR.readFormulaFromFile(fileName);
