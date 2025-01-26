@@ -106,6 +106,7 @@ public class CongruenceClosureSolver {
 
     public boolean solve(String formula, Options opt){
         TermsParser TP = new TermsParser(formula, false);
+        output+="SF = "+TP.SF.toString()+"\n";
         CCA = new CongruenceClosureAlgorithm(TP.nodes, TP.equalities, TP.disequalities,TP.theory,opt,Level.SEVERE);
         sat = CCA.compute();
         this.output += CCA.DAG.output;
@@ -124,6 +125,8 @@ public class CongruenceClosureSolver {
         output+="Formula: \n"+formulaInput+"\n";
 
         Options opt = parseOptions(input);
+
+        output+=opt.toString()+"\n\n";
 
         LogicParser LP = new LogicParser(formulaInput, Level.SEVERE);
 
