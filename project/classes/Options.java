@@ -38,7 +38,7 @@ public class Options {
 
     @Override
     public String toString(){
-        return "Options [verbose=" + verbose + ", recursiveFind=" + recursiveFind + ", euristicUnion=" + euristicUnion + ", forbiddenSet=" + forbiddenSet + "]";
+        return "Options: [verbose=" + verbose + ", recursiveFind=" + recursiveFind + ", euristicUnion=" + euristicUnion + ", forbiddenSet=" + forbiddenSet + "]";
     }
 
 }
