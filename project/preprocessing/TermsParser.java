@@ -144,7 +144,7 @@ public class TermsParser {
             logger.fine("Array Theory Term Found");
             if (this.theory == Theory.LIST){
                 this.theory = Theory.EQUALITY;
-                System.out.println("Multiple literal from different Theories found: solving formula with Theory of Equality");
+                logger.fine("Multiple literal from different Theories found: solving formula with Theory of Equality");
             } else {
                 this.theory = Theory.ARRAY;
             }
