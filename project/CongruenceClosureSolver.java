@@ -31,7 +31,7 @@ public class CongruenceClosureSolver {
 
     public String openFile(String input){
         String fileName = input.trim().split(Regex.optionRegex)[0];
-        System.out.println("file Name: "+fileName);
+        System.out.println("File Name: "+fileName);
         if (fileName.endsWith(".smt2")){
             SMTLIBParser SP = new SMTLIBParser();
             String content = SP.readContentFromFile(fileName);
@@ -44,7 +44,7 @@ public class CongruenceClosureSolver {
             G.generateFile();
             fileName = fileName.replace(".properties", G.getNewExtention());
         }
-        FormulaReader FR = new FormulaReader(true);
+        FormulaReader FR = new FormulaReader(false);
         String formula = FR.readFormulaFromFile(fileName);
         totalPath = FR.totalPath;
         return formula;
@@ -165,6 +165,8 @@ public class CongruenceClosureSolver {
         CongruenceClosureSolver CCS = new CongruenceClosureSolver();
 
         CCS.solveInput(input);
+
+        CCS.writeOutput();
 
     }
 }
