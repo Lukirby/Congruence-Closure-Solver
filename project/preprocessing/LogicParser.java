@@ -158,7 +158,6 @@ public class LogicParser {
             formula = castInputOnConjunctions(formula);
             String[] subformulas = formula.split(Regex.disjunctionRegex);
             for (String f : subformulas){
-                System.out.println(f);
                 AL.add(f);
             }
         }
