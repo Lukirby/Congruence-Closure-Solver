@@ -112,7 +112,7 @@ public class SMTLIBParser {
     public String readContentFromFile(String fileName){
         logger.fine("File Path Received: "+fileName);
         String absString = absPath.toString();
-        logger.fine("Absolute Path"+absString);
+        logger.fine("Absolute Path: "+absString);
         this.totalPath = Paths.get(absString,fileName.trim());
         boolean sourceMode = false;
         try (BufferedReader br = new BufferedReader(new FileReader(totalPath.toString()))) {
