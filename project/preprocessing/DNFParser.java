@@ -98,8 +98,7 @@ public class DNFParser {
         }
 
         if (operands.size() != 1) {
-            System.out.println(operands);
-            throw new IllegalArgumentException("Invalid expression");
+            throw new IllegalArgumentException("Invalid expression "+operands.size());
         }
 
         return operands.pop();
