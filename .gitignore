@@ -10,3 +10,8 @@ doc/chapters/*.aux
 
 .vscode/settings.json
 lib/junit-platform-console-standalone-1.11.3.jar
+
+project/compiled/project/*.class
+project/compiled/project/classes/*.class
+project/compiled/project/debug/*.class
+project/compiled/project/preprocessing/*.class
