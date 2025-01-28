@@ -1,0 +1,106 @@
+\documentclass[11pt,a4paper]{article}
+
+\textwidth=450pt\oddsidemargin=0pt
+\setlength{\parskip}{3pt}
+
+\begin{document}
+
+    %\input{frontispiece.tex}
+    
+    \begin{center}
+        \Huge Congruence Closure Solver
+
+        \LARGE Project Report 2024-2025
+
+        \Large {Luca Panariello VR}
+    \end{center}
+
+    \vspace{0.5em}
+
+    \section{Introduction}
+
+    The project consist in the creation of a solver for the satisfiability 
+    of formula that belong to three different theories: theory of equality with free symbols, 
+    non-empty possibly cyclic lists, and arrays without extensionality.
+
+    The solver use the \textbf{Congruence Closure Algorithm} on a DAG, and has tree possible 
+    variation or euristics that can be choosen optionally:
+    \begin{itemize}
+        \item Non-recursive \texttt{FIND} function (\texttt{"r"})
+        \item Heuristic \texttt{UNION} function (\texttt{"e"})
+        \item Forbidden Set use (\texttt{"f"})
+    \end{itemize}
+
+    This project is written in \textbf{Java} language and need to be compiled in order to use it, 
+    in the main folder there are two bash files that can help to build and run the program.
+
+    Along the solver there are a \textbf{generator} for the creation of synthetic 
+    set of literls customizable by the user (under a cert exent), and a 
+    parser for a limited set of \textbf{QF\_UF SMT-LIB} files.
+
+    \section{Project Folder}
+    The project folder is organized in the following way:
+    \begin{itemize}
+        \item \textbf{classes}: this folder contain the core classes of the solver and the 
+        Congruence Closure Algorithm such as \texttt{Node} and \texttt{DAG}.
+        \item  \textbf{compiled}: this folder contatin the compiled java files (.class) since
+        the solver work on the main project folder, no files should be added or edit.
+        \item \textbf{debug}: this folder contain classes for debug purpouses.
+        \item \textbf{generator}: this folder containain the properties files.
+        \item \textbf{input}: this folder containg the txt files that have the formula or set of 
+        literals to be checkd, those files use the basic syntax of the solver.
+        \item \textbf{output}: this folder contain the result submitted in the input folder.
+        \item \textbf{preprocessing}: this folder contain the classes used for preprocessing purpouses.
+        \item \textbf{smtlib\_input}: this folder contains the .smt2 files from SMT-LIB without edit.
+        \item \textbf{tests}: this folder contain files for test purpouses.
+    \end{itemize}
+
+    The main class is \texttt{Congruence Closure Solver} which act as central manager and 
+    is responsable to to read the name file given in input 
+    (that have to be in \texttt{input}, \texttt{generator}, 
+    \texttt{smtlib\_input} folder based on the type of file), the options and 
+    retrieves the formula using a \texttt{FormulaReader}.
+    The formula will be passed to a parser and then to the algorithm.
+
+    \section{Input}
+
+    The program accept both a set of literals delimiteted by \texttt{;}, that a formula 
+    with logical connectives.
+    
+    It is also possible to submit a generator file with \texttt{.properties} extention
+    to create a customizable set of literals, with randomic mechanisms.
+
+    Or to submit directly a \texttt{.smt2} file from QF\_UF SMT-LIB, not all the files 
+    are compatible since SMT-LIB language is very complex.
+    
+    More info about the syntax avaiable in the \texttt{README} file.
+
+    \section{Parsing}
+
+    The retrieved formula is submitted by a chain of parser:
+    \begin{enumerate}
+        \item \texttt{DNFParser}: after dropping the existential quantifiers and the universal 
+        quantifiers,
+        parse the input formula and cast it in a \texttt{DNFTree},
+        a $n$-tree where the nodes are logical connectives or predicates, and the edge are the 
+        the scope of the logical connectives. 
+        (More info about the precedence used in in the \texttt{README} file)
+        [IMMAGINE]
+        \item \texttt{LogicParser}: use the \texttt{DNFTrasformer} handle the a chain of 
+        transformation that reduce the \texttt{DNFTree} to a tree with an \texttt{or} root
+        that have only have \texttt{and} children, which will have only predicate children
+        (already negated if is the case), which will be the leaves.
+
+        Then cast the leaves into an \texttt{ArrayList<String>} which will rappresent the 
+        list of cubes to solve one at time.
+
+        Another task that the \texttt{LogicParser} performes is the splitting required upon 
+        receiving a formula that contain an istance of \texttt{select(score($\dots$))},
+        the parser check the occurence and split the formula in the two versions,
+        since it has handling a list of cubes (\texttt{or}), 
+        than the parser removed the splitted cube, and intail the new ones, 
+        ready to be checked at the end, and performing the operation again if necessary.
+        [FORMULA?]
+    \end{enumerate}
+
+\end{document}
