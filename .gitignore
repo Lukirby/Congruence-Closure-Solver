@@ -5,6 +5,8 @@ doc/*.synctex.gz
 doc/*.toc
 doc/*.fls
 doc/*.fdb_latexmk
+doc/*.bbl
+doc/*.blg
 
 doc/chapters/*.aux
 
