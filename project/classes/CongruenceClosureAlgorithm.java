@@ -26,6 +26,16 @@ public class CongruenceClosureAlgorithm {
 
     public boolean forbiddenSet;
 
+    /**
+     * Constructs a new CongruenceClosureAlgorithm instance.
+     *
+     * @param nodes A HashMap containing the nodes of the congruence closure algorithm.
+     * @param equalities An ArrayList of Integer arrays representing the equalities.
+     * @param disequalities An ArrayList of Integer arrays representing the disequalities.
+     * @param theory The theory to be used in the congruence closure algorithm.
+     * @param opt The options for configuring the algorithm.
+     * @param log The logging level for debugging purposes.
+     */
     public CongruenceClosureAlgorithm(
         HashMap<Integer,Node> nodes,
         ArrayList<Integer[]> equalities,
@@ -44,6 +54,16 @@ public class CongruenceClosureAlgorithm {
         this.DAG = new CongruenceClosureDAG(this.nodes,opt,log);
     }
 
+    /**
+     * Constructs a new CongruenceClosureAlgorithm instance.
+     * Log level is set to OFF.
+     *
+     * @param nodes A HashMap containing the nodes of the congruence closure algorithm.
+     * @param equalities An ArrayList of Integer arrays representing the equalities.
+     * @param disequalities An ArrayList of Integer arrays representing the disequalities.
+     * @param theory The theory to be used in the congruence closure algorithm.
+     * @param opt The options for configuring the algorithm.
+     */
     public CongruenceClosureAlgorithm(
         HashMap<Integer,Node> nodes,
         ArrayList<Integer[]> equalities,
@@ -54,6 +74,16 @@ public class CongruenceClosureAlgorithm {
         this(nodes, equalities, disequalities, theory, opt, Level.OFF);
     }
 
+    /**
+     * Constructs a new CongruenceClosureAlgorithm instance.
+     * Log level is set to OFF.
+     * Default options are used (everything is set to false).
+     *
+     * @param nodes A HashMap containing the nodes of the congruence closure algorithm.
+     * @param equalities An ArrayList of Integer arrays representing the equalities.
+     * @param disequalities An ArrayList of Integer arrays representing the disequalities.
+     * @param theory The theory to be used in the congruence closure algorithm.
+     */
     public CongruenceClosureAlgorithm(
         HashMap<Integer,Node> nodes,
         ArrayList<Integer[]> equalities,
@@ -63,10 +93,17 @@ public class CongruenceClosureAlgorithm {
         this(nodes, equalities, disequalities, theory, new Options(), Level.OFF);
     }
 
+    /**
+     * Checks the satisfiability of the current state of the congruence closure algorithm.
+     *
+     * @return true if the current state is satisfiable, false otherwise.
+     */
     private boolean checkSatifiability(){
         for (Integer[] disequality : this.disequalities){
-            this.DAG.writeMessage("CHECK DISEQUALITY "+this.DAG.printNode(disequality[0])+" "+this.DAG.printNode(disequality[1]));
-            if (this.DAG.FIND(disequality[0]) == this.DAG.FIND(disequality[1])){
+            if(this.verbose){
+                this.DAG.writeMessage("CHECK DISEQUALITY "+this.DAG.printNode(disequality[0])+" "+this.DAG.printNode(disequality[1]));
+            }
+                if (this.DAG.FIND(disequality[0]) == this.DAG.FIND(disequality[1])){
                 return false;
             }
         }
@@ -96,6 +133,11 @@ public class CongruenceClosureAlgorithm {
         return true;
     }
 
+    /**
+     * Computes the satisfiability of the given equalities and disequalities.
+     * 
+     * @return true if the equalities and disequalities are satisfiable, false otherwise.
+     */
     public boolean compute(){
         if (this.forbiddenSet){
             for (Integer[] disequality : this.disequalities){

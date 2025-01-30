@@ -30,6 +30,13 @@ public class CongruenceClosureDAG {
 
     private StringBuilder indentation = new StringBuilder();
 
+    /**
+     * Constructs a new CongruenceClosureDAG instance.
+     *
+     * @param nodes A HashMap containing the nodes of the DAG, where the key is an Integer and the value is a Node.
+     * @param opt An Options object containing various configuration settings.
+     * @param log A Level object specifying the logging level.
+     */
     public CongruenceClosureDAG(HashMap<Integer,Node> nodes, Options opt, Level log){
 
         this.logger = new Debug(this.getClass(), log);
@@ -49,18 +56,45 @@ public class CongruenceClosureDAG {
         logger.fine(nodes.toString());
     }
 
+    /**
+     * Constructs a CongruenceClosureDAG with the specified nodes and options.
+     * Log set to OFF.
+     * 
+     * @param nodes a HashMap containing the nodes of the DAG, where the key is an Integer and the value is a Node.
+     * @param opt an Options object containing configuration settings for the DAG.
+     */
     public CongruenceClosureDAG(HashMap<Integer,Node> nodes, Options opt){
         this(nodes,opt,Level.SEVERE);
     }
 
+    /**
+     * Constructs a new CongruenceClosureDAG with the specified nodes.
+     * Log set to OFF.
+     * Default options are used (everything is set to false).
+     * 
+     * @param nodes a HashMap containing the nodes of the DAG, where the key is an Integer
+     *              representing the node identifier and the value is a Node object.
+     */
     public CongruenceClosureDAG(HashMap<Integer,Node> nodes){
         this(nodes,new Options(),Level.SEVERE);
     }
 
+    /**
+     * Retrieves the Node object associated with the given identifier.
+     *
+     * @param id the identifier of the Node to retrieve
+     * @return the Node object associated with the specified id
+     */
     public Node NODE(int id){
         return this.nodes.get(id);
     }
 
+    /**
+     * Recursively finds the representative of the set containing the given node id.
+     * 
+     * @param id the id of the node to find the representative for
+     * @return the id of the representative node
+     */
     public int REC_FIND(int id){
         Node N = NODE(id);
         if (N==null){
@@ -73,6 +107,14 @@ public class CongruenceClosureDAG {
         }
     }
 
+    /**
+     * Finds the representative of the congruence closure containing the given node id.
+     * If the recursive find option is enabled, uses the REC_FIND method.
+     * Otherwise, it retrieves the node and returns its representative.
+     *
+     * @param id the ID of the node to find the representative for
+     * @return the representative ID of the set containing the given node id.
+     */
     public int FIND(int id){
         if (this.recursiveFind) {
             return REC_FIND(id);
@@ -84,6 +126,14 @@ public class CongruenceClosureDAG {
         return N.find;
     }
 
+    /**
+     * Merges the equivalence classes of the nodes identified by the given IDs.
+     * The node with the larger ccpar set becomes the representative of the merged class.
+     * If the sizes are equal, the second node becomes the representative.
+     * 
+     * @param id1 the ID of the first node
+     * @param id2 the ID of the second node
+     */
     public void EUR_UNION(int id1, int id2){
         Node N1 = NODE(FIND(id1));
         Node N2 = NODE(FIND(id2));
@@ -117,6 +167,13 @@ public class CongruenceClosureDAG {
         logger.fine("forbidden node: "+N.forb);
     }
 
+    /**
+     * Performs the merge operation on two nodes identified by their ids.
+     * If euristicUnion is enabled, uses the EUR_UNION method.
+     *
+     * @param id1 the ID of the first node
+     * @param id2 the ID of the second node
+     */
     public void UNION(int id1, int id2){
         if(this.verbose){
             writeMessage("UNION "+this.printNode(id1)+" "+this.printNode(id2));
@@ -148,6 +205,13 @@ public class CongruenceClosureDAG {
         }
     }
 
+    /**
+     * Returns a set of integers representing the congruence closure parents (ccpar) 
+     * of the node identified by the given id, in form of a copy of the ccpar set.
+     *
+     * @param id the identifier of the node whose ccpar set is to be retrieved
+     * @return a set of integers representing the ccpar of the specified node
+     */
     public Set<Integer> CCPAR(int id){
         return new HashSet<Integer>(NODE(FIND(id)).ccpar);
     }
@@ -191,6 +255,13 @@ public class CongruenceClosureDAG {
         return true;
     }
 
+    /**
+     * Checks if two nodes are congruent.
+     *
+     * @param id1 the identifier of the first node
+     * @param id2 the identifier of the second node
+     * @return true if the nodes are congruent, false otherwise
+     */
     public boolean CONGRUENT(int id1, int id2){
         if(this.verbose){
             writeMessage("CONGREUNCE "+this.printNode(id1)+" "+this.printNode(id2));
@@ -200,6 +271,13 @@ public class CongruenceClosureDAG {
         return congruenceCheck(N1, N2);
     }
 
+    /**
+     * Merges two nodes in the congruence closure DAG.
+     * 
+     * @param id1 The identifier of the first node.
+     * @param id2 The identifier of the second node.
+     * 
+     */
     public void MERGE(int id1, int id2){
         if(this.verbose){
             writeMessage("MERGE "+this.printNode(id1)+" "+this.printNode(id2));
@@ -244,18 +322,40 @@ public class CongruenceClosureDAG {
         logger.fine("END MERGE");
     }
     
+    /**
+     * Sets the nodes of the Congruence Closure DAG.
+     *
+     * @param nodes a HashMap where the key is an Integer representing the node ID
+     *              and the value is a Node object representing the node itself.
+     */
     public void setNodes(HashMap<Integer, Node> nodes) {
         this.nodes = nodes;
     }
 
+    /**
+     * Retrieves the map of nodes in the congruence closure DAG.
+     *
+     * @return a HashMap where the keys are node identifiers (integers) and the values are Node objects.
+     */
     public HashMap<Integer, Node> getNodes() {
         return nodes;
     }
 
+    /**
+     * Appends a message to the output with the current indentation level.
+     *
+     * @param message The message to be appended to the output.
+     */
     public void writeMessage(String message){
         this.output += this.indentation.toString()+message+"\n";
     }
 
+    /**
+     * Recursively constructs a string representation of the node with the given ID.
+     *
+     * @param id the ID of the node to be printed
+     * @return a string representation of the node and its arguments
+     */
     public String printNode(int id){
         Node N = NODE(id);
         String s = N.name;
@@ -272,6 +372,12 @@ public class CongruenceClosureDAG {
         return s;
     }
 
+    /**
+     * Converts a set of integers representing nodes into a formatted string.
+     *
+     * @param ccpar the set of integers representing nodes to be formatted
+     * @return a string representation of the set in the format "{node1, node2, ...}"
+     */
     public String printCCPAR(Set<Integer> ccpar){
         String s = "{";
         Iterator<Integer> iter = ccpar.iterator();
@@ -285,6 +391,16 @@ public class CongruenceClosureDAG {
         return s;
     }
 
+    /**
+     * Prints the congruence classes of the nodes in the DAG.
+     * 
+     * @return A string representation of the congruence classes in the format:
+     *         {
+     *             representative1 : { node1, node2, ... },
+     *             representative2 : { node3, node4, ... },
+     *             ...
+     *         }
+     */
     public String printCoungruenceClasses(){
         HashMap<Integer,HashSet<Node>> classes = new HashMap<Integer,HashSet<Node>>();
         for (Node N: this.nodes.values()){
