@@ -10,6 +10,22 @@ public class DNFParser {
     private static final HashSet<String> OPERATORS = new HashSet<String>(Arrays.asList(PropLogic.operators));
     
     // Determine precedence of operators
+    /**
+     * Determines the precedence of a given logical operator.
+     *
+     * @param operator the logical operator as a String
+     * @return an integer representing the precedence of the operator:
+     *  - 3 for negation <br>
+     *  <br>
+     *  - 2 for conjunction <br>
+     *  <br>
+     *  - 1 for disjunction <br>
+     * <br>
+     *  - 0 for implication or coimplication <br>
+     * <br>
+     *  - -1 for any other operator
+     * <br>
+     */
     public static int precedence(String operator) {
         if(operator.equals(PropLogic.negation)){
             return 3;
@@ -27,6 +43,15 @@ public class DNFParser {
         }
     }
 
+    /**
+     * Processes an operator by popping it from the operators stack and applying it to the operands
+     * stack to form a DNFTree. If the operator is a negation, it applies it to a single operand.
+     * Otherwise, it applies the operator to two operands.
+     *
+     * @param operators the stack of operators
+     * @param operands the stack of DNFTree operands
+     * @throws IllegalArgumentException if the expression is invalid (e.g., not enough operands)
+     */
     public static void processOperator(Stack<String> operators, Stack<DNFTree> operands) {
         String operator = operators.pop();
         if (operator.equals(PropLogic.negation)) {
@@ -50,6 +75,13 @@ public class DNFParser {
         }
     }
 
+    /**
+     * Parses a given logical expression in Disjunctive Normal Form (DNF) and constructs a DNFTree.
+     *
+     * @param expression the logical expression in DNF to be parsed
+     * @return a DNFTree representing the parsed logical expression
+     * @throws IllegalArgumentException if the expression contains mismatched parentheses or is invalid
+     */
     public static DNFTree parse(String expression) {
         Stack<DNFTree> operands = new Stack<DNFTree>();
         Stack<String> operators = new Stack<String>();
@@ -104,14 +136,34 @@ public class DNFParser {
         return operands.pop();
     }
 
+    /**
+     * Checks if the given string represents a logical operator.
+     *
+     * @param S the string to check
+     * @return true if the string is a logical operator, false otherwise
+     */
     public static boolean isLogicalOperator(String S) {
         return OPERATORS.contains(Character.toString(S.charAt(0))) || OPERATORS.contains(S);
     }
 
+    /**
+     * Checks if the given string is a parenthesis.
+     *
+     * @param S the string to check
+     * @return true if the string is a left or right parenthesis, false otherwise
+     */
     public static boolean isParenthesis(String S) {
         return S.equals(PropLogic.leftParenthesis) || S.equals(PropLogic.rightParenthesis);
     }
 
+    /**
+     * Checks if the given string is a variable.
+     * A string is considered a variable if it is not a logical operator
+     * and not a parenthesis.
+     *
+     * @param S the string to check
+     * @return true if the string is a variable, false otherwise
+     */
     public static boolean isVariable(String S) {
         return !isLogicalOperator(S) && !isParenthesis(S);
     }

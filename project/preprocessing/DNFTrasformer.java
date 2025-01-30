@@ -7,6 +7,17 @@ import project.classes.DNFTree;
 
 public class DNFTrasformer {
 
+    /**
+     * Transforms a given DNFTree by performing a series of preprocessing steps.
+     * The steps include:
+     * 1. Deleting implications.
+     * 2. Deleting nested negations.
+     * 3. Distributing conjunctions.
+     * 4. Removing duplicates. (DO NOT WORK)
+     *
+     * @param tree the DNFTree to be transformed
+     * @return a String representation of the transformed DNFTree
+     */
     public static String transform(DNFTree tree) {
         tree = deleteImplications(tree);
         tree = deleteNestedNegations(tree);
@@ -17,6 +28,13 @@ public class DNFTrasformer {
 
     }
 
+    /**
+     * Deletes implications and coimplications from a given DNFTree.
+     * The method then recursively processes all children of the tree.
+     *
+     * @param tree the DNFTree from which implications and coimplications are to be deleted
+     * @return the DNFTree with implications and coimplications removed
+     */
     public static DNFTree deleteImplications(DNFTree tree){
         if(tree.getValue().equals(PropLogic.implication)){
             tree = handleImplication(tree);
@@ -30,6 +48,12 @@ public class DNFTrasformer {
         return tree;
     }
 
+    /**
+     * The tree that rapresent the implication A -> B is transformed into ¬A ∨ B.
+     *
+     * @param tree the DNFTree representing the implication to be transformed.
+     * @return the transformed DNFTree in disjunctive normal form.
+     */
     public static DNFTree handleImplication(DNFTree tree){
         tree.value = PropLogic.disjunction;
         ArrayList<DNFTree> children = tree.getChildren();
@@ -41,6 +65,12 @@ public class DNFTrasformer {
         return tree;
     }
 
+    /**
+     * The tree that represent a coimplication A ↔ B is tranformed into (A ∧ B) ∨ (¬A ∧ ¬B).
+     *
+     * @param tree the DNFTree representing the coimplication to be transformed.
+     * @return the transformed DNFTree representing the disjunction of two conjunctions.
+     */
     public static DNFTree handleCoimplication(DNFTree tree){
         tree.value = PropLogic.disjunction;
         ArrayList<DNFTree> children = tree.getChildren();
@@ -65,6 +95,14 @@ public class DNFTrasformer {
         return tree;
     }
 
+    /**
+     * Deletes nested negations in a given DNFTree.
+     * If the tree's value is a negation, it handles the negation.
+     * Recursively processes all children of the tree to delete nested negations.
+     *
+     * @param tree the DNFTree to process
+     * @return the DNFTree with nested negations deleted
+     */
     public static DNFTree deleteNestedNegations(DNFTree tree){
         if (tree == null) {
             return null;
@@ -78,6 +116,21 @@ public class DNFTrasformer {
         return tree;
     }
 
+    /**
+     * Handles the negation of a given DNFTree. <br>
+     * <br>
+     * If the child of the tree is a negation,
+     * it removes the negation and returns the child. <br>
+     * <br>
+     * If the child is a conjunction,
+     * it converts it to a disjunction and negates its children. <br>
+     * <br>
+     * If the child is a 
+     * disjunction, it converts it to a conjunction and negates its children.
+     *
+     * @param tree the DNFTree to handle negation for
+     * @return the transformed DNFTree with negation handled
+     */
     public static DNFTree handleNegation(DNFTree tree){
         ArrayList<DNFTree> children = tree.getChildren();
         DNFTree child = children.get(0);
@@ -113,6 +166,13 @@ public class DNFTrasformer {
         return tree;
     }
 
+    /**
+     * Distributes conjunctions within a DNFTree according to specific logical rules.
+     * Recursively processes all children of the tree to distribute conjunctions.
+     * 
+     * @param tree the DNFTree to be processed
+     * @return the transformed DNFTree with conjunctions distributed
+     */
     public static DNFTree distributeConjunctions(DNFTree tree){
         if(tree.getValue().equals(PropLogic.conjuction)){
             tree = handleDoubleOperator(tree);
@@ -130,6 +190,14 @@ public class DNFTrasformer {
         return tree;    
     }
 
+    /**
+     * Transforms a given DNFTree by handling conjunctions and disjunctions.
+     * If the tree contains a disjunction among its children, it restructures the tree
+     * to distribute the conjunction over the disjunction.
+     *
+     * @param tree the DNFTree to be transformed
+     * @return the transformed DNFTree
+     */
     public static DNFTree handleConjunction2(DNFTree tree){
         int childrenSize = tree.getChildren().size();
         ArrayList<DNFTree> children = new ArrayList<DNFTree>(childrenSize);
@@ -170,6 +238,13 @@ public class DNFTrasformer {
         return tree;
     }
 
+    /**
+     * Handles the conjunction in a DNFTree by transforming it according to the rules of
+     * distributive property of conjunction over disjunction.
+     * 
+     * @param tree the DNFTree to be transformed
+     * @return the transformed DNFTree
+     */
     public static DNFTree handleConjunction(DNFTree tree) {
         ArrayList<DNFTree> children = tree.getChildren();
         DNFTree leftChild = children.get(0);
@@ -219,6 +294,13 @@ public class DNFTrasformer {
         return tree;
     }
 
+    /**
+     * This method processes a DNFTree to handle double operators by merging child nodes
+     * that have the same value as the parent node.
+     *
+     * @param tree the DNFTree to be processed
+     * @return the processed DNFTree with double operators handled
+     */
     public static DNFTree handleDoubleOperator(DNFTree tree){
         boolean hasRipetitions = true;
         int childrenSize ;
@@ -243,6 +325,17 @@ public class DNFTrasformer {
         return tree;
     }
 
+    /**
+     * Negates the given DNFTree term. <br>
+     * <br>
+     * If the term contains an equality, it is replaced with a disequality,
+     * and viceversa. <br>
+     * <br>
+     * Otherwise, the term is prefixed with a negation symbol.
+     *
+     * @param tree the DNFTree term to be negated
+     * @return the negated DNFTree term
+     */
     public static DNFTree makeNegatedTerm(DNFTree tree){
         DNFTree child = tree.getChildren().get(0);
         if(child.value.contains(EqSignature.disequality)){
@@ -256,6 +349,15 @@ public class DNFTrasformer {
         return child;
     }
 
+    /**
+     * [DO NOT WORK] <br>
+     * <br>
+     * Removes duplicate nodes from a DNFTree. This method traverses the tree and 
+     * removes any duplicate child nodes at each level.
+     *
+     * @param tree the DNFTree from which duplicates are to be removed
+     * @return the DNFTree with duplicates removed
+     */
     public static DNFTree removeDuplicates(DNFTree tree){
         if (!tree.isLeaf()){
             ArrayList<DNFTree> children = tree.getChildren();
@@ -271,6 +373,12 @@ public class DNFTrasformer {
         return tree;
     }
 
+    /**
+     * Converts a DNFTree into a string representation of its formula.
+     *
+     * @param tree the DNFTree to be converted
+     * @return a string representation of the formula
+     */
     public static String makeFormula(DNFTree tree){
         if(tree.isLeaf()){
             return tree.getValue();
