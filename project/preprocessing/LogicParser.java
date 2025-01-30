@@ -16,6 +16,21 @@ public class LogicParser {
     public ArrayList<String> formulaList = new ArrayList<String>();
 
     //select(store(a,i,v),j) = w => i=j & v = w | i!=j & select(v,j) = w 
+    /**
+     * Splits a formula containing a select-over-store operation into two sub-formulas.
+     * 
+     * The method identifies the pattern of a select operation over a store operation
+     * in the given formula and splits it into two sub-formulas based on the following logic: <br>
+     * <br> <br>
+     * 1. select(store(a, i, v), j) = w => i = j & v = w <br>
+     * <br>
+     * 2. select(store(a, i, v), j) = w => i != j & select(a, j) = w <br>
+     * <br>
+     * 
+     * @param formula The input formula containing the select-over-store operation.
+     * @return An array of two sub-formulas derived from the input formula. If the pattern
+     *         is not found, an empty array is returned.
+     */
     public String[] splitSelectOverStore(String formula){
         Matcher M = Pattern.compile(ArraySignature.selectOverStore).matcher(formula);
         if (!M.find()){
@@ -85,6 +100,12 @@ public class LogicParser {
         return subFormulas;
     }
 
+    /**
+     * Transforms array theory formulas by repeatedly splitting formulas
+     * containing select-over-store expressions until no more splits can be made.
+     * 
+     * The transformation is performed in-place on the formulaList field.
+     */
     public void arrayTheoryFormulaTransformation(){
         boolean splitted = true;
         ArrayList<String> flCopy = new ArrayList<String>();
@@ -105,6 +126,13 @@ public class LogicParser {
         }
     }
 
+    /**
+     * Replaces implications and coimplications in the given logical formula with their 
+     * corresponding propositional logic representations.
+     *
+     * @param formula the logical formula as a string
+     * @return the formula with implications and coimplications replaced
+     */
     public String castImplications(String formula){
         String S = formula;
         S = S.replace(Regex.coimplicationRegex, PropLogic.coimplication);
@@ -112,6 +140,17 @@ public class LogicParser {
         return S;
     }
 
+    /**
+     * Reverses the cast of implications and coimplications in the given logical formula.
+     * 
+     * This method replaces all occurrences of coimplications and implications in the 
+     * input formula string with their corresponding regular expression representations.
+     * 
+     * @param formula the logical formula as a string where implications and coimplications 
+     *                need to be reversed.
+     * @return a new string with implications and coimplications replaced by their 
+     *         regular expression equivalents.
+     */
     public String reverseCastImplications(String formula){
         String S = formula;
         S = S.replace(PropLogic.coimplication, Regex.coimplicationRegex);
@@ -119,18 +158,38 @@ public class LogicParser {
         return S;
     }
 
+    /**
+     * Replaces all occurrences of the conjunction operator in the given formula
+     * with the specified regular expression pattern.
+     *
+     * @param formula the input logical formula as a string
+     * @return the modified formula with conjunctions replaced by the regex pattern
+     */
     public String castInputOnConjunctions(String formula){
         String S = formula;
         S = S.replace(PropLogic.conjuction, Regex.inputRegex);
         return S;
     }
 
+    /**
+     * Replaces all occurrences of a specific regex pattern in the input formula with a conjunction.
+     *
+     * @param formula the input logical formula as a string
+     * @return the modified formula with conjunctions replacing the specified regex pattern
+     */
     public String castConjunctionsOnInput(String formula){
         String S = formula;
         S = S.replace(Regex.inputRegex,PropLogic.conjuction);
         return S;
     }
 
+    /**
+     * Formats the given formula string by cleaning it, removing a trailing regex pattern if present,
+     * and adding spaces around semicolons.
+     *
+     * @param formula the formula string to be formatted
+     * @return the formatted formula string
+     */
     public String formatFormula(String formula){
         String S = TermsParser.cleanFormula(formula);
         if (S.endsWith(Regex.inputRegex)){
@@ -140,12 +199,24 @@ public class LogicParser {
         return S;
     }
 
+    /**
+     * Removes quantifiers from the given logical formula.
+     *
+     * @param formula the logical formula as a string
+     * @return the formula with quantifiers removed
+     */
     public String removeQuantifiers(String formula){
         String S = formula;
         S = S.replaceAll(Regex.quantifierRegex, "");
         return S;
     }
 
+    /**
+     * Converts a given logical formula into its Disjunctive Normal Form (DNF).
+     * 
+     * @param formula The logical formula to be converted.
+     * @return An ArrayList of strings, where each string is a cube of the DNF.
+     */
     public ArrayList<String> DNF(String formula){
         ArrayList<String> AL = new ArrayList<String>();
         if (formula.contains(Regex.inputRegex)){
@@ -164,6 +235,12 @@ public class LogicParser {
         return AL;
     }
 
+    /**
+     * Constructs a LogicParser object that processes a given logical formula.
+     *
+     * @param formula the logical formula to be parsed and processed
+     * @param level the logging level for debugging purposes
+     */
     public LogicParser(String formula, Level level){
         this.logger = new Debug(this, level);
 
@@ -183,6 +260,12 @@ public class LogicParser {
 
     }
 
+    /**
+     * Converts the formula list into its Disjunctive Normal Form (DNF) representation.
+     * The DNF is a standardization of a logical formula which is a disjunction of conjunctions.
+     * 
+     * @return A string representing the formula list in DNF format.
+     */
     public String getDNF(){
         String dnf = "DNF:\n";
         Iterator<String> it = this.formulaList.iterator();
@@ -196,6 +279,12 @@ public class LogicParser {
         return dnf;
     }
 
+    /**
+     * Generates a string representation of the list of cubes (formulas) to check.
+     * Each cube is prefixed with its index in the list.
+     *
+     * @return A string containing the list of cubes, each on a new line, prefixed with its index.
+     */
     public String getListOfCubes(){
         String dnf = "List of Cubes to check:\n";
         int i = 1;

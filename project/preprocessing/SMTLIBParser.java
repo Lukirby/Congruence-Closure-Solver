@@ -34,6 +34,13 @@ public class SMTLIBParser {
 
     private String declareStatus = "(set-info :status ";
 
+    /**
+     * [NOT USED] 
+     * Parses a line containing a function declaration in SMT-LIB format and converts it into a string representation.
+     * 
+     * @param line The input line containing the function declaration in SMT-LIB format.
+     * @return A string representation of the function declaration in the specified format.
+     */
     public String readDeclareFun(String line){
         Pattern pattern = Pattern.compile(Regex.declareFunRegex);
         Matcher matcher = pattern.matcher(line);
@@ -56,6 +63,13 @@ public class SMTLIBParser {
         return equality;
     }
     
+    /**
+     * Parses and transforms a given SMT-LIB formula into a custom string representation.
+     * 
+     * @param formula the SMT-LIB formula to be parsed and transformed
+     * @return a string representation of the transformed formula
+     * @throws IllegalArgumentException if the formula contains unsupported constructs
+     */
     public static String readAssert(String formula) {
         formula = formula.trim();
 
@@ -88,7 +102,13 @@ public class SMTLIBParser {
         }
     }
 
-    // Utility method to split top-level sub-expressions
+    /**
+     * Splits the input string into an array of strings at the top level, 
+     * ignoring spaces within nested parentheses.
+     *
+     * @param input the input string to be split
+     * @return an array of strings split at the top level
+     */
     public static String[] splitTopLevel(String input) {
         List<String> parts = new ArrayList<>();
         int openParens = 0;
@@ -109,6 +129,13 @@ public class SMTLIBParser {
         return parts.toArray(new String[0]);
     }
 
+    /**
+     * Reads the content from a specified file and processes it according to specific rules.
+     *
+     * @param fileName the name of the file to read from
+     * @return the processed content of the file as a String
+     * @throws IOException if an I/O error occurs reading from the file
+     */
     public String readContentFromFile(String fileName){
         logger.fine("File Path Received: "+fileName);
         String absString = absPath.toString();
@@ -153,6 +180,13 @@ public class SMTLIBParser {
         return this.fileContent;
     }
 
+    /**
+     * Writes the given content to a file. The file path is derived from the 
+     * totalPath by replacing "smtlib_input" with "input" and changing the 
+     * file extension from ".smt2" to ".txt".
+     *
+     * @param content the string content to be written to the file
+     */
     public void writeInputFile(String content){
         try {
             // Create a FileWriter object to write to the file
@@ -170,6 +204,12 @@ public class SMTLIBParser {
         }
     }
 
+    /**
+     * Constructs an SMTLIBParser with logging capability.
+     *
+     * @param log a Boolean indicating whether to enable fine-grained logging (true) or severe logging (false).
+     * 
+     */
     public SMTLIBParser(Boolean log){
         if (log){
             this.logger = new Debug(this.getClass(), Level.FINE);
@@ -185,6 +225,10 @@ public class SMTLIBParser {
         this.logger.fine("Absolute Path: "+this.absPath.toString());
     }
 
+    /**
+     * Constructs a new SMTLIBParser instance with default settings.
+     * Log level is set to SEVERE.
+     */
     public SMTLIBParser(){
         this(false);
     }

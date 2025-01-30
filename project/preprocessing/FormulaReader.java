@@ -19,6 +19,13 @@ public class FormulaReader {
 
     public Path totalPath;
 
+    /**
+     * Reads a formula from a specified file, ignoring lines that start with an underscore.
+     * Logs the file path received, the absolute path, the total path, and the obtained formula.
+     *
+     * @param fileName the name of the file to read the formula from
+     * @return the formula read from the file as a String
+     */
     public String readFormulaFromFile(String fileName){
         logger.fine("File Path Received: "+fileName);
         String absString = absPath.toString();
@@ -45,6 +52,14 @@ public class FormulaReader {
         return this.readFormulaFromFile(this.formula);
     }
 
+    /**
+     * Constructs a FormulaReader object.
+     *
+     * @param log a Boolean indicating whether to enable fine-grained logging (true) or severe logging (false).
+     *
+     * If logging is enabled, a Debug logger is initialized with a FINE level.
+     * Otherwise, a Debug logger is initialized with a SEVERE level.
+     */
     public FormulaReader(Boolean log){
         if (log){
             this.logger = new Debug(this.getClass(), Level.FINE);
