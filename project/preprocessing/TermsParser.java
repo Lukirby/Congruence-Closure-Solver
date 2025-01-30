@@ -29,16 +29,41 @@ public class TermsParser {
 
     public ArrayList<Integer[]> disequalities = new ArrayList<Integer[]>();
 
+    /**
+     * Checks if the given string is valid.
+     * A string is considered valid if it is not null and not empty after trimming.
+     *
+     * @param S the string to be checked
+     * @return true if the string is valid, false otherwise
+     */
     private boolean isStringValid(String S){
         return !S.trim().isEmpty() && S != null;
     }
 
+    /**
+     * Cleans the given formula string by removing all whitespace characters and newline characters.
+     *
+     * @param formula the formula string to be cleaned
+     * @return a new string with all whitespace and newline characters removed
+     */
     public static String cleanFormula(String formula){
         formula = formula.replaceAll("\\s", "");
         formula = formula.replaceAll("\n", "");
         return formula;
     }
 
+    /**
+     * Handles the given predicate string and returns an array of strings representing the processed literal.
+     *
+     * @param S the input predicate string to be processed
+     * @return a String array containing the processed literal in the following format: <br>
+     * <br>
+     * - newLiteral[0]: the processed argument or function predicate prefix <br>
+     * <br>
+     * - newLiteral[1]: the constructed list or true constant <br>
+     * <br>
+     * - newLiteral[2]: the equality or inequality operator <br>
+     */
     public String[] predicateHandler(String S){
         String[] newLiteral = new String[3];
 
@@ -69,6 +94,16 @@ public class TermsParser {
         return newLiteral;
     }
 
+    /**
+     * Retrieves the name of a function from its string representation.
+     * If the function string contains parentheses, the name is considered
+     * to be the substring before the first parenthesis. Otherwise, the entire
+     * string is considered the name (costant).
+     *
+     * @param function the string representation of the function
+     * @return the name of the function
+     * @throws IllegalArgumentException if the function string does not match the expected format
+     */
     private String retriveName(String function){
         if(!function.matches(Regex.termRegex)){
             logger.severe("Invalid Name for term ".concat(function));
@@ -84,6 +119,12 @@ public class TermsParser {
         return name;
     }
 
+    /**
+     * Splits a given subformula into its arguments, taking into account nested parentheses.
+     *
+     * @param subformula the subformula to split into arguments
+     * @return an array of strings, each representing an argument from the subformula
+     */
     public String[] splitArguments(String subformula){
         logger.fine("Subformula to Split: "+subformula);
         ArrayList<String> foundArgs = new ArrayList<String>();
@@ -118,6 +159,14 @@ public class TermsParser {
         return foundArgs.toArray(new String[0]);
     }
 
+    /**
+     * Retrieves the arguments from a function string.
+     * The function string is expected to have arguments enclosed in parentheses.
+     * If no parentheses are found, an empty array is returned.
+     *
+     * @param function the function string from which to retrieve arguments
+     * @return an array of argument strings
+     */
     private String[] retrinveArguments(String function){
         String[] args;
         int parenIndex = function.indexOf('(');
@@ -130,11 +179,26 @@ public class TermsParser {
         return args;
     }
 
+    /**
+     * Checks if the given formula matches on of the theories specified by the regular expression.
+     *
+     * @param formula the string representing the formula to be checked
+     * @param regex the regular expression to match against the formula
+     * @return true if the formula matches the regular expression, false otherwise
+     */
     public static boolean checkTheoryType(String formula,String regex){
         Matcher theoryMatcher = Pattern.compile(regex).matcher(formula);
         return theoryMatcher.find();
     }
 
+    /**
+     * Checks the theory type of the given formula and updates the internal theory variable.
+     * If the formula matches the list theory regex, sets the theory to LIST.
+     * If the formula matches the array theory regex, sets the theory to ARRAY.
+     * If both list and array theory terms are found, sets the theory to EQUALITY.
+     *
+     * @param formula the formula to check against different theory types
+     */
     public void checkTheory(String formula){
         if (checkTheoryType(formula, Regex.listRegex)){
             this.theory = Theory.LIST;
@@ -152,6 +216,10 @@ public class TermsParser {
         }
     }
 
+    /**
+     * Adds specified nodes of the thoery of lists to the forbidden list, such that
+     * cons(x,y) != atom(z) for any x,y,z.
+     */
     private void addToForbiddenList(){
         Node[] consNodes = (Node[]) this.nodes.values().stream()
                                             .filter(N -> N.name.equals(ListSignature.cons))
@@ -168,6 +236,17 @@ public class TermsParser {
         }
     }
 
+    /**
+     * Generates and parses the projection axioms for a given term.
+     * 
+     * The projection axioms are:
+     * 1. car(cons(x,y)) = x
+     * 2. cdr(cons(x,y)) = y
+     * 
+     * Add the projection axioms to the formula, and parse it to create the corresponding nodes.
+     * 
+     * @param term the term for which the projection axioms are to be generated.
+     */
     private void listProjectionAxiom(String term){
         // if the term is cons(x,y) -> car(cons(x,y)) = x; cdr(cons(x,y)) = y; 
         // AND cons(x,y) != atom(z) for each z
@@ -177,6 +256,15 @@ public class TermsParser {
         parseFormula(subFormula);
     }
 
+    /**
+     * Creates nodes for the given term and its subterms, if they do not already exist.
+     * If the term already exists, it updates the parent information.
+     *
+     * @param term The term for which nodes are to be created.
+     * @param parId The parent ID of the term. If there is no parent, pass -1.
+     * @return The ID of the created or existing node.
+     * @throws IllegalArgumentException if the term or its arguments are invalid.
+     */
     public int makeNodes(String term,int parId){
 
         //assert isTermValid(term) : "Error: Invalid Term".concat(term);
@@ -201,6 +289,13 @@ public class TermsParser {
         String name = this.retriveName(term);
         
         String[] arguments = this.retrinveArguments(term);
+
+        if (theory.equals(Theory.ARRAY)){
+            if (name.equals(ArraySignature.select) && arguments.length == 2){
+                name = name+"_"+arguments[0];
+                arguments = new String[]{arguments[1]};
+            }
+        }
 
         int arity;
 
@@ -250,6 +345,11 @@ public class TermsParser {
         return id;
     }
 
+    /**
+     * Parses a given formula string and processes its literals.
+     * 
+     * @param formula the formula string to be parsed
+     */
     public void parseFormula(String formula){
         String[] literals = formula.split(Regex.inputRegex);
         for (String literal : literals) {
@@ -309,6 +409,14 @@ public class TermsParser {
         }
     }
 
+    /**
+     * Constructs a TermsParser object with the specified formula and logging option.
+     *
+     * @param formula the formula to be parsed
+     * @param log     a boolean indicating whether to enable fine logging (true) or severe logging (false)
+     *
+     * @throws IllegalArgumentException if the formula is invalid
+     */
     public TermsParser(String formula, boolean log){
 
         Level level = log ? Level.FINE : Level.SEVERE;
@@ -331,20 +439,49 @@ public class TermsParser {
             addToForbiddenList();
         }
 
+        this.SF.clear();
+
+        for (Node N : this.nodes.values()){
+            this.SF.put(N.name,N.id);
+        }
+
     };
 
+    /**
+     * Constructs a TermsParser object with the given formula.
+     * This constructor calls another constructor with the formula and a default
+     * value of false for the second parameter.
+     *
+     * @param formula the formula to be parsed
+     */
     public TermsParser(String formula){
         this(formula,false);
     }
 
+    /**
+     * Retrieves the map of nodes.
+     *
+     * @return a HashMap where the keys are integers representing node IDs
+     *         and the values are Node objects.
+     */
     public HashMap<Integer,Node> getNodes(){
         return this.nodes;
     }
 
+    /**
+     * Retrieves the list of equalities.
+     *
+     * @return An ArrayList of Integer arrays representing the equalities.
+     */
     public ArrayList<Integer[]> getEqualities() {
         return this.equalities;
     }
 
+    /**
+     * Retrieves the list of disequalities.
+     *
+     * @return An ArrayList of Integer arrays representing the disequalities.
+     */
     public ArrayList<Integer[]> getDisequalities() {
         return this.disequalities;
     }
