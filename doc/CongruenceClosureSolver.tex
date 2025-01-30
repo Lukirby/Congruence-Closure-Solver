@@ -1,5 +1,9 @@
 \documentclass[11pt,a4paper]{article}
 
+\usepackage{tikz}
+\usepackage{amssymb}
+\usepackage{amsmath}
+
 \textwidth=450pt\oddsidemargin=0pt
 \setlength{\parskip}{3pt}
 
@@ -19,115 +23,171 @@
 
     \section{Introduction}
 
-    The project consist in the creation of a solver for the satisfiability 
-    of formula that belong to three different theories: theory of equality with free symbols, 
-    non-empty possibly cyclic lists, and arrays without extensionality.
+    The project consists of creating a solver for the satisfiability of formulas belonging to three different theories: the theory of equality with free symbols, non-empty possibly cyclic lists, and arrays without extensionality.
 
-    The solver use the \textbf{Congruence Closure Algorithm} on a DAG, and has tree possible 
-    variation or euristics that can be choosen optionally:
+    The solver uses the \textbf{Congruence Closure Algorithm} on a DAG and has three possible variations or heuristics that can be chosen optionally:
     \begin{itemize}
         \item Non-recursive \texttt{FIND} function (\texttt{"r"})
         \item Heuristic \texttt{UNION} function (\texttt{"e"})
         \item Forbidden Set use (\texttt{"f"})
     \end{itemize}
 
-    This project is written in \textbf{Java} language and need to be compiled in order to use it, 
-    in the main folder there are two bash files that can help to build and run the program.
+    This project is written in \textbf{Java} language and needs to be compiled to use it, in the main folder two bash files can help to build and run the program.
 
-    Along the solver there are a \textbf{generator} for the creation of synthetic 
-    set of literls customizable by the user (under a cert exent), and a 
-    parser for a limited set of \textbf{QF\_UF SMT-LIB} files.
+    Along the solver, there is a \textbf{generator} for the creation of a synthetic set of literals customizable by the user (under a cert extent), and a parser for a limited set of \textbf{QF\_UF SMT-LIB} files.
 
     \section{Project Folder}
     The project folder is organized in the following way:
     \begin{itemize}
-        \item \textbf{classes}: this folder contain the core classes of the solver and the 
-        Congruence Closure Algorithm such as \texttt{Node} and \texttt{DAG}.
-        \item  \textbf{compiled}: this folder contatin the compiled java files (.class) since
-        the solver work on the main project folder, no files should be added or edit.
-        \item \textbf{debug}: this folder contain classes for debug purpouses.
+        \item \textbf{classes}: this folder contain the core classes of the solver and the Congruence Closure Algorithm such as \texttt{Node} and \texttt{CongruenceClosureDAG}.
+        \item \textbf{compiled}: this folder contains the compiled java files (.class) since
+        the solver works on the main project folder, no files should be added or edited.
+        \item \textbf{debug}: this folder contains classes for debug purposes.
         \item \textbf{generator}: this folder containain the properties files.
-        \item \textbf{input}: this folder containg the txt files that have the formula or set of 
-        literals to be checkd, those files use the basic syntax of the solver.
-        \item \textbf{output}: this folder contain the result submitted in the input folder.
-        \item \textbf{preprocessing}: this folder contain the classes used for preprocessing purpouses.
+        \item \textbf{input}: this folder contains the txt files that have the formula or set of literals to be checked, those files use the basic syntax of the solver.
+        \item \textbf{output}: this folder contains the result submitted in the input folder.
+        \item \textbf{preprocessing}: this folder contains the classes used for preprocessing purposes.
         \item \textbf{smtlib\_input}: this folder contains the .smt2 files from SMT-LIB without edit.
-        \item \textbf{tests}: this folder contain files for test purpouses.
+        \item \textbf{tests}: this folder contains files for test purposes.
     \end{itemize}
 
-    The main class is \texttt{Congruence Closure Solver} which act as central manager and 
-    is responsable to to read the name file given in input 
-    (that have to be in \texttt{input}, \texttt{generator}, 
-    \texttt{smtlib\_input} folder based on the type of file), the options and 
-    retrieves the formula using a \texttt{FormulaReader}.
-    The formula will be passed to a parser and then to the algorithm.
+    The main class is \texttt{Congruence Closure Solver} which acts as central manager and is responsible for reading the name file given in input (that has to be in \texttt{input}, \texttt{generator}, \texttt{smtlib\_input} folder based on the type of file), the options and retrieves the formula using a \texttt{FormulaReader}. The formula will be passed to a parser and then to the algorithm.
 
     \section{Input}
 
-    The program accept both a set of literals delimiteted by \texttt{;}, that a formula 
-    with logical connectives.
-    
-    It is also possible to submit a generator file with \texttt{.properties} extention
-    to create a customizable set of literals, with randomic mechanisms.
+    The program accepts both a set of literals delimited by \texttt{;} and a formula with logical connectives.
 
-    Or to submit directly a \texttt{.smt2} file from QF\_UF SMT-LIB, not all the files 
-    are compatible since SMT-LIB language is very complex.
-    
-    More info about the syntax avaiable in the \texttt{README} file.
+    It is also possible to submit a generator file with \texttt{.properties} extension to create a customizable set of literals, with random mechanisms.
+
+    Or to submit directly a \texttt{.smt2} file from QF\_UF SMT-LIB, not all the files are compatible since the SMT-LIB language is very complex.
+
+    More info about the syntax is available in the \texttt{README} file.
 
     \section{Parsing}
 
-    The retrieved formula is submitted by a chain of parser:
+    The retrieved formula is submitted by a chain of parsers:
     \begin{enumerate}
-        \item \texttt{DNFParser}: after dropping the existential quantifiers and the universal 
-        quantifiers,
-        parse the input formula and cast it in a \texttt{DNFTree},
-        a $n$-tree where the nodes are logical connectives or predicates, and the edge are the 
-        the scope of the logical connectives. 
+        \item \texttt{DNFParser}: after dropping the existential quantifiers and the universal quantifiers, parse the input formula and cast it in a \texttt{DNFTree}, a $n$-tree where the nodes are logical connectives or predicates, and the edge are the scope of the logical connectives.
+        
         (More info about the precedence used in in the \texttt{README} file)
-        [IMMAGINE]
-        \item \texttt{LogicParser}: use the \texttt{DNFTrasformer} handle the a chain of 
-        transformation that reduce the \texttt{DNFTree} to a tree with an \texttt{or} root
-        that have only have \texttt{and} children, which will have only predicate children
-        (already negated if is the case), which will be the leaves.
+        
+        For example, the formula $[\lnot A \lor [B \implies C] ] \iff [\lnot[ D \land E]]$ is encoded as:
 
-        Then cast the leaves into an \texttt{ArrayList<String>} which will rappresent the 
-        list of cubes to solve one at time.
+        \begin{center}
+            \begin{tikzpicture}[
+                level distance=1cm,
+                level 1/.style={sibling distance=7cm},
+                level 2/.style={sibling distance=2.5cm},
+                level 3/.style={sibling distance=1.5cm}
+            ]
+                \node[] (root) {$\iff$}
+                    child {node[] {$\lor$} 
+                        child {node[] {$\lnot$}
+                            child{
+                                node [] {$A$}
+                            }
+                            edge from parent node[above left] {}
+                        }
+                        child {node[] {$\implies$} 
+                            child {node[] {$B$} 
+                                edge from parent node[above left] {}}
+                            child {node[] {$C$} 
+                                edge from parent node[above right] {}}
+                            edge from parent node[above] {}
+                        }
+                        edge from parent node[above left] {}
+                    }
+                    child {node[] {$\lnot$} 
+                        child {node[] {$\land$} 
+                            child {node[] {D} 
+                                edge from parent node[above left] {}}
+                            child {node[] {E} 
+                                edge from parent node[above right] {}}
+                            edge from parent node[above left] {}
+                        }
+                        edge from parent node[above right] {}
+                    };
+            \end{tikzpicture}
+        \end{center}
 
-        Another task that the \texttt{LogicParser} performes is the splitting required upon 
-        receiving a formula that contain an istance of \texttt{select(score($\dots$))},
-        the parser check the occurence and split the formula in the two versions,
-        since it has handling a list of cubes (\texttt{or}), 
-        than the parser removed the splitted cube, and intail the new ones, 
-        ready to be checked at the end, and performing the operation again if necessary.
+        \item \texttt{LogicParser}: use the \texttt{DNFTrasformer} handle a chain of transformation that reduces the \texttt{DNFTree} to a tree with an \texttt{or} root that has only have \texttt{and} children, which will have only predicate children (already negated if is the case), which will be the leaves.
+
+        Then cast the leaves into an \texttt{ArrayList<String>} which will represent the list of cubes to solve one at a time.
+
+        Another task that the \texttt{LogicParser} performs is the splitting required upon receiving a formula that contains an instance of \texttt{select(score($\dots$))}, the parser checks the occurrence and splits the formula in the two versions since it has handled a list of cubes (\texttt{or}) than the parser removed the split cube, and entail the new ones, ready to be checked at the end, and performing the operation again if necessary.
         [FORMULA?]
 
-        \item \texttt{Term Parser}: it recives a set of clauses one per time, and convert the 
-        terms inside the literals in nodes.
+        \item \texttt{Term Parser}: it receives a set of clauses one per time, and converts the literals in nodes.
 
-        It handles both predicate $P(a)$ or $\lnot P(a)$ convert them in equality forms using a 
-        true constant, that the user cannot insert in the input: \texttt{P(a) = °} or 
-        \texttt{P(a) != °}.
+        It handles both predicate $P(a)$ or $\lnot P(a)$ and converts them inequalities using a true constant, that the user cannot insert in the input: \texttt{P(a) = °} or \texttt{P(a) != °}.
 
-        Then it split each (dis)equality and make a \texttt{Node} object for each of them with 
-        an associated (\texttt{int}) \texttt{id}, each node is containt in an 
-        \texttt{HashMap<Integer,Node>} for easy access, while the pair of id of term \texttt{L} 
-        associated with a (dis)equality are stored in two \texttt{ArrayList<Integer[]>}, 
-        in this case \texttt{L[0]} is the left term while \texttt{L[1]} is the right term.
-        the parser also update the \textbf{Forbidden Sets} of the nodes even if they will 
-        not be used if the option is not toggled.
-
-        While processing the terms the parser reconize by the presence of reserved name, 
-        if the given formula is in one of the three compatible theories, since the parser can not 
-        handle a combination of theories, if two reserved name from theory of list and array are 
-        detected, then the parser will consider the formula in theory of equality, using the 
-        reserved name function as free symbols.
+        Then it splits each (dis)equality and makes a \texttt{Node} object for each of them with an associated (\texttt{int}) \texttt{id}, each node is contained in an \texttt{HashMap<Integer,Node>} for easy access, while the pair of id of term \texttt{L} associated with a (dis)equality are stored in two \texttt{ArrayList<Integer[]>}, in this case \texttt{L[0]} is the left term while \texttt{L[1]} is the right term. 
         
-        The last task is address to do, is the trasformation required by the list of theory, 
-        such the trasformation \texttt{~atom(a)} into \texttt{cons(a\_1,a\_2) = a}, applying 
-        \textbf{projection atoms} and adding disequalities such as: \texttt{cons(x,y) != atom(z)} 
-        for each \texttt{x,y,z} occurence. 
+        The parser also updates the \textbf{Forbidden Sets} of the nodes even if they will not be used if the option is not toggled.
+
+        While processing the terms the parser recognizes by the presence of a reserved name, if the given formula is in one of the three compatible theories, since the parser can not handle a combination of theories, if two reserved names from the theory of list and array are detected, then the parser will consider the formula in the theory of equality, using the reserved name function as free symbols.
+        
+        The last task is address to do, is the transformation required by the list of theory, such the transformation \texttt{~atom(a)} into \texttt{cons(a\_1,a\_2) = a}, applying \textbf{projection atoms} and adding disequalities such as: \texttt{cons(x,y) != atom(z)} for each \texttt{x,y,z} occurrence. 
 
     \end{enumerate}
+
+    \section{Congruence Closure Algorithm}
+
+    After all parsing steps, for each cube, the \texttt{TermParser} forward the map of \texttt{Node} objects and the \texttt{ArrayList<Integer[]>} of (dis)equalities to the \texttt{CongruenceClosureAlgorithm} implemented with a \texttt{CongruenceClosureDAG}; this data structure along with \texttt{Node} are implemented following the definition in Bradley, Manna, et al. \cite{calculusOfComputation}.
+
+    The main task of \texttt{CongruenceClosureAlgorithm} is to instruct \texttt{CongruenceClosureDAG} to \texttt{MERGE} all the nodes in the equalities list, once there are no more nodes to merge, checks that the pair of id in the disequalities list is not in the same \textbf{ccpar set (implemented as a \texttt{HashSet<Integer>})}, and return a \texttt{bool} that indicates the satisfiability.
+
+    If the \textbf{Forbidden Set} option is enabled, then the \texttt{CongruenceClosureDAG} will prevent the \texttt{MERGE} of two representatives of disequalities, and return to the algorithm the conflict, which will return unsat. If no conflicts are found, then \texttt{CongruenceClosureAlgorithm} will skip the checking disequalities part.
+
+    If the \textbf{Heuristic Union} or the \textbf{Recursive Find} options are enabled then the \texttt{EUR\_UNION} and \texttt{REC\_FIND} version will be used as described in Detlefs, et al. \cite{simplify}.
+
+    \section{Output}
+
+    The result will be written in a txt file in the output with the same name as the file in the input one.
+    
+    If the \textbf{verbose} \texttt{"v"} option is enabled, then all the steps of the \texttt{CongruenceClosureDAG} will be written, it is advisable to not enable this option is for long formula or in CNF since the transformation in DNF is very prolific.
+    
+    At the end of the file will be written the result and the time elapsed for the solving, which do not take into account the time in DNF transformation.
+
+    \section{Sintetic Generator}
+
+    Along the solver is present a \texttt{Generator} which will write a set of literals based on the user's choices.
+
+    The user can choose the signature (constant, functions and predicate), the max arity for functions and predicates, the max depth of a function or predicate, the number of cubes to generate, the probabilities of the presence of constants, function or predicates, and the optionally the seed, so that the randomly generated formula can be replicated, with same parameters.
+
+    More info on the syntax of the properties file in the README.
+
+    It is advised to restrain depth and artity to 10, and cubes to 100, since the Java memory cannot handle too many \texttt{Node} structures.
+
+    The generator will place the synthetic list of literals in a txt file in the input folder with the same name as the properties file, concatenated with the seed. 
+
+    The execution of the solver is automatic after the submission of the file name.
+
+    \section{SMT-LIB}
+
+    Since the SMT-LIB language features a lot of definition and syntax, only a restricted subset of formulas of the QF\_UF have been made compatible with the \texttt{SMTLIBParser} in particular the formulas present in \texttt{eq\_diamond} from SMT Workshop 2005.
+
+    In these files are present only an \texttt{assert} check for a formula written in this form:
+
+    \begin{equation}
+        \bigwedge_i \left(\bigvee_j x_{i,j} \simeq y_{i,j} \land z_{i,j} \simeq w_{i,j} \right) 
+        \land u \not\simeq v \quad u,v \in \{x_{i,j}, y_{i,j}, z_{i,j}, w_{i,j} \mid \forall i,j\}
+    \end{equation} 
+    The length of the formula is determined by the number of equations, (eq\_diamond4 is larger than eq\_diamond2) and the result of all formulas are UNSAT, so are been used to test the heuristics implemented in this project.
+
+    As for the \texttt{Generator}, the smt2 files have to be placed in the \textbf{smtlib\_input} and an equivalent parsed formula with the project syntex, will be written in a txt file in the input folder with the same name. 
+
+    The execution of the solver is automatic after the submission of the file name.
+
+    Since the DNF transformation is not optimized, it is not advisable to run eq\_diamond15 or larger.
+
+    \section{Performance Analysis}
+
+
+
+
+
+    \bibliographystyle{unsrt}
+    \bibliography{bibliography}    
 
 \end{document}
