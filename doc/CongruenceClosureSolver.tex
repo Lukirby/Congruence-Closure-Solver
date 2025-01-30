@@ -101,6 +101,33 @@
         than the parser removed the splitted cube, and intail the new ones, 
         ready to be checked at the end, and performing the operation again if necessary.
         [FORMULA?]
+
+        \item \texttt{Term Parser}: it recives a set of clauses one per time, and convert the 
+        terms inside the literals in nodes.
+
+        It handles both predicate $P(a)$ or $\lnot P(a)$ convert them in equality forms using a 
+        true constant, that the user cannot insert in the input: \texttt{P(a) = °} or 
+        \texttt{P(a) != °}.
+
+        Then it split each (dis)equality and make a \texttt{Node} object for each of them with 
+        an associated (\texttt{int}) \texttt{id}, each node is containt in an 
+        \texttt{HashMap<Integer,Node>} for easy access, while the pair of id of term \texttt{L} 
+        associated with a (dis)equality are stored in two \texttt{ArrayList<Integer[]>}, 
+        in this case \texttt{L[0]} is the left term while \texttt{L[1]} is the right term.
+        the parser also update the \textbf{Forbidden Sets} of the nodes even if they will 
+        not be used if the option is not toggled.
+
+        While processing the terms the parser reconize by the presence of reserved name, 
+        if the given formula is in one of the three compatible theories, since the parser can not 
+        handle a combination of theories, if two reserved name from theory of list and array are 
+        detected, then the parser will consider the formula in theory of equality, using the 
+        reserved name function as free symbols.
+        
+        The last task is address to do, is the trasformation required by the list of theory, 
+        such the trasformation \texttt{~atom(a)} into \texttt{cons(a\_1,a\_2) = a}, applying 
+        \textbf{projection atoms} and adding disequalities such as: \texttt{cons(x,y) != atom(z)} 
+        for each \texttt{x,y,z} occurence. 
+
     \end{enumerate}
 
 \end{document}
