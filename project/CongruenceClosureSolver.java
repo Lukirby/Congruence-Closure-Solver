@@ -29,6 +29,13 @@ public class CongruenceClosureSolver {
 
     public CongruenceClosureAlgorithm CCA;
 
+    /**
+     * Opens a file, processes its content based on the file extension, and returns the formula as a string.
+     * 
+     * @param input The input string containing the file path and possibly other options.
+     * @return The formula read from the processed file.
+     
+     */
     public String openFile(String input){
         String fileName = input.trim().split(Regex.optionRegex)[0];
         System.out.println("File Name: "+fileName);
@@ -50,6 +57,23 @@ public class CongruenceClosureSolver {
         return formula;
     }
 
+    /**
+     * Parses the input string to set various options for the solver.
+     * The input string should contain options separated by a specific regex pattern.
+     * 
+     * Supported options: <br>
+     * <br>
+     * - "v": Enables verbose mode.<br>
+     * <br>
+     * - "f": Enables forbidden set.<br>
+     * <br>
+     * - "e": Enables euristic union.<br>
+     * <br>
+     * - "r": Enables recursive find.<br>
+     * <br>
+     * @param input The input string containing the options.
+     * @return An Options object with the parsed settings.
+     */
     public Options parseOptions(String input){
         Options O = new Options();
 
@@ -76,6 +100,11 @@ public class CongruenceClosureSolver {
         return O;
     }
 
+    /**
+     * Writes the output of the solver to a file.
+     * The output is written to a file whose path is derived from the input file
+     * path by replacing "input" with "output".
+     */
     public void writeOutput(){
         String result;
         if (sat){
@@ -104,6 +133,13 @@ public class CongruenceClosureSolver {
         }
     }
 
+    /**
+     * Solves the given formula using the specified options.
+     *
+     * @param formula The formula to be solved, represented as a string.
+     * @param opt The options to be used for solving the formula.
+     * @return A boolean value indicating whether the formula is satisfiable (true) or not (false).
+     */
     public boolean solve(String formula, Options opt){
         TermsParser TP = new TermsParser(formula, false);
         output+="SF = "+TP.SF.toString()+"\n";
@@ -113,9 +149,17 @@ public class CongruenceClosureSolver {
         return sat;
     }
 
-    // solve F = F1 or F2 .... or Fn
-    // return true if exist i s.t. Fi is SAT.
+    
+    /**
+     * Solves the given input formula and returns whether it is satisfiable.
+     *
+     * @param input The input formula as a string.
+     * @return true if the formula is satisfiable, false otherwise.
+     */
     public boolean solveInput(String input){
+        // solve F = F1 or F2 .... or Fn
+        // return true if exist i s.t. F_i is SAT.
+        
         this.output = "";
 
         input = TermsParser.cleanFormula(input);
