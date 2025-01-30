@@ -66,7 +66,7 @@ public class GeneratorTest {
         assertNotNull(generator.predicates);
         assertTrue(generator.maxDepth > 0);
         assertTrue(generator.maxArity > 0);
-        assertTrue(generator.clauses > 0);
+        assertTrue(generator.cubes > 0);
         assertTrue(generator.probabilities.length == 3);
     }
 
@@ -125,7 +125,7 @@ public class GeneratorTest {
         generator.predicates = new String[]{"p"};
         generator.maxDepth = 1;
         generator.maxArity = 1;
-        generator.clauses = 1;
+        generator.cubes = 1;
         generator.probabilities = new float[]{0.33f, 0.33f, 0.34f};
         generator.costantProbability = 0.5f;
         generator.seed = 1;
