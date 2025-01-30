@@ -22,7 +22,7 @@ List of Cubes to check:
 Solving: 
 1) f(f(y))!=f(f(x)) ; atom(f(x)) ; f(car(x))=y ; f(car(x))=f(f(y)) ; atom(car(y)) ; atom(f(x)) ; atom(car(x)) ; y!=f(f(y)) ; atom(cdr(y)) ; cdr(cdr(x))!=cdr(car(y))
 
-SF = {f_atom(f(x))=6, cdr(y)=14, f_atom(car(x))=12, f_atom(cdr(y))=13, f_atom(car(y))=10, cdr(x)=16, °=7, x=5, y=2, f(f(x))=3, f(f(y))=0, cdr(cdr(x))=15, f(x)=4, f(y)=1, cdr(car(y))=17, car(x)=9, f(car(x))=8, car(y)=11}
+SF = {f_atom(f(x))=6, cdr(y)=14, f_atom(car(x))=12, f_atom(cdr(y))=13, f_atom(car(y))=10, cdr(x)=16, °=7, x=5, y=2, f(f(x))=3, f(f(y))=0, cdr(cdr(x))=15, f(x)=4, f(y)=1, cdr(car(y))=17, f(car(x))=8, car(x)=9, car(y)=11}
 MERGE f_atom(f(x)) °
 P1: {}
 P2: {}
@@ -35,4 +35,4 @@ MERGE f(car(x)) f(f(y))
 FORBIDDEN f(car(x)) f(f(y))
 UNSAT
 
-Elapsed Time: 0.002 seconds
+Elapsed Time: 0.0 seconds

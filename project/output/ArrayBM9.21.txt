@@ -18,34 +18,34 @@ List of Cubes to check:
 Solving: 
 1) i1=j ; i1!=i2 ; select(a,j)=v1 ; v2!=select(a,j) ; i2=j
 
-SF = {select(a,j)=3, a=4, i1=0, i2=2, j=1, v1=5, v2=6}
+SF = {select_a(j)=3, i1=0, i2=2, j=1, v1=4, v2=5}
 MERGE i1 j
 P1: {}
-P2: {select(a,j)}
+P2: {select_a(j)}
 UNION i1 j
-MERGE select(a,j) v1
+MERGE select_a(j) v1
 P1: {}
 P2: {}
-UNION select(a,j) v1
+UNION select_a(j) v1
 MERGE i2 j
 FORBIDDEN i2 j
 
 Solving: 
 2) i1=j ; i1!=i2 ; select(a,j)=v1 ; v1!=select(a,j) ; i2!=j ; i1=j
 
-SF = {select(a,j)=3, a=4, i1=0, i2=2, j=1, v1=5}
+SF = {select_a(j)=3, i1=0, i2=2, j=1, v1=4}
 MERGE i1 j
 P1: {}
-P2: {select(a,j)}
+P2: {select_a(j)}
 UNION i1 j
-MERGE select(a,j) v1
-FORBIDDEN select(a,j) v1
+MERGE select_a(j) v1
+FORBIDDEN select_a(j) v1
 
 Solving: 
 3) i1=j ; i1!=i2 ; select(a,j)=v1 ; select(a,j)!=select(a,j) ; i2!=j ; i1!=j
 
-SF = {select(a,j)=3, a=4, i1=0, i2=2, j=1, v1=5}
-CONFLICT: select(a,j) select(a,j)
+SF = {select_a(j)=3, i1=0, i2=2, j=1, v1=4}
+CONFLICT: select_a(j) select_a(j)
 UNSAT
 
-Elapsed Time: 0.004 seconds
+Elapsed Time: 0.002 seconds

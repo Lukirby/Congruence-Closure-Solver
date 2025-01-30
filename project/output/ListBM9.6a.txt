@@ -34,4 +34,4 @@ UNION cdr(cons(y,z)) z
 CHECK DISEQUALITY x cons(y,z)
 SAT
 
-Elapsed Time: 0.0 seconds
+Elapsed Time: 0.008 seconds

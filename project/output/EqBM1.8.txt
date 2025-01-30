@@ -478,4 +478,4 @@ P2: {}
 UNION f_R °
 SAT
 
-Elapsed Time: 0.043 seconds
+Elapsed Time: 0.012 seconds

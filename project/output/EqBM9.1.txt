@@ -43,4 +43,4 @@ TRUE
 	FORBIDDEN f_p(f(x)) f_p(x)
 UNSAT
 
-Elapsed Time: 0.0 seconds
+Elapsed Time: 0.009 seconds

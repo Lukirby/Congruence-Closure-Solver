@@ -119,4 +119,4 @@ TRUE
 MERGE f(a) f(b)
 SAT
 
-Elapsed Time: 0.008 seconds
+Elapsed Time: 0.001 seconds

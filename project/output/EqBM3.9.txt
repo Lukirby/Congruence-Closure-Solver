@@ -18,4 +18,4 @@ Solving:
 SF = {0=2, °=3, x=1, f_geq(x,0)=0}
 SAT
 
-Elapsed Time: 0.0 seconds
+Elapsed Time: 0.002 seconds
