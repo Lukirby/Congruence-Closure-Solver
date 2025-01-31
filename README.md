@@ -206,3 +206,10 @@ The output file will contain the following information:
     - If there is a conflict
 - The result SAT or UNSAT
 - The total elapsed time for the satisfiability resolution (do not takes in account the DNF transformation).
+
+## Test 
+
+In the main folder there is a folder named `test` that contains the java files used to test the solver and 
+its components. 
+
+To run them is necessary to insert `test` in the `project` folder and have the JUnit library in the classpath. Easier to do with an IDE like Eclipse, or VSCode with the Extension Pack for Java.
