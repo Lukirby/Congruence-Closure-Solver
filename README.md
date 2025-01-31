@@ -1,11 +1,13 @@
 # Congruence Closure Solver
 
-This project is a Congruence Closure Solver that processes logical expressions and determines their satisfiability. The solver supports various options such as recursive find, heuristic union, and forbidden set.
+This project is a Congruence Closure Solver that processes logical expressions or set of literals and determines their satisfiability. 
+The solver supports various options such as recursive find, heuristic union, and forbidden set.
 
 ## Prerequisites
 
 - Java Development Kit (JDK) 8 or later
 - A terminal or command prompt
+- No external libraries are required
 
 ## Bash Files
 
@@ -13,6 +15,8 @@ There are two bash files in the main directory:
 
 1. **build\_project.bash**: Use this script to compile the project.
 2. **run\_solver.bash**: Use this script to run the solver.
+
+The compilation is optional since the project is already compiled and ready to run.
 
 ## Using the Solver
 
