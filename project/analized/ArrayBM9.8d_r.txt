@@ -1,0 +1,32 @@
+Formula: 
+
+select(store(store(a,i,e),j,f),k)=g & j!=k & i=j & select(a,k)!=g
+
+Options: [verbose=false, recursiveFind=true, euristicUnion=false, forbiddenSet=false]
+
+DNF:
+f=g & j!=k & i=j & select(a,k)!=g & j=k  |  e=g & j!=k & i=j & select(a,k)!=g & j!=k & i=k  |  select(a,k)=g & j!=k & i=j & select(a,k)!=g & j!=k & i!=k
+
+List of Cubes to check:
+1) f=g ; j!=k ; i=j ; select(a,k)!=g ; j=k
+2) e=g ; j!=k ; i=j ; select(a,k)!=g ; j!=k ; i=k
+3) select(a,k)=g ; j!=k ; i=j ; select(a,k)!=g ; j!=k ; i!=k
+
+
+Solving: 
+1) f=g ; j!=k ; i=j ; select(a,k)!=g ; j=k
+
+SF = {f=0, g=1, i=4, j=2, k=3, select_a=5}
+
+Solving: 
+2) e=g ; j!=k ; i=j ; select(a,k)!=g ; j!=k ; i=k
+
+SF = {e=0, g=1, i=4, j=2, k=3, select_a=5}
+
+Solving: 
+3) select(a,k)=g ; j!=k ; i=j ; select(a,k)!=g ; j!=k ; i!=k
+
+SF = {g=2, i=4, j=3, select_a=0, k=1}
+UNSAT
+
+Elapsed Time: 0.0 seconds

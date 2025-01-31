@@ -1,0 +1,206 @@
+Formula: 
+
+[[[x0 = y0 & y0 = x1] | [x0 = z0 & z0 = x1]] & [[x1 = y1 & y1 = x2] | [x1 = z1 & z1 = x2]] & [[x2 = y2 & y2 = x3] | [x2 = z2 & z2 = x3]] & [[x3 = y3 & y3 = x4] | [x3 = z3 & z3 = x4]] & [[x4 = y4 & y4 = x5] | [x4 = z4 & z4 = x5]] & ~[x0 = x5]]
+
+Options: [verbose=false, recursiveFind=false, euristicUnion=true, forbiddenSet=true]
+
+DNF:
+x0=y0 & y0=x1 & x1=y1 & y1=x2 & x2=y2 & y2=x3 & x3=y3 & y3=x4 & x4=y4 & y4=x5 & x0!=x5  |  x0=y0 & y0=x1 & x1=y1 & y1=x2 & x2=y2 & y2=x3 & x3=y3 & y3=x4 & x4=z4 & z4=x5 & x0!=x5  |  x0=y0 & y0=x1 & x1=y1 & y1=x2 & x2=y2 & y2=x3 & x3=z3 & z3=x4 & x4=y4 & y4=x5 & x0!=x5  |  x0=y0 & y0=x1 & x1=y1 & y1=x2 & x2=y2 & y2=x3 & x3=z3 & z3=x4 & x4=z4 & z4=x5 & x0!=x5  |  x0=y0 & y0=x1 & x1=y1 & y1=x2 & x2=z2 & z2=x3 & x3=y3 & y3=x4 & x4=y4 & y4=x5 & x0!=x5  |  x0=y0 & y0=x1 & x1=y1 & y1=x2 & x2=z2 & z2=x3 & x3=y3 & y3=x4 & x4=z4 & z4=x5 & x0!=x5  |  x0=y0 & y0=x1 & x1=y1 & y1=x2 & x2=z2 & z2=x3 & x3=z3 & z3=x4 & x4=y4 & y4=x5 & x0!=x5  |  x0=y0 & y0=x1 & x1=y1 & y1=x2 & x2=z2 & z2=x3 & x3=z3 & z3=x4 & x4=z4 & z4=x5 & x0!=x5  |  x0=y0 & y0=x1 & x1=z1 & z1=x2 & x2=y2 & y2=x3 & x3=y3 & y3=x4 & x4=y4 & y4=x5 & x0!=x5  |  x0=y0 & y0=x1 & x1=z1 & z1=x2 & x2=y2 & y2=x3 & x3=y3 & y3=x4 & x4=z4 & z4=x5 & x0!=x5  |  x0=y0 & y0=x1 & x1=z1 & z1=x2 & x2=y2 & y2=x3 & x3=z3 & z3=x4 & x4=y4 & y4=x5 & x0!=x5  |  x0=y0 & y0=x1 & x1=z1 & z1=x2 & x2=y2 & y2=x3 & x3=z3 & z3=x4 & x4=z4 & z4=x5 & x0!=x5  |  x0=y0 & y0=x1 & x1=z1 & z1=x2 & x2=z2 & z2=x3 & x3=y3 & y3=x4 & x4=y4 & y4=x5 & x0!=x5  |  x0=y0 & y0=x1 & x1=z1 & z1=x2 & x2=z2 & z2=x3 & x3=y3 & y3=x4 & x4=z4 & z4=x5 & x0!=x5  |  x0=y0 & y0=x1 & x1=z1 & z1=x2 & x2=z2 & z2=x3 & x3=z3 & z3=x4 & x4=y4 & y4=x5 & x0!=x5  |  x0=y0 & y0=x1 & x1=z1 & z1=x2 & x2=z2 & z2=x3 & x3=z3 & z3=x4 & x4=z4 & z4=x5 & x0!=x5  |  x0=z0 & z0=x1 & x1=y1 & y1=x2 & x2=y2 & y2=x3 & x3=y3 & y3=x4 & x4=y4 & y4=x5 & x0!=x5  |  x0=z0 & z0=x1 & x1=y1 & y1=x2 & x2=y2 & y2=x3 & x3=y3 & y3=x4 & x4=z4 & z4=x5 & x0!=x5  |  x0=z0 & z0=x1 & x1=y1 & y1=x2 & x2=y2 & y2=x3 & x3=z3 & z3=x4 & x4=y4 & y4=x5 & x0!=x5  |  x0=z0 & z0=x1 & x1=y1 & y1=x2 & x2=y2 & y2=x3 & x3=z3 & z3=x4 & x4=z4 & z4=x5 & x0!=x5  |  x0=z0 & z0=x1 & x1=y1 & y1=x2 & x2=z2 & z2=x3 & x3=y3 & y3=x4 & x4=y4 & y4=x5 & x0!=x5  |  x0=z0 & z0=x1 & x1=y1 & y1=x2 & x2=z2 & z2=x3 & x3=y3 & y3=x4 & x4=z4 & z4=x5 & x0!=x5  |  x0=z0 & z0=x1 & x1=y1 & y1=x2 & x2=z2 & z2=x3 & x3=z3 & z3=x4 & x4=y4 & y4=x5 & x0!=x5  |  x0=z0 & z0=x1 & x1=y1 & y1=x2 & x2=z2 & z2=x3 & x3=z3 & z3=x4 & x4=z4 & z4=x5 & x0!=x5  |  x0=z0 & z0=x1 & x1=z1 & z1=x2 & x2=y2 & y2=x3 & x3=y3 & y3=x4 & x4=y4 & y4=x5 & x0!=x5  |  x0=z0 & z0=x1 & x1=z1 & z1=x2 & x2=y2 & y2=x3 & x3=y3 & y3=x4 & x4=z4 & z4=x5 & x0!=x5  |  x0=z0 & z0=x1 & x1=z1 & z1=x2 & x2=y2 & y2=x3 & x3=z3 & z3=x4 & x4=y4 & y4=x5 & x0!=x5  |  x0=z0 & z0=x1 & x1=z1 & z1=x2 & x2=y2 & y2=x3 & x3=z3 & z3=x4 & x4=z4 & z4=x5 & x0!=x5  |  x0=z0 & z0=x1 & x1=z1 & z1=x2 & x2=z2 & z2=x3 & x3=y3 & y3=x4 & x4=y4 & y4=x5 & x0!=x5  |  x0=z0 & z0=x1 & x1=z1 & z1=x2 & x2=z2 & z2=x3 & x3=y3 & y3=x4 & x4=z4 & z4=x5 & x0!=x5  |  x0=z0 & z0=x1 & x1=z1 & z1=x2 & x2=z2 & z2=x3 & x3=z3 & z3=x4 & x4=y4 & y4=x5 & x0!=x5  |  x0=z0 & z0=x1 & x1=z1 & z1=x2 & x2=z2 & z2=x3 & x3=z3 & z3=x4 & x4=z4 & z4=x5 & x0!=x5
+
+List of Cubes to check:
+1) x0=y0 ; y0=x1 ; x1=y1 ; y1=x2 ; x2=y2 ; y2=x3 ; x3=y3 ; y3=x4 ; x4=y4 ; y4=x5 ; x0!=x5
+2) x0=y0 ; y0=x1 ; x1=y1 ; y1=x2 ; x2=y2 ; y2=x3 ; x3=y3 ; y3=x4 ; x4=z4 ; z4=x5 ; x0!=x5
+3) x0=y0 ; y0=x1 ; x1=y1 ; y1=x2 ; x2=y2 ; y2=x3 ; x3=z3 ; z3=x4 ; x4=y4 ; y4=x5 ; x0!=x5
+4) x0=y0 ; y0=x1 ; x1=y1 ; y1=x2 ; x2=y2 ; y2=x3 ; x3=z3 ; z3=x4 ; x4=z4 ; z4=x5 ; x0!=x5
+5) x0=y0 ; y0=x1 ; x1=y1 ; y1=x2 ; x2=z2 ; z2=x3 ; x3=y3 ; y3=x4 ; x4=y4 ; y4=x5 ; x0!=x5
+6) x0=y0 ; y0=x1 ; x1=y1 ; y1=x2 ; x2=z2 ; z2=x3 ; x3=y3 ; y3=x4 ; x4=z4 ; z4=x5 ; x0!=x5
+7) x0=y0 ; y0=x1 ; x1=y1 ; y1=x2 ; x2=z2 ; z2=x3 ; x3=z3 ; z3=x4 ; x4=y4 ; y4=x5 ; x0!=x5
+8) x0=y0 ; y0=x1 ; x1=y1 ; y1=x2 ; x2=z2 ; z2=x3 ; x3=z3 ; z3=x4 ; x4=z4 ; z4=x5 ; x0!=x5
+9) x0=y0 ; y0=x1 ; x1=z1 ; z1=x2 ; x2=y2 ; y2=x3 ; x3=y3 ; y3=x4 ; x4=y4 ; y4=x5 ; x0!=x5
+10) x0=y0 ; y0=x1 ; x1=z1 ; z1=x2 ; x2=y2 ; y2=x3 ; x3=y3 ; y3=x4 ; x4=z4 ; z4=x5 ; x0!=x5
+11) x0=y0 ; y0=x1 ; x1=z1 ; z1=x2 ; x2=y2 ; y2=x3 ; x3=z3 ; z3=x4 ; x4=y4 ; y4=x5 ; x0!=x5
+12) x0=y0 ; y0=x1 ; x1=z1 ; z1=x2 ; x2=y2 ; y2=x3 ; x3=z3 ; z3=x4 ; x4=z4 ; z4=x5 ; x0!=x5
+13) x0=y0 ; y0=x1 ; x1=z1 ; z1=x2 ; x2=z2 ; z2=x3 ; x3=y3 ; y3=x4 ; x4=y4 ; y4=x5 ; x0!=x5
+14) x0=y0 ; y0=x1 ; x1=z1 ; z1=x2 ; x2=z2 ; z2=x3 ; x3=y3 ; y3=x4 ; x4=z4 ; z4=x5 ; x0!=x5
+15) x0=y0 ; y0=x1 ; x1=z1 ; z1=x2 ; x2=z2 ; z2=x3 ; x3=z3 ; z3=x4 ; x4=y4 ; y4=x5 ; x0!=x5
+16) x0=y0 ; y0=x1 ; x1=z1 ; z1=x2 ; x2=z2 ; z2=x3 ; x3=z3 ; z3=x4 ; x4=z4 ; z4=x5 ; x0!=x5
+17) x0=z0 ; z0=x1 ; x1=y1 ; y1=x2 ; x2=y2 ; y2=x3 ; x3=y3 ; y3=x4 ; x4=y4 ; y4=x5 ; x0!=x5
+18) x0=z0 ; z0=x1 ; x1=y1 ; y1=x2 ; x2=y2 ; y2=x3 ; x3=y3 ; y3=x4 ; x4=z4 ; z4=x5 ; x0!=x5
+19) x0=z0 ; z0=x1 ; x1=y1 ; y1=x2 ; x2=y2 ; y2=x3 ; x3=z3 ; z3=x4 ; x4=y4 ; y4=x5 ; x0!=x5
+20) x0=z0 ; z0=x1 ; x1=y1 ; y1=x2 ; x2=y2 ; y2=x3 ; x3=z3 ; z3=x4 ; x4=z4 ; z4=x5 ; x0!=x5
+21) x0=z0 ; z0=x1 ; x1=y1 ; y1=x2 ; x2=z2 ; z2=x3 ; x3=y3 ; y3=x4 ; x4=y4 ; y4=x5 ; x0!=x5
+22) x0=z0 ; z0=x1 ; x1=y1 ; y1=x2 ; x2=z2 ; z2=x3 ; x3=y3 ; y3=x4 ; x4=z4 ; z4=x5 ; x0!=x5
+23) x0=z0 ; z0=x1 ; x1=y1 ; y1=x2 ; x2=z2 ; z2=x3 ; x3=z3 ; z3=x4 ; x4=y4 ; y4=x5 ; x0!=x5
+24) x0=z0 ; z0=x1 ; x1=y1 ; y1=x2 ; x2=z2 ; z2=x3 ; x3=z3 ; z3=x4 ; x4=z4 ; z4=x5 ; x0!=x5
+25) x0=z0 ; z0=x1 ; x1=z1 ; z1=x2 ; x2=y2 ; y2=x3 ; x3=y3 ; y3=x4 ; x4=y4 ; y4=x5 ; x0!=x5
+26) x0=z0 ; z0=x1 ; x1=z1 ; z1=x2 ; x2=y2 ; y2=x3 ; x3=y3 ; y3=x4 ; x4=z4 ; z4=x5 ; x0!=x5
+27) x0=z0 ; z0=x1 ; x1=z1 ; z1=x2 ; x2=y2 ; y2=x3 ; x3=z3 ; z3=x4 ; x4=y4 ; y4=x5 ; x0!=x5
+28) x0=z0 ; z0=x1 ; x1=z1 ; z1=x2 ; x2=y2 ; y2=x3 ; x3=z3 ; z3=x4 ; x4=z4 ; z4=x5 ; x0!=x5
+29) x0=z0 ; z0=x1 ; x1=z1 ; z1=x2 ; x2=z2 ; z2=x3 ; x3=y3 ; y3=x4 ; x4=y4 ; y4=x5 ; x0!=x5
+30) x0=z0 ; z0=x1 ; x1=z1 ; z1=x2 ; x2=z2 ; z2=x3 ; x3=y3 ; y3=x4 ; x4=z4 ; z4=x5 ; x0!=x5
+31) x0=z0 ; z0=x1 ; x1=z1 ; z1=x2 ; x2=z2 ; z2=x3 ; x3=z3 ; z3=x4 ; x4=y4 ; y4=x5 ; x0!=x5
+32) x0=z0 ; z0=x1 ; x1=z1 ; z1=x2 ; x2=z2 ; z2=x3 ; x3=z3 ; z3=x4 ; x4=z4 ; z4=x5 ; x0!=x5
+
+
+Solving: 
+1) x0=y0 ; y0=x1 ; x1=y1 ; y1=x2 ; x2=y2 ; y2=x3 ; x3=y3 ; y3=x4 ; x4=y4 ; y4=x5 ; x0!=x5
+
+SF = {y0=1, x0=0, y1=3, x1=2, y2=5, x2=4, y3=7, x3=6, y4=9, x4=8, x5=10}
+
+Solving: 
+2) x0=y0 ; y0=x1 ; x1=y1 ; y1=x2 ; x2=y2 ; y2=x3 ; x3=y3 ; y3=x4 ; x4=z4 ; z4=x5 ; x0!=x5
+
+SF = {y0=1, x0=0, y1=3, x1=2, y2=5, x2=4, y3=7, z4=9, x3=6, x4=8, x5=10}
+
+Solving: 
+3) x0=y0 ; y0=x1 ; x1=y1 ; y1=x2 ; x2=y2 ; y2=x3 ; x3=z3 ; z3=x4 ; x4=y4 ; y4=x5 ; x0!=x5
+
+SF = {y0=1, x0=0, y1=3, x1=2, y2=5, z3=7, x2=4, x3=6, y4=9, x4=8, x5=10}
+
+Solving: 
+4) x0=y0 ; y0=x1 ; x1=y1 ; y1=x2 ; x2=y2 ; y2=x3 ; x3=z3 ; z3=x4 ; x4=z4 ; z4=x5 ; x0!=x5
+
+SF = {y0=1, x0=0, y1=3, x1=2, y2=5, z3=7, x2=4, z4=9, x3=6, x4=8, x5=10}
+
+Solving: 
+5) x0=y0 ; y0=x1 ; x1=y1 ; y1=x2 ; x2=z2 ; z2=x3 ; x3=y3 ; y3=x4 ; x4=y4 ; y4=x5 ; x0!=x5
+
+SF = {y0=1, x0=0, y1=3, z2=5, x1=2, x2=4, y3=7, x3=6, y4=9, x4=8, x5=10}
+
+Solving: 
+6) x0=y0 ; y0=x1 ; x1=y1 ; y1=x2 ; x2=z2 ; z2=x3 ; x3=y3 ; y3=x4 ; x4=z4 ; z4=x5 ; x0!=x5
+
+SF = {y0=1, x0=0, y1=3, z2=5, x1=2, x2=4, y3=7, z4=9, x3=6, x4=8, x5=10}
+
+Solving: 
+7) x0=y0 ; y0=x1 ; x1=y1 ; y1=x2 ; x2=z2 ; z2=x3 ; x3=z3 ; z3=x4 ; x4=y4 ; y4=x5 ; x0!=x5
+
+SF = {y0=1, x0=0, y1=3, z2=5, x1=2, z3=7, x2=4, x3=6, y4=9, x4=8, x5=10}
+
+Solving: 
+8) x0=y0 ; y0=x1 ; x1=y1 ; y1=x2 ; x2=z2 ; z2=x3 ; x3=z3 ; z3=x4 ; x4=z4 ; z4=x5 ; x0!=x5
+
+SF = {y0=1, x0=0, y1=3, z2=5, x1=2, z3=7, x2=4, z4=9, x3=6, x4=8, x5=10}
+
+Solving: 
+9) x0=y0 ; y0=x1 ; x1=z1 ; z1=x2 ; x2=y2 ; y2=x3 ; x3=y3 ; y3=x4 ; x4=y4 ; y4=x5 ; x0!=x5
+
+SF = {y0=1, z1=3, x0=0, x1=2, y2=5, x2=4, y3=7, x3=6, y4=9, x4=8, x5=10}
+
+Solving: 
+10) x0=y0 ; y0=x1 ; x1=z1 ; z1=x2 ; x2=y2 ; y2=x3 ; x3=y3 ; y3=x4 ; x4=z4 ; z4=x5 ; x0!=x5
+
+SF = {y0=1, z1=3, x0=0, x1=2, y2=5, x2=4, y3=7, z4=9, x3=6, x4=8, x5=10}
+
+Solving: 
+11) x0=y0 ; y0=x1 ; x1=z1 ; z1=x2 ; x2=y2 ; y2=x3 ; x3=z3 ; z3=x4 ; x4=y4 ; y4=x5 ; x0!=x5
+
+SF = {y0=1, z1=3, x0=0, x1=2, y2=5, z3=7, x2=4, x3=6, y4=9, x4=8, x5=10}
+
+Solving: 
+12) x0=y0 ; y0=x1 ; x1=z1 ; z1=x2 ; x2=y2 ; y2=x3 ; x3=z3 ; z3=x4 ; x4=z4 ; z4=x5 ; x0!=x5
+
+SF = {y0=1, z1=3, x0=0, x1=2, y2=5, z3=7, x2=4, z4=9, x3=6, x4=8, x5=10}
+
+Solving: 
+13) x0=y0 ; y0=x1 ; x1=z1 ; z1=x2 ; x2=z2 ; z2=x3 ; x3=y3 ; y3=x4 ; x4=y4 ; y4=x5 ; x0!=x5
+
+SF = {y0=1, z1=3, x0=0, z2=5, x1=2, x2=4, y3=7, x3=6, y4=9, x4=8, x5=10}
+
+Solving: 
+14) x0=y0 ; y0=x1 ; x1=z1 ; z1=x2 ; x2=z2 ; z2=x3 ; x3=y3 ; y3=x4 ; x4=z4 ; z4=x5 ; x0!=x5
+
+SF = {y0=1, z1=3, x0=0, z2=5, x1=2, x2=4, y3=7, z4=9, x3=6, x4=8, x5=10}
+
+Solving: 
+15) x0=y0 ; y0=x1 ; x1=z1 ; z1=x2 ; x2=z2 ; z2=x3 ; x3=z3 ; z3=x4 ; x4=y4 ; y4=x5 ; x0!=x5
+
+SF = {y0=1, z1=3, x0=0, z2=5, x1=2, z3=7, x2=4, x3=6, y4=9, x4=8, x5=10}
+
+Solving: 
+16) x0=y0 ; y0=x1 ; x1=z1 ; z1=x2 ; x2=z2 ; z2=x3 ; x3=z3 ; z3=x4 ; x4=z4 ; z4=x5 ; x0!=x5
+
+SF = {y0=1, z1=3, x0=0, z2=5, x1=2, z3=7, x2=4, z4=9, x3=6, x4=8, x5=10}
+
+Solving: 
+17) x0=z0 ; z0=x1 ; x1=y1 ; y1=x2 ; x2=y2 ; y2=x3 ; x3=y3 ; y3=x4 ; x4=y4 ; y4=x5 ; x0!=x5
+
+SF = {z0=1, x0=0, y1=3, x1=2, y2=5, x2=4, y3=7, x3=6, y4=9, x4=8, x5=10}
+
+Solving: 
+18) x0=z0 ; z0=x1 ; x1=y1 ; y1=x2 ; x2=y2 ; y2=x3 ; x3=y3 ; y3=x4 ; x4=z4 ; z4=x5 ; x0!=x5
+
+SF = {z0=1, x0=0, y1=3, x1=2, y2=5, x2=4, y3=7, z4=9, x3=6, x4=8, x5=10}
+
+Solving: 
+19) x0=z0 ; z0=x1 ; x1=y1 ; y1=x2 ; x2=y2 ; y2=x3 ; x3=z3 ; z3=x4 ; x4=y4 ; y4=x5 ; x0!=x5
+
+SF = {z0=1, x0=0, y1=3, x1=2, y2=5, z3=7, x2=4, x3=6, y4=9, x4=8, x5=10}
+
+Solving: 
+20) x0=z0 ; z0=x1 ; x1=y1 ; y1=x2 ; x2=y2 ; y2=x3 ; x3=z3 ; z3=x4 ; x4=z4 ; z4=x5 ; x0!=x5
+
+SF = {z0=1, x0=0, y1=3, x1=2, y2=5, z3=7, x2=4, z4=9, x3=6, x4=8, x5=10}
+
+Solving: 
+21) x0=z0 ; z0=x1 ; x1=y1 ; y1=x2 ; x2=z2 ; z2=x3 ; x3=y3 ; y3=x4 ; x4=y4 ; y4=x5 ; x0!=x5
+
+SF = {z0=1, x0=0, y1=3, z2=5, x1=2, x2=4, y3=7, x3=6, y4=9, x4=8, x5=10}
+
+Solving: 
+22) x0=z0 ; z0=x1 ; x1=y1 ; y1=x2 ; x2=z2 ; z2=x3 ; x3=y3 ; y3=x4 ; x4=z4 ; z4=x5 ; x0!=x5
+
+SF = {z0=1, x0=0, y1=3, z2=5, x1=2, x2=4, y3=7, z4=9, x3=6, x4=8, x5=10}
+
+Solving: 
+23) x0=z0 ; z0=x1 ; x1=y1 ; y1=x2 ; x2=z2 ; z2=x3 ; x3=z3 ; z3=x4 ; x4=y4 ; y4=x5 ; x0!=x5
+
+SF = {z0=1, x0=0, y1=3, z2=5, x1=2, z3=7, x2=4, x3=6, y4=9, x4=8, x5=10}
+
+Solving: 
+24) x0=z0 ; z0=x1 ; x1=y1 ; y1=x2 ; x2=z2 ; z2=x3 ; x3=z3 ; z3=x4 ; x4=z4 ; z4=x5 ; x0!=x5
+
+SF = {z0=1, x0=0, y1=3, z2=5, x1=2, z3=7, x2=4, z4=9, x3=6, x4=8, x5=10}
+
+Solving: 
+25) x0=z0 ; z0=x1 ; x1=z1 ; z1=x2 ; x2=y2 ; y2=x3 ; x3=y3 ; y3=x4 ; x4=y4 ; y4=x5 ; x0!=x5
+
+SF = {z0=1, z1=3, x0=0, x1=2, y2=5, x2=4, y3=7, x3=6, y4=9, x4=8, x5=10}
+
+Solving: 
+26) x0=z0 ; z0=x1 ; x1=z1 ; z1=x2 ; x2=y2 ; y2=x3 ; x3=y3 ; y3=x4 ; x4=z4 ; z4=x5 ; x0!=x5
+
+SF = {z0=1, z1=3, x0=0, x1=2, y2=5, x2=4, y3=7, z4=9, x3=6, x4=8, x5=10}
+
+Solving: 
+27) x0=z0 ; z0=x1 ; x1=z1 ; z1=x2 ; x2=y2 ; y2=x3 ; x3=z3 ; z3=x4 ; x4=y4 ; y4=x5 ; x0!=x5
+
+SF = {z0=1, z1=3, x0=0, x1=2, y2=5, z3=7, x2=4, x3=6, y4=9, x4=8, x5=10}
+
+Solving: 
+28) x0=z0 ; z0=x1 ; x1=z1 ; z1=x2 ; x2=y2 ; y2=x3 ; x3=z3 ; z3=x4 ; x4=z4 ; z4=x5 ; x0!=x5
+
+SF = {z0=1, z1=3, x0=0, x1=2, y2=5, z3=7, x2=4, z4=9, x3=6, x4=8, x5=10}
+
+Solving: 
+29) x0=z0 ; z0=x1 ; x1=z1 ; z1=x2 ; x2=z2 ; z2=x3 ; x3=y3 ; y3=x4 ; x4=y4 ; y4=x5 ; x0!=x5
+
+SF = {z0=1, z1=3, x0=0, z2=5, x1=2, x2=4, y3=7, x3=6, y4=9, x4=8, x5=10}
+
+Solving: 
+30) x0=z0 ; z0=x1 ; x1=z1 ; z1=x2 ; x2=z2 ; z2=x3 ; x3=y3 ; y3=x4 ; x4=z4 ; z4=x5 ; x0!=x5
+
+SF = {z0=1, z1=3, x0=0, z2=5, x1=2, x2=4, y3=7, z4=9, x3=6, x4=8, x5=10}
+
+Solving: 
+31) x0=z0 ; z0=x1 ; x1=z1 ; z1=x2 ; x2=z2 ; z2=x3 ; x3=z3 ; z3=x4 ; x4=y4 ; y4=x5 ; x0!=x5
+
+SF = {z0=1, z1=3, x0=0, z2=5, x1=2, z3=7, x2=4, x3=6, y4=9, x4=8, x5=10}
+
+Solving: 
+32) x0=z0 ; z0=x1 ; x1=z1 ; z1=x2 ; x2=z2 ; z2=x3 ; x3=z3 ; z3=x4 ; x4=z4 ; z4=x5 ; x0!=x5
+
+SF = {z0=1, z1=3, x0=0, z2=5, x1=2, z3=7, x2=4, z4=9, x3=6, x4=8, x5=10}
+UNSAT
+
+Elapsed Time: 0.006 seconds

@@ -1,0 +1,38 @@
+Formula: 
+
+[[[x0 = y0 & y0 = x1] | [x0 = z0 & z0 = x1]] & [[x1 = y1 & y1 = x2] | [x1 = z1 & z1 = x2]] & ~[x0 = x2]]
+
+Options: [verbose=false, recursiveFind=false, euristicUnion=true, forbiddenSet=true]
+
+DNF:
+x0=y0 & y0=x1 & x1=y1 & y1=x2 & x0!=x2  |  x0=y0 & y0=x1 & x1=z1 & z1=x2 & x0!=x2  |  x0=z0 & z0=x1 & x1=y1 & y1=x2 & x0!=x2  |  x0=z0 & z0=x1 & x1=z1 & z1=x2 & x0!=x2
+
+List of Cubes to check:
+1) x0=y0 ; y0=x1 ; x1=y1 ; y1=x2 ; x0!=x2
+2) x0=y0 ; y0=x1 ; x1=z1 ; z1=x2 ; x0!=x2
+3) x0=z0 ; z0=x1 ; x1=y1 ; y1=x2 ; x0!=x2
+4) x0=z0 ; z0=x1 ; x1=z1 ; z1=x2 ; x0!=x2
+
+
+Solving: 
+1) x0=y0 ; y0=x1 ; x1=y1 ; y1=x2 ; x0!=x2
+
+SF = {y0=1, x0=0, y1=3, x1=2, x2=4}
+
+Solving: 
+2) x0=y0 ; y0=x1 ; x1=z1 ; z1=x2 ; x0!=x2
+
+SF = {y0=1, z1=3, x0=0, x1=2, x2=4}
+
+Solving: 
+3) x0=z0 ; z0=x1 ; x1=y1 ; y1=x2 ; x0!=x2
+
+SF = {z0=1, x0=0, y1=3, x1=2, x2=4}
+
+Solving: 
+4) x0=z0 ; z0=x1 ; x1=z1 ; z1=x2 ; x0!=x2
+
+SF = {z0=1, z1=3, x0=0, x1=2, x2=4}
+UNSAT
+
+Elapsed Time: 0.001 seconds

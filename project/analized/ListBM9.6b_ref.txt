@@ -1,0 +1,20 @@
+Formula: 
+
+~atom(x) & car(x) = y & cdr(x) = z & x != cons(y,z)
+
+Options: [verbose=false, recursiveFind=true, euristicUnion=true, forbiddenSet=true]
+
+DNF:
+~atom(x) & car(x)=y & cdr(x)=z & x!=cons(y,z)
+
+List of Cubes to check:
+1) ~atom(x) ; car(x)=y ; cdr(x)=z ; x!=cons(y,z)
+
+
+Solving: 
+1) ~atom(x) ; car(x)=y ; cdr(x)=z ; x!=cons(y,z)
+
+SF = {x_2=3, x_1=2, cdr=12, car=11, x=0, y=7, z=9, cons=10}
+UNSAT
+
+Elapsed Time: 0.009 seconds

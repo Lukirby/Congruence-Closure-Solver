@@ -1,0 +1,20 @@
+Formula: 
+
+~[x0 = x0]
+
+Options: [verbose=false, recursiveFind=true, euristicUnion=false, forbiddenSet=false]
+
+DNF:
+x0!=x0
+
+List of Cubes to check:
+1) x0!=x0
+
+
+Solving: 
+1) x0!=x0
+
+SF = {x0=0}
+UNSAT
+
+Elapsed Time: 0.0 seconds

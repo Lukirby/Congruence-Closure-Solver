@@ -1,0 +1,317 @@
+Formula: 
+
+[P | Q | R] & [~P | ~Q | ~R] & [~P | Q | R] & [~Q | R] & [Q | ~R]
+
+Options: [verbose=false, recursiveFind=false, euristicUnion=false, forbiddenSet=false]
+
+DNF:
+P & ~P & ~Q & Q  |  P & ~P & ~Q & ~R  |  P & ~P & R & Q  |  P & ~P & R & ~R  |  P & ~P & Q & ~Q  |  P & ~P & Q & ~Q & ~R  |  P & ~P & Q & R  |  P & ~P & Q & R & ~R  |  P & ~P & R & ~Q & Q  |  P & ~P & R & ~Q & ~R  |  P & ~P & R & Q  |  P & ~P & R & ~R  |  P & ~Q & ~P & Q  |  P & ~Q & ~P & ~R  |  P & ~Q & ~P & R & Q  |  P & ~Q & ~P & R & ~R  |  P & ~Q & Q  |  P & ~Q & Q & ~R  |  P & ~Q & Q & R  |  P & ~Q & Q & R & ~R  |  P & ~Q & R & Q  |  P & ~Q & R & ~R  |  P & ~Q & R & Q  |  P & ~Q & R & ~R  |  P & ~R & ~P & ~Q & Q  |  P & ~R & ~P & ~Q  |  P & ~R & ~P & R & Q  |  P & ~R & ~P & R  |  P & ~R & Q & ~Q  |  P & ~R & Q & ~Q  |  P & ~R & Q & R  |  P & ~R & Q & R  |  P & ~R & R & ~Q & Q  |  P & ~R & R & ~Q  |  P & ~R & R & Q  |  P & ~R & R  |  Q & ~P & ~Q  |  Q & ~P & ~Q & ~R  |  Q & ~P & R  |  Q & ~P & R & ~R  |  Q & ~P & ~Q  |  Q & ~P & ~Q & ~R  |  Q & ~P & R  |  Q & ~P & R & ~R  |  Q & ~P & R & ~Q  |  Q & ~P & R & ~Q & ~R  |  Q & ~P & R  |  Q & ~P & R & ~R  |  Q & ~Q & ~P  |  Q & ~Q & ~P & ~R  |  Q & ~Q & ~P & R  |  Q & ~Q & ~P & R & ~R  |  Q & ~Q  |  Q & ~Q & ~R  |  Q & ~Q & R  |  Q & ~Q & R & ~R  |  Q & ~Q & R  |  Q & ~Q & R & ~R  |  Q & ~Q & R  |  Q & ~Q & R & ~R  |  Q & ~R & ~P & ~Q  |  Q & ~R & ~P & ~Q  |  Q & ~R & ~P & R  |  Q & ~R & ~P & R  |  Q & ~R & ~Q  |  Q & ~R & ~Q  |  Q & ~R & R  |  Q & ~R & R  |  Q & ~R & R & ~Q  |  Q & ~R & R & ~Q  |  Q & ~R & R  |  Q & ~R & R  |  R & ~P & ~Q & Q  |  R & ~P & ~Q & ~R  |  R & ~P & Q  |  R & ~P & ~R  |  R & ~P & Q & ~Q  |  R & ~P & Q & ~Q & ~R  |  R & ~P & Q  |  R & ~P & Q & ~R  |  R & ~P & ~Q & Q  |  R & ~P & ~Q & ~R  |  R & ~P & Q  |  R & ~P & ~R  |  R & ~Q & ~P & Q  |  R & ~Q & ~P & ~R  |  R & ~Q & ~P & Q  |  R & ~Q & ~P & ~R  |  R & ~Q & Q  |  R & ~Q & Q & ~R  |  R & ~Q & Q  |  R & ~Q & Q & ~R  |  R & ~Q & Q  |  R & ~Q & ~R  |  R & ~Q & Q  |  R & ~Q & ~R  |  R & ~R & ~P & ~Q & Q  |  R & ~R & ~P & ~Q  |  R & ~R & ~P & Q  |  R & ~R & ~P  |  R & ~R & Q & ~Q  |  R & ~R & Q & ~Q  |  R & ~R & Q  |  R & ~R & Q  |  R & ~R & ~Q & Q  |  R & ~R & ~Q  |  R & ~R & Q  |  R & ~R
+
+List of Cubes to check:
+1) P ; ~P ; ~Q ; Q
+2) P ; ~P ; ~Q ; ~R
+3) P ; ~P ; R ; Q
+4) P ; ~P ; R ; ~R
+5) P ; ~P ; Q ; ~Q
+6) P ; ~P ; Q ; ~Q ; ~R
+7) P ; ~P ; Q ; R
+8) P ; ~P ; Q ; R ; ~R
+9) P ; ~P ; R ; ~Q ; Q
+10) P ; ~P ; R ; ~Q ; ~R
+11) P ; ~P ; R ; Q
+12) P ; ~P ; R ; ~R
+13) P ; ~Q ; ~P ; Q
+14) P ; ~Q ; ~P ; ~R
+15) P ; ~Q ; ~P ; R ; Q
+16) P ; ~Q ; ~P ; R ; ~R
+17) P ; ~Q ; Q
+18) P ; ~Q ; Q ; ~R
+19) P ; ~Q ; Q ; R
+20) P ; ~Q ; Q ; R ; ~R
+21) P ; ~Q ; R ; Q
+22) P ; ~Q ; R ; ~R
+23) P ; ~Q ; R ; Q
+24) P ; ~Q ; R ; ~R
+25) P ; ~R ; ~P ; ~Q ; Q
+26) P ; ~R ; ~P ; ~Q
+27) P ; ~R ; ~P ; R ; Q
+28) P ; ~R ; ~P ; R
+29) P ; ~R ; Q ; ~Q
+30) P ; ~R ; Q ; ~Q
+31) P ; ~R ; Q ; R
+32) P ; ~R ; Q ; R
+33) P ; ~R ; R ; ~Q ; Q
+34) P ; ~R ; R ; ~Q
+35) P ; ~R ; R ; Q
+36) P ; ~R ; R
+37) Q ; ~P ; ~Q
+38) Q ; ~P ; ~Q ; ~R
+39) Q ; ~P ; R
+40) Q ; ~P ; R ; ~R
+41) Q ; ~P ; ~Q
+42) Q ; ~P ; ~Q ; ~R
+43) Q ; ~P ; R
+44) Q ; ~P ; R ; ~R
+45) Q ; ~P ; R ; ~Q
+46) Q ; ~P ; R ; ~Q ; ~R
+47) Q ; ~P ; R
+48) Q ; ~P ; R ; ~R
+49) Q ; ~Q ; ~P
+50) Q ; ~Q ; ~P ; ~R
+51) Q ; ~Q ; ~P ; R
+52) Q ; ~Q ; ~P ; R ; ~R
+53) Q ; ~Q
+54) Q ; ~Q ; ~R
+55) Q ; ~Q ; R
+56) Q ; ~Q ; R ; ~R
+57) Q ; ~Q ; R
+58) Q ; ~Q ; R ; ~R
+59) Q ; ~Q ; R
+60) Q ; ~Q ; R ; ~R
+61) Q ; ~R ; ~P ; ~Q
+62) Q ; ~R ; ~P ; ~Q
+63) Q ; ~R ; ~P ; R
+64) Q ; ~R ; ~P ; R
+65) Q ; ~R ; ~Q
+66) Q ; ~R ; ~Q
+67) Q ; ~R ; R
+68) Q ; ~R ; R
+69) Q ; ~R ; R ; ~Q
+70) Q ; ~R ; R ; ~Q
+71) Q ; ~R ; R
+72) Q ; ~R ; R
+73) R ; ~P ; ~Q ; Q
+74) R ; ~P ; ~Q ; ~R
+75) R ; ~P ; Q
+76) R ; ~P ; ~R
+77) R ; ~P ; Q ; ~Q
+78) R ; ~P ; Q ; ~Q ; ~R
+79) R ; ~P ; Q
+80) R ; ~P ; Q ; ~R
+81) R ; ~P ; ~Q ; Q
+82) R ; ~P ; ~Q ; ~R
+83) R ; ~P ; Q
+84) R ; ~P ; ~R
+85) R ; ~Q ; ~P ; Q
+86) R ; ~Q ; ~P ; ~R
+87) R ; ~Q ; ~P ; Q
+88) R ; ~Q ; ~P ; ~R
+89) R ; ~Q ; Q
+90) R ; ~Q ; Q ; ~R
+91) R ; ~Q ; Q
+92) R ; ~Q ; Q ; ~R
+93) R ; ~Q ; Q
+94) R ; ~Q ; ~R
+95) R ; ~Q ; Q
+96) R ; ~Q ; ~R
+97) R ; ~R ; ~P ; ~Q ; Q
+98) R ; ~R ; ~P ; ~Q
+99) R ; ~R ; ~P ; Q
+100) R ; ~R ; ~P
+101) R ; ~R ; Q ; ~Q
+102) R ; ~R ; Q ; ~Q
+103) R ; ~R ; Q
+104) R ; ~R ; Q
+105) R ; ~R ; ~Q ; Q
+106) R ; ~R ; ~Q
+107) R ; ~R ; Q
+108) R ; ~R
+
+
+Solving: 
+1) P ; ~P ; ~Q ; Q
+
+SF = {°=1, f_P=0, f_Q=2}
+
+Solving: 
+2) P ; ~P ; ~Q ; ~R
+
+SF = {°=1, f_P=0, f_R=3, f_Q=2}
+
+Solving: 
+3) P ; ~P ; R ; Q
+
+SF = {°=1, f_P=0, f_R=2, f_Q=3}
+
+Solving: 
+4) P ; ~P ; R ; ~R
+
+SF = {°=1, f_P=0, f_R=2}
+
+Solving: 
+5) P ; ~P ; Q ; ~Q
+
+SF = {°=1, f_P=0, f_Q=2}
+
+Solving: 
+6) P ; ~P ; Q ; ~Q ; ~R
+
+SF = {°=1, f_P=0, f_R=3, f_Q=2}
+
+Solving: 
+7) P ; ~P ; Q ; R
+
+SF = {°=1, f_P=0, f_R=3, f_Q=2}
+
+Solving: 
+8) P ; ~P ; Q ; R ; ~R
+
+SF = {°=1, f_P=0, f_R=3, f_Q=2}
+
+Solving: 
+9) P ; ~P ; R ; ~Q ; Q
+
+SF = {°=1, f_P=0, f_R=2, f_Q=3}
+
+Solving: 
+10) P ; ~P ; R ; ~Q ; ~R
+
+SF = {°=1, f_P=0, f_R=2, f_Q=3}
+
+Solving: 
+11) P ; ~P ; R ; Q
+
+SF = {°=1, f_P=0, f_R=2, f_Q=3}
+
+Solving: 
+12) P ; ~P ; R ; ~R
+
+SF = {°=1, f_P=0, f_R=2}
+
+Solving: 
+13) P ; ~Q ; ~P ; Q
+
+SF = {°=1, f_P=0, f_Q=2}
+
+Solving: 
+14) P ; ~Q ; ~P ; ~R
+
+SF = {°=1, f_P=0, f_R=3, f_Q=2}
+
+Solving: 
+15) P ; ~Q ; ~P ; R ; Q
+
+SF = {°=1, f_P=0, f_R=3, f_Q=2}
+
+Solving: 
+16) P ; ~Q ; ~P ; R ; ~R
+
+SF = {°=1, f_P=0, f_R=3, f_Q=2}
+
+Solving: 
+17) P ; ~Q ; Q
+
+SF = {°=1, f_P=0, f_Q=2}
+
+Solving: 
+18) P ; ~Q ; Q ; ~R
+
+SF = {°=1, f_P=0, f_R=3, f_Q=2}
+
+Solving: 
+19) P ; ~Q ; Q ; R
+
+SF = {°=1, f_P=0, f_R=3, f_Q=2}
+
+Solving: 
+20) P ; ~Q ; Q ; R ; ~R
+
+SF = {°=1, f_P=0, f_R=3, f_Q=2}
+
+Solving: 
+21) P ; ~Q ; R ; Q
+
+SF = {°=1, f_P=0, f_R=3, f_Q=2}
+
+Solving: 
+22) P ; ~Q ; R ; ~R
+
+SF = {°=1, f_P=0, f_R=3, f_Q=2}
+
+Solving: 
+23) P ; ~Q ; R ; Q
+
+SF = {°=1, f_P=0, f_R=3, f_Q=2}
+
+Solving: 
+24) P ; ~Q ; R ; ~R
+
+SF = {°=1, f_P=0, f_R=3, f_Q=2}
+
+Solving: 
+25) P ; ~R ; ~P ; ~Q ; Q
+
+SF = {°=1, f_P=0, f_R=2, f_Q=3}
+
+Solving: 
+26) P ; ~R ; ~P ; ~Q
+
+SF = {°=1, f_P=0, f_R=2, f_Q=3}
+
+Solving: 
+27) P ; ~R ; ~P ; R ; Q
+
+SF = {°=1, f_P=0, f_R=2, f_Q=3}
+
+Solving: 
+28) P ; ~R ; ~P ; R
+
+SF = {°=1, f_P=0, f_R=2}
+
+Solving: 
+29) P ; ~R ; Q ; ~Q
+
+SF = {°=1, f_P=0, f_R=2, f_Q=3}
+
+Solving: 
+30) P ; ~R ; Q ; ~Q
+
+SF = {°=1, f_P=0, f_R=2, f_Q=3}
+
+Solving: 
+31) P ; ~R ; Q ; R
+
+SF = {°=1, f_P=0, f_R=2, f_Q=3}
+
+Solving: 
+32) P ; ~R ; Q ; R
+
+SF = {°=1, f_P=0, f_R=2, f_Q=3}
+
+Solving: 
+33) P ; ~R ; R ; ~Q ; Q
+
+SF = {°=1, f_P=0, f_R=2, f_Q=3}
+
+Solving: 
+34) P ; ~R ; R ; ~Q
+
+SF = {°=1, f_P=0, f_R=2, f_Q=3}
+
+Solving: 
+35) P ; ~R ; R ; Q
+
+SF = {°=1, f_P=0, f_R=2, f_Q=3}
+
+Solving: 
+36) P ; ~R ; R
+
+SF = {°=1, f_P=0, f_R=2}
+
+Solving: 
+37) Q ; ~P ; ~Q
+
+SF = {°=1, f_P=2, f_Q=0}
+
+Solving: 
+38) Q ; ~P ; ~Q ; ~R
+
+SF = {°=1, f_P=2, f_R=3, f_Q=0}
+
+Solving: 
+39) Q ; ~P ; R
+
+SF = {°=1, f_P=2, f_R=3, f_Q=0}
+SAT
+
+Elapsed Time: 0.002 seconds
