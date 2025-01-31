@@ -14,7 +14,7 @@ List of Cubes to check:
 Solving: 
 1) car(x)=y ; cdr(x)=z ; x!=cons(y,z)
 
-SF = {cons(y,z)=5, car(cons(y,z))=6, x=1, y=2, z=4, cdr(cons(y,z))=7, cdr(x)=3, car(x)=0}
+SF = {cdr=7, car=6, x=1, y=2, z=4, cons=5}
 MERGE car(x) y
 P1: {}
 P2: {cons(y,z)}
@@ -34,4 +34,4 @@ UNION cdr(cons(y,z)) z
 CHECK DISEQUALITY x cons(y,z)
 SAT
 
-Elapsed Time: 0.008 seconds
+Elapsed Time: 0.0 seconds

@@ -14,7 +14,7 @@ List of Cubes to check:
 Solving: 
 1) ~atom(x) ; car(x)=y ; cdr(x)=z ; x!=cons(y,z)
 
-SF = {car(cons(y,z))=11, x_2=3, x_1=2, cdr(cons(y,z))=12, cdr(x)=8, car(cons(x_1,x_2))=4, cons(x_1,x_2)=1, cons(y,z)=10, x=0, y=7, cdr(cons(x_1,x_2))=5, z=9, car(x)=6}
+SF = {x_2=3, x_1=2, cdr=12, car=11, x=0, y=7, z=9, cons=10}
 MERGE x cons(x_1,x_2)
 P1: {car(x), cdr(x)}
 P2: {car(cons(x_1,x_2)), cdr(cons(x_1,x_2))}

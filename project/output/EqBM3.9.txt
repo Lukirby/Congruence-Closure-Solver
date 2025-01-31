@@ -15,7 +15,7 @@ List of Cubes to check:
 Solving: 
 1) ~geq(x,0)
 
-SF = {0=2, °=3, x=1, f_geq(x,0)=0}
+SF = {f_geq=0, 0=2, °=3, x=1}
 SAT
 
-Elapsed Time: 0.002 seconds
+Elapsed Time: 0.0 seconds

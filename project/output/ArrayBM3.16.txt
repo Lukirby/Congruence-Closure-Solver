@@ -16,7 +16,7 @@ List of Cubes to check:
 Solving: 
 1) select(a,i)!=e
 
-SF = {e=2, select_a(i)=0, i=1}
+SF = {e=2, i=1, select_a=0}
 SAT
 
 Elapsed Time: 0.0 seconds

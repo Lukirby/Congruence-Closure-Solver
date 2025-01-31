@@ -22,7 +22,7 @@ List of Cubes to check:
 Solving: 
 1) h(h(c,a),h(c,c))!=h(g(a,c),g(a)) ; g(g(h(h(c,c),h(a,c))))=h(h(g(g(b,b),g(a)),f(g(b,c),g(c)))) ; ~P(g(g(a)),g(h(c))) ; Q(f(g(f(b,b),g(a)),f(h(b))),f(f(f(c),f(b)),f(g(b)))) ; Q(g(f(a),h(b)),h(h(b,a),h(a))) ; ~R(f(h(c),g(b,a)),h(g(b))) ; Q(h(h(f(c,c)),h(h(b))),g(f(g(a),f(b,c)))) ; R(h(g(a,b),h(b,c)),g(g(b,c),h(a))) ; b=f(f(f(g(c,b)),g(h(a,b)))) ; R(f(a),h(a,a))
 
-SF = {f(c)=33, h(a)=42, h(g(b))=46, h(a,a)=67, f(f(c),f(b))=32, h(h(b))=51, h(c,c)=4, g(g(b,b),g(a))=14, g(b,b)=15, f(h(c),g(b,a))=44, f_Q(f(g(f(b,b),g(a)),f(h(b))),f(f(f(c),f(b)),f(g(b))))=25, h(g(a,c),g(a))=5, f_P(g(g(a)),g(h(c)))=20, g(g(h(h(c,c),h(a,c))))=8, f(b)=34, g(g(b,c),h(a))=59, f_Q(h(h(f(c,c)),h(h(b))),g(f(g(a),f(b,c))))=47, g(c)=19, h(b,c)=58, h(h(b,a),h(a))=40, f(g(c,b))=62, h(a,b)=65, f_Q(g(f(a),h(b)),h(h(b,a),h(a)))=37, h(g(g(b,b),g(a)),f(g(b,c),g(c)))=13, h(h(c,a),h(c,c))=0, °=24, f(f(g(c,b)),g(h(a,b)))=61, g(f(g(a),f(b,c)))=52, g(h(c))=22, g(c,b)=63, f_R(f(h(c),g(b,a)),h(g(b)))=43, g(b,a)=45, f_R(h(g(a,b),h(b,c)),g(g(b,c),h(a)))=55, h(h(g(g(b,b),g(a)),f(g(b,c),g(c))))=12, g(h(h(c,c),h(a,c)))=9, f(g(b))=35, f(a)=39, f_R(f(a),h(a,a))=66, g(b)=36, h(c,a)=1, g(f(b,b),g(a))=27, h(a,c)=11, h(c)=23, h(g(a,b),h(b,c))=56, f(h(b))=29, g(a,c)=6, f(g(a),f(b,c))=53, f(f(f(g(c,b)),g(h(a,b))))=60, g(h(a,b))=64, f(g(b,c),g(c))=17, f(f(f(c),f(b)),f(g(b)))=31, g(f(a),h(b))=38, g(g(a))=21, f(b,c)=54, h(h(f(c,c)),h(h(b)))=48, a=3, b=16, c=2, g(a)=7, f(g(f(b,b),g(a)),f(h(b)))=26, h(b)=30, h(b,a)=41, g(a,b)=57, g(b,c)=18, h(f(c,c))=49, f(b,b)=28, h(h(c,c),h(a,c))=10, f(c,c)=50}
+SF = {°=24, f_P=20, f_R=66, f_Q=47, a=3, b=16, c=2, f=62, g=64, h=67}
 MERGE g(g(h(h(c,c),h(a,c)))) h(h(g(g(b,b),g(a)),f(g(b,c),g(c))))
 P1: {}
 P2: {}
@@ -53,4 +53,4 @@ P2: {}
 UNION f_R(f(a),h(a,a)) °
 SAT
 
-Elapsed Time: 0.008 seconds
+Elapsed Time: 0.0 seconds

@@ -16,7 +16,7 @@ List of Cubes to check:
 Solving: 
 1) f=g ; j!=k ; i=j ; select(a,k)!=g ; j=k
 
-SF = {select_a(k)=5, f=0, g=1, i=4, j=2, k=3}
+SF = {f=0, g=1, i=4, j=2, k=3, select_a=5}
 MERGE f g
 P1: {}
 P2: {}
@@ -31,7 +31,7 @@ FORBIDDEN j k
 Solving: 
 2) e=g ; j!=k ; i=j ; select(a,k)!=g ; j!=k ; i=k
 
-SF = {e=0, select_a(k)=5, g=1, i=4, j=2, k=3}
+SF = {e=0, g=1, i=4, j=2, k=3, select_a=5}
 MERGE e g
 P1: {}
 P2: {}
@@ -46,9 +46,9 @@ FORBIDDEN i k
 Solving: 
 3) select(a,k)=g ; j!=k ; i=j ; select(a,k)!=g ; j!=k ; i!=k
 
-SF = {select_a(k)=0, g=2, i=4, j=3, k=1}
+SF = {g=2, i=4, j=3, select_a=0, k=1}
 MERGE select_a(k) g
 FORBIDDEN select_a(k) g
 UNSAT
 
-Elapsed Time: 0.005 seconds
+Elapsed Time: 0.002 seconds

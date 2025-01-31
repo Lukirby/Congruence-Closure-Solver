@@ -18,7 +18,7 @@ List of Cubes to check:
 Solving: 
 1) i1=j ; i1!=i2 ; select(a,j)=v1 ; v2!=select(a,j) ; i2=j
 
-SF = {select_a(j)=3, i1=0, i2=2, j=1, v1=4, v2=5}
+SF = {i1=0, i2=2, j=1, select_a=3, v1=4, v2=5}
 MERGE i1 j
 P1: {}
 P2: {select_a(j)}
@@ -33,7 +33,7 @@ FORBIDDEN i2 j
 Solving: 
 2) i1=j ; i1!=i2 ; select(a,j)=v1 ; v1!=select(a,j) ; i2!=j ; i1=j
 
-SF = {select_a(j)=3, i1=0, i2=2, j=1, v1=4}
+SF = {i1=0, i2=2, j=1, select_a=3, v1=4}
 MERGE i1 j
 P1: {}
 P2: {select_a(j)}
@@ -44,8 +44,8 @@ FORBIDDEN select_a(j) v1
 Solving: 
 3) i1=j ; i1!=i2 ; select(a,j)=v1 ; select(a,j)!=select(a,j) ; i2!=j ; i1!=j
 
-SF = {select_a(j)=3, i1=0, i2=2, j=1, v1=4}
+SF = {i1=0, i2=2, j=1, select_a=3, v1=4}
 CONFLICT: select_a(j) select_a(j)
 UNSAT
 
-Elapsed Time: 0.002 seconds
+Elapsed Time: 0.0 seconds

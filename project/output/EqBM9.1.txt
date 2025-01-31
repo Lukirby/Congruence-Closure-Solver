@@ -14,7 +14,7 @@ List of Cubes to check:
 Solving: 
 1) p(x) ; f(f(x))=x ; f(f(f(x)))=x ; ~p(f(x))
 
-SF = {°=2, f_p(f(x))=6, x=1, f(f(f(x)))=5, f(f(x))=3, f(x)=4, f_p(x)=0}
+SF = {°=2, f_p=6, f=5, x=1}
 MERGE f_p(x) °
 P1: {}
 P2: {}
@@ -43,4 +43,4 @@ TRUE
 	FORBIDDEN f_p(f(x)) f_p(x)
 UNSAT
 
-Elapsed Time: 0.009 seconds
+Elapsed Time: 0.003 seconds

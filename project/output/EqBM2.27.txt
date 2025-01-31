@@ -15,7 +15,7 @@ List of Cubes to check:
 Solving: 
 1) ~p(x,y)
 
-SF = {°=3, f_p(x,y)=0, x=1, y=2}
+SF = {°=3, f_p=0, x=1, y=2}
 SAT
 
-Elapsed Time: 0.0 seconds
+Elapsed Time: 0.002 seconds
